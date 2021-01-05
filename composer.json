@@ -1,0 +1,40 @@
+{
+    "name": "suilven/laravel-flickr-editor",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gordon Anderson",
+            "email": "gordon.b.anderson@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Suilven\\FlickrEditor\\": "src/"
+        }
+    },
+    "autoload-dev": {
+            "psr-4": {
+                "Suilven\\FlickrEditor\\Tests\\": "tests"
+            }
+
+    },
+
+    "minimum-stability": "dev",
+    "require": {
+        "spatie/laravel-sluggable": "9999999-dev",
+        "ergebnis/composer-normalize": "9999999-dev",
+        "paquettg/php-html-parser": "9999999-dev",
+        "manticoresoftware/manticoresearch-php": "9999999-dev",
+        "mstaack/laravel-postgis": "9999999-dev",
+        "samwilson/phpflickr": "9999999-dev",
+        "league/climate": "9999999-dev"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Suilven\\FlickrEditor\\ServiceProvider\\FlickrEditorServiceProvider"
+            ]
+        }
+    }
+}
