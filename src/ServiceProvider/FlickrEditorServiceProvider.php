@@ -6,6 +6,7 @@ namespace Suilven\FlickrEditor\ServiceProvider;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Suilven\FlickrEditor\Console\Commands\ImportFlickrSet;
 use Suilven\FlickrEditor\View\Components\AppLayout;
 
 class FlickrEditorServiceProvider extends ServiceProvider
@@ -32,9 +33,13 @@ class FlickrEditorServiceProvider extends ServiceProvider
             __DIR__.'/../../public' => public_path('vendor/suilven/FlickrEditor'),
         ], 'public');
 
+        $this->publishes([
+            __DIR__.'/../config/flickreditor.php' => config_path('flickreditor.php'),
+        ]);
+
         if ($this->app->runningInConsole()) {
             $this->commands([
-            //    ParseDossierCommand::class,
+                 ImportFlickrSet::class,
             ]);
 
 
