@@ -18,11 +18,11 @@ class CreateFlickrPhotosTable extends Migration
             $table->string('flickr_id', 255)->unique();
             $table->index('flickr_id');
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->default('');
             $table->point('location')->nullable();
 
             $table->date('taken_at')->nullable();
-            $table->date('flickr_last_updated')->nullable();
+            $table->timestamp('flickr_last_updated')->nullable();
             $table->boolean('geo_is_public')->default(true);
             $table->boolean('is_dirty')->default(false);
             $table->boolean('is_public')->default(false);
@@ -42,26 +42,28 @@ class CreateFlickrPhotosTable extends Migration
             $table->integer('small_height');
             $table->integer('small_width');
 
-            $table->string('small_url_320');
-            $table->integer('small_height_320');
-            $table->integer('small_width_320');
+            $table->string('small_url_150')->nullable();
+            $table->integer('small_height_150')->nullable();
+            $table->integer('small_width_150')->nullable();
 
-            $table->string('small_url_150');
-            $table->integer('small_height_150');
-            $table->integer('small_width_150');
+            $table->string('small_url_320')->nullable();
+            $table->integer('small_height_320')->nullable();
+            $table->integer('small_width_320')->nullable();
+
+
 
             // ---- medium ----
             $table->string('medium_url');
             $table->integer('medium_height');
             $table->integer('medium_width');
 
-            $table->string('medium_url_640');
-            $table->integer('medium_height_640');
-            $table->integer('medium_width_640');
+            $table->string('medium_url_640')->nullable();
+            $table->integer('medium_height_640')->nullable();
+            $table->integer('medium_width_640')->nullable();
 
-            $table->string('medium_url_800');
-            $table->integer('medium_height_800');
-            $table->integer('medium_width_800');
+            $table->string('medium_url_800')->nullable();
+            $table->integer('medium_height_800')->nullable();
+            $table->integer('medium_width_800')->nullable();
 
 
             // ---- square ----
@@ -69,9 +71,9 @@ class CreateFlickrPhotosTable extends Migration
             $table->integer('square_height');
             $table->integer('square_width');
 
-            $table->string('square_url_150');
-            $table->integer('square_height_150');
-            $table->integer('square_width_150');
+            $table->string('square_url_150')->nullable();
+            $table->integer('square_height_150')->nullable();
+            $table->integer('square_width_150')->nullable();
 
 
             // ---- large ----
@@ -79,13 +81,13 @@ class CreateFlickrPhotosTable extends Migration
             $table->integer('large_height');
             $table->integer('large_width');
 
-            $table->string('large_url_1600');
-            $table->integer('large_height_1600');
-            $table->integer('large_width_1600');
+            $table->string('large_url_1600')->nullable();
+            $table->integer('large_height_1600')->nullable();
+            $table->integer('large_width_1600')->nullable();
 
-            $table->string('large_url_2048');
-            $table->integer('large_height_2048');
-            $table->integer('large_width_2048');
+            $table->string('large_url_2048')->nullable();
+            $table->integer('large_height_2048')->nullable();
+            $table->integer('large_width_2048')->nullable();
 
             // ---- thumbnail ----
             $table->string('thumbnail_url');
@@ -99,18 +101,17 @@ class CreateFlickrPhotosTable extends Migration
 
 
             // @todo is this required?
-            $table->integer('time_shift_hours', 0);
+            $table->integer('time_shift_hours')->default(0);
 
             $table->boolean('exif_imported')->default(false);
             $table->float('digital_zoom_ratio')->default(1);
-            $table->timestamp('upload_unix_time_stamp');
+
+            // @todo fix nullable
+            $table->timestamp('upload_unix_time_stamp')->nullable();
 
             $table->string('perceptive_hash')->nullable();
 
-            // @todo required?
-            $table->boolean('visible');
-
-            $table->float('aspect_ratio');
+            $table->float('aspect_ratio')->nullable();
 
 
             $table->string('image_unique_id')->nullable();

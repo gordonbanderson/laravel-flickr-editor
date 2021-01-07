@@ -6,7 +6,7 @@ return [
 
     'flickrsets' => [
         // 500 is the max allowed
-        'import_page_size' => env('FLICKR_SET_PAGE_IMPORT_SIZE', 500)
+        'import_page_size' => env('FLICKR_SET_PAGE_IMPORT_SIZE', 20)
     ],
 
 ];

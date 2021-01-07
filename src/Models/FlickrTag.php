@@ -7,21 +7,19 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 
-class FlickrSet extends Model
+class FlickrTag extends Model
 {
     protected $table = 'flickr_sets';
 
     protected $fillable = [
         'flickr_id',
-        'title',
-        'description',
-        'is_dirty',
-        'lock_geo',
+        'value',
+        'raw_value',
     ];
 
     public function flickrPhotos()
     {
-        return $this->belongsToMany(FlickrPhoto::class,'flickr_set_flickr_photo');
+        return $this->belongsToMany(FlickrPhoto::class,'flickr_photo_flickr_tag');
     }
 
 }

@@ -9,19 +9,33 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Suilven\FlickrEditor\Helper\FlickrSetHelper;
+use Suilven\FlickrEditor\Models\FlickrSet;
 
 class ImportPageOfPhotosFromSetJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /** @var string */
+    private $flickrID;
+
+    /** @var int */
+    private $page;
+
+    /** @var int */
+    private $numberOfPages;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(string $flickrID, $page, $numberOfPages)
     {
-        //
+        Log::debug('Job constructor, page=' . $page .', fsid=' . $flickrID);
+        $this->flickrID= $flickrID;
+        $this->page = $page;
+        $this->numberOfPages = $numberOfPages;
     }
 
     /**
@@ -31,6 +45,13 @@ class ImportPageOfPhotosFromSetJob implements ShouldQueue
      */
     public function handle()
     {
-        Log::info('**** ImportPageOfPhotosFromSetJob ****');
+        Log::debug('**** ImportPageOfPhotosFromSetJob page = ' . $this->page . ' **** ' . $this->flickrID);
+        $helper = new FlickrSetHelper($this->flickrID, true);
+        $helper->importPage($this->page);
+
+        if ($this->page < $this->numberOfPages) {
+            ImportPageOfPhotosFromSetJob::dispatch($this->flickrID, $this->page+1, $this->numberOfPages);
+        }
+        //
     }
 }

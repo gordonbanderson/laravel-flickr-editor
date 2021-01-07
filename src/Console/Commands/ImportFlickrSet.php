@@ -21,7 +21,7 @@ class ImportFlickrSet extends Command
      *
      * @var string
      */
-    protected $signature = 'flickr:import_set {id}';
+    protected $signature = 'flickr:import_set {id} {--queue}';
 
     /**
      * The console command description.
@@ -48,11 +48,11 @@ class ImportFlickrSet extends Command
     public function handle()
     {
         $flickrSetID = $this->argument('id');
-        $this->info('Importing flickr set ' . $flickrSetID);
-        $helper = new FlickrSetHelper();
-        $helper->importSet($flickrSetID);
+        $queue = $this->option('queue');
 
-        ImportPageOfPhotosFromSetJob::dispatch();
+        $this->info('Importing flickr set ' . $flickrSetID, $queue);
+        $helper = new FlickrSetHelper($flickrSetID, $queue);
+        $helper->importSet();
 
         return 0;
     }

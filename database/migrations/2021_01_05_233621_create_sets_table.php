@@ -20,7 +20,9 @@ class CreateSetsTable extends Migration
             $table->string('flickr_id', 255)->unique();
             $table->index('flickr_id');
             $table->string('title');
-            $table->text('description');
+
+            // @todo check if this is valid assumption
+            $table->text('description')->nullable();
 
             $table->boolean('is_dirty')->default(false);
             $table->boolean('lock_geo')->default(true);

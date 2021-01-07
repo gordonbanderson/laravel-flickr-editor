@@ -77,7 +77,6 @@ class FlickrPhoto extends Model
         'visible',
         'aspect_ratio',
         'image_unique_id',
-        'flickr_photos',
 
     ];
 
