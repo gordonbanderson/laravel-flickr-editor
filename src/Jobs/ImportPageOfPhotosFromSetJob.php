@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Suilven\FlickrEditor\Events\FlickrSetImported;
 use Suilven\FlickrEditor\Helper\FlickrSetHelper;
 use Suilven\FlickrEditor\Models\FlickrSet;
 
@@ -51,7 +52,9 @@ class ImportPageOfPhotosFromSetJob implements ShouldQueue
 
         if ($this->page < $this->numberOfPages) {
             ImportPageOfPhotosFromSetJob::dispatch($this->flickrID, $this->page+1, $this->numberOfPages);
+        } else {
+            $set = FlickrSet::where('flickr_id', $this->flickrID)->first();
+            event(new FlickrSetImported($set));
         }
-        //
     }
 }

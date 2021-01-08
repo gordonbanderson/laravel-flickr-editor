@@ -4,14 +4,11 @@
 namespace Suilven\FlickrEditor\Helper;
 
 use Illuminate\Support\Facades\Log;
-use League\CLImate\CLImate;
-use OAuth\Common\Storage\Memory;
-use OAuth\OAuth1\Service\Flickr;
-use OAuth\OAuth1\Token\StdOAuth1Token;
-use Samwilson\PhpFlickr\PhotosApi;
 use Samwilson\PhpFlickr\PhotosetsApi;
-use Samwilson\PhpFlickr\PhpFlickr;
+use Suilven\FlickrEditor\Events\FlickrPhotoImported;
+use Suilven\FlickrEditor\Events\FlickrSetImported;
 use Suilven\FlickrEditor\Jobs\ImportPageOfPhotosFromSetJob;
+use Suilven\FlickrEditor\Jobs\UpdatePhotoFromExifJob;
 use Suilven\FlickrEditor\Models\FlickrPhoto;
 use Suilven\FlickrEditor\Models\FlickrSet;
 
@@ -76,7 +73,7 @@ class FlickrSetHelper
         }
 
         $this->nPhotos = $photoset['total'];
-        $nPages = ($this->nPhotos) / self::PAGE_SIZE + 1;
+        $nPages = floor(1 + ($this->nPhotos) / self::PAGE_SIZE );
 
         if ($this->queueImport) {
             error_log('>>>> QUEUE <<<<');
@@ -90,8 +87,9 @@ class FlickrSetHelper
                 Log::debug('Adding job for page ' . $i);
                 //ImportPageOfPhotosFromSetJob::dispatchSync($set, $i);
                 $this->importPage($i);
-                die;
             }
+
+            event(new FlickrSetImported($set));
         }
 
     }
@@ -131,6 +129,11 @@ class FlickrSetHelper
         return $photosetsApi;
     }
 
+
+    /**
+     * @param $photoArray
+     * @return FlickrPhoto
+     */
     private function importPhotoFromArray($photoArray)
     {
         $flickrPhoto = FlickrPhoto::where('flickr_id', $photoArray['id'])->first();
@@ -216,6 +219,17 @@ class FlickrSetHelper
 
         $flickrPhoto->save();
 
+        event(new FlickrPhotoImported($flickrPhoto));
+
+
+        if ($this->importFromQueue) {
+          UpdatePhotoFromExifJob::dispatch($flickrPhoto);
+        } else {
+          $helper = new FlickrExifHelper();
+          $helper->updateMetaDataFromExif($flickrPhoto);
+        }
+
+
 /*
 @todo
     [license] => 4
@@ -231,17 +245,7 @@ Check isprimary for the primary photo in a set
  */
 
 
-
-
-
-
-
-
-
-
-
-
-
+        return $flickrPhoto;
 
     }
 

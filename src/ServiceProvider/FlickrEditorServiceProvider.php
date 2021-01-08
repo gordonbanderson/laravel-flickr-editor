@@ -13,7 +13,6 @@ class FlickrEditorServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        error_log('**** FlickrEditor BOOT ****');
         // see https://laravel.com/docs/8.x/packages#migrations
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
 
@@ -52,7 +51,8 @@ class FlickrEditorServiceProvider extends ServiceProvider
 
     public function register()
     {
-        error_log('**** FlickrEditor REGISTER ****');
+        $this->app->register(EventServiceProvider::class);
+
     }
 
 }

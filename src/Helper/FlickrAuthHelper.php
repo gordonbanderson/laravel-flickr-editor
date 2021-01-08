@@ -6,8 +6,6 @@ namespace Suilven\FlickrEditor\Helper;
 use League\CLImate\CLImate;
 use OAuth\Common\Storage\Memory;
 use OAuth\OAuth1\Token\StdOAuth1Token;
-use Samwilson\PhpFlickr\PhotosApi;
-use Samwilson\PhpFlickr\PhotosetsApi;
 use Samwilson\PhpFlickr\PhpFlickr;
 
 class FlickrAuthHelper
