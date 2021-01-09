@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Suilven\FlickrEditor\Jobs;
 
 use Illuminate\Bus\Queueable;
@@ -12,7 +14,11 @@ use Suilven\FlickrEditor\Models\FlickrPhoto;
 
 class UpdatePhotoFromExifJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /** @var string */
     private $flickrID;
@@ -26,15 +32,13 @@ class UpdatePhotoFromExifJob implements ShouldQueue
     public function __construct(FlickrPhoto $flickrPhoto)
     {
         $this->flickrID= $flickrPhoto;
-
     }
+
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $helper = new FlickrExifHelper();
         $helper->updateMetaDataFromExif($this->flickrID);

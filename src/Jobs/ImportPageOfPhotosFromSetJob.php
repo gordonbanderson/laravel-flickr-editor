@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Suilven\FlickrEditor\Jobs;
 
 use Illuminate\Bus\Queueable;
@@ -14,7 +16,11 @@ use Suilven\FlickrEditor\Models\FlickrSet;
 
 class ImportPageOfPhotosFromSetJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /** @var string */
     private $flickrID;
@@ -38,12 +44,11 @@ class ImportPageOfPhotosFromSetJob implements ShouldQueue
         $this->numberOfPages = $numberOfPages;
     }
 
+
     /**
      * Execute the job.
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         Log::debug('**** ImportPageOfPhotosFromSetJob page = ' . $this->page . ' **** set id=' . $this->flickrID);
         $helper = new FlickrSetHelper($this->flickrID, true);
@@ -53,7 +58,7 @@ class ImportPageOfPhotosFromSetJob implements ShouldQueue
             ImportPageOfPhotosFromSetJob::dispatch($this->flickrID, $this->page+1, $this->numberOfPages);
         } else {
             $set = FlickrSet::where('flickr_id', $this->flickrID)->first();
-            event(new FlickrSetImported($set));
+            \event(new FlickrSetImported($set));
         }
     }
 }

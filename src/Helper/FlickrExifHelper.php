@@ -1,35 +1,30 @@
 <?php
 
+declare(strict_types = 1);
 
 namespace Suilven\FlickrEditor\Helper;
 
 use Samwilson\PhpFlickr\PhotosApi;
 use Suilven\FlickrEditor\Events\FlickrPhotoExifProcessed;
-use Suilven\FlickrEditor\Models\FlickrPhoto;
 
 class FlickrExifHelper
 {
 
-    /**
-     * @param FlickrPhoto $flickrPhoto
-     */
-    public function updateMetaDataFromExif($flickrPhoto)
+    public function updateMetaDataFromExif(FlickrPhoto $flickrPhoto): void
     {
         $authHelper = new FlickrAuthHelper();
         $photosAPI = $this->getPhotosAPI();
 
         $exifData = $photosAPI->getExif($flickrPhoto->flickr_id);
 
-        foreach($exifData as $oneExif)
-        {
+        foreach ($exifData as $oneExif) {
             if (!isset($oneExif['tag'])) {
                 continue;
             }
 
 
             $tag = $oneExif['tag'];
-            switch($tag)
-            {
+            switch ($tag) {
                 case 'FocalLength':
                     $raw = \str_replace(' mm', '', $exifData['raw']);
                     $focalLength35 = \intval($raw);
@@ -74,21 +69,15 @@ class FlickrExifHelper
 
         $flickrPhoto->save();
 
-        event(new FlickrPhotoExifProcessed($flickrPhoto));
-
+        \event(new FlickrPhotoExifProcessed($flickrPhoto));
     }
-
 
 
     private function getPhotosAPI(): PhotosApi
     {
         $authHelper = new FlickrAuthHelper();
         $phpFlickr = $authHelper->getPhpFlickr();
-        $photosAPI = new PhotosApi($phpFlickr);
-        return $photosAPI;
+
+        return new PhotosApi($phpFlickr);
     }
-
-
-
-
 }

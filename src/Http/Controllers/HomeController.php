@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Suilven\FlickrEditor\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -21,14 +23,13 @@ class HomeController extends Controller
         $this->middleware('web');
     }
 
+
     /**
      * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): \Illuminate\Http\Response
     {
-        return view('boris::home');
+        return \view('boris::home');
     }
 
 
@@ -36,7 +37,7 @@ class HomeController extends Controller
     {
         $result = Quote::where('slug', $slug)->first();
 
-        return view('boris::quotation', compact('result'));
+        return \view('boris::quotation', \compact('result'));
     }
 
 
@@ -47,7 +48,9 @@ class HomeController extends Controller
         ]);
 
         $q = $request->q;
-        $page = isset($request->page) ? $request->page:0;
+        $page = isset($request->page)
+            ? $request->page
+            :0;
 
         $helper = new IndexHelper();
         $searchClient = $helper->getClient();
@@ -70,14 +73,11 @@ class HomeController extends Controller
         $paginator = new LengthAwarePaginator($results, $searchResults->getTotal(), 10);
         $paginator->setPath('/search/?q=' . $q);
 
-
-        return view('boris::search', compact('q', 'results', 'paginator'));
+        return \view('boris::search', \compact('q', 'results', 'paginator'));
     }
 
-    /**
-     * @param \Manticoresearch\ResultSet $searchResults
-     * @return array
-     */
+
+    /** @return array */
     public function makeSearchResultsRenderable(\Manticoresearch\ResultSet $searchResults): array
     {
         $results = [];
@@ -87,11 +87,12 @@ class HomeController extends Controller
 
             $result = new \stdClass();
             $result->title = $data['title'];
-            $result->highlights = implode('...', $highlights['quotation']);
+            $result->highlights = \implode('...', $highlights['quotation']);
             $result->link = '/show/' . $data['slug'];
 
             $results[] = $result;
         }
+
         return $results;
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Suilven\FlickrEditor\Console\Commands;
 
 use Illuminate\Console\Command;
-use Suilven\Boris\Models\Quote;
-use Suilven\FlickrEditor\Helper\FlickrSetHelper;
 use Suilven\FlickrEditor\Helper\FlickrSetsHelper;
 
 class ImportAllSets extends Command
@@ -35,23 +35,18 @@ class ImportAllSets extends Command
         parent::__construct();
     }
 
+
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $queue = $this->option('queue');
 
-        $this->info('Importing flickr sets ' , $queue);
+        $this->info('Importing flickr sets ', $queue);
         $helper = new FlickrSetsHelper($queue);
         $helper->getSetsForUser();
 
         return 0;
     }
-
-
-
-
 }

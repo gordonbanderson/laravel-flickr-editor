@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Suilven\FlickrEditor\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -10,9 +12,12 @@ use Suilven\FlickrEditor\Models\FlickrSet;
 
 class FlickrSetImported
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /** @var FlickrSet */
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
+
+    /** @var \Suilven\FlickrEditor\Models\FlickrSet */
     private $flickrSet;
 
     /**
@@ -24,6 +29,7 @@ class FlickrSetImported
     {
         $this->flickrSet = $flickrSet;
     }
+
 
     /**
      * Get the channels the event should broadcast on.

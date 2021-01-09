@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Suilven\FlickrEditor\Console\Commands;
 
 use Illuminate\Console\Command;
-use Suilven\Boris\Models\Quote;
 use Suilven\FlickrEditor\Helper\FlickrSetHelper;
 
 class ImportFlickrSet extends Command
@@ -34,12 +35,11 @@ class ImportFlickrSet extends Command
         parent::__construct();
     }
 
+
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $flickrSetID = $this->argument('id');
         $queue = $this->option('queue');
@@ -50,8 +50,4 @@ class ImportFlickrSet extends Command
 
         return 0;
     }
-
-
-
-
 }

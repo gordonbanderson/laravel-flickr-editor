@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Suilven\FlickrEditor\ServiceProvider;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -15,15 +17,13 @@ class EventServiceProvider extends ServiceProvider
             FlickrSetImportedListener::class,
         ],
         FlickrPhotoExifProcessed::class => [],
-        FlickrPhotoImported::class => []
+        FlickrPhotoImported::class => [],
     ];
 
     /**
      * Register any events for your application.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
     }

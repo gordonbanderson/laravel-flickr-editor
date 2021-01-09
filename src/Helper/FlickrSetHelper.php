@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types = 1);
 
 namespace Suilven\FlickrEditor\Helper;
 
 use Illuminate\Support\Facades\Log;
-use Samwilson\PhpFlickr\PhotosetsApi;
 use Suilven\FlickrEditor\Events\FlickrPhotoImported;
 use Suilven\FlickrEditor\Events\FlickrSetImported;
 use Suilven\FlickrEditor\Jobs\ImportPageOfPhotosFromSetJob;
@@ -17,6 +17,12 @@ class FlickrSetHelper
 
     use PhotosetsAPITrait;
 
+    const EXTRAS = 'license, date_upload, date_taken, owner_name, icon_server, original_format, ' .
+    ' last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_t, url_s,' .
+    ' url_q, url_m, url_n, url, url_z, url_c, url_h, url_k, url_l, url_o, description, url_sq';
+
+    const PAGE_SIZE = 500;
+
     private $queueImport;
 
     private $flickrSetID;
@@ -26,12 +32,6 @@ class FlickrSetHelper
     private $importFromQueue;
 
     private $flickrSet;
-
-    const EXTRAS = 'license, date_upload, date_taken, owner_name, icon_server, original_format, ' .
-    ' last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_t, url_s,' .
-    ' url_q, url_m, url_n, url, url_z, url_c, url_h, url_k, url_l, url_o, description, url_sq';
-
-    const PAGE_SIZE = 500;
 
     public function __construct($flickrSetID, $importFromQueue = false)
     {
@@ -43,19 +43,19 @@ class FlickrSetHelper
          * This will exist after importSet has been called once, so in the case of queued jobs, this is needed to
          * populate the FlickrSet variable
          *
-         * @var FlickrSet
+         * @var \Suilven\FlickrEditor\Models\FlickrSet
          */
         $this->flickrSet = FlickrSet::where('flickr_id', '=', $this->flickrSetID)->first();
-
     }
 
 
-    public function importSet()
+    public function importSet(): void
     {
         $photosetsApi = $this->getPhotosetsAPI();
 
         // initially only grab one image, the goal being to find the number of photos in a set
-        $pageSize = self::PAGE_SIZE; // config('flickreditor.flickrsets.import_page_size');
+        // config('flickreditor.flickrsets.import_page_size');
+        $pageSize = self::PAGE_SIZE;
 
         $photoset = $photosetsApi->getPhotos(
             $this->flickrSetID,
@@ -65,45 +65,40 @@ class FlickrSetHelper
             1
         );
 
-        print_r($photoset) && die;
+        \print_r($photoset) && die;
 
 
-        /**
-         * @var FlickrSet
-         */
+        /** @var \Suilven\FlickrEditor\Models\FlickrSet */
         $set = FlickrSet::where('flickr_id', '=', $this->flickrSetID)->first();
 
-        if (is_null($set)) {
+        if (\is_null($set)) {
             $set = FlickrSet::create(['title' => $photoset['title'], 'flickr_id' => $this->flickrSetID]);
         }
 
         $this->flickrSet = $set;
 
         $this->nPhotos = $photoset['total'];
-        $nPages = floor(1 + ($this->nPhotos) / self::PAGE_SIZE );
+        $nPages = \floor(1 + ($this->nPhotos) / self::PAGE_SIZE);
 
         if ($this->queueImport) {
-            error_log('>>>> QUEUE <<<<');
+            \error_log('>>>> QUEUE <<<<');
             // this will trigger subsequent jobs
-            ImportPageOfPhotosFromSetJob::dispatch( $this->flickrSetID, 1, $nPages);
-
+            ImportPageOfPhotosFromSetJob::dispatch($this->flickrSetID, 1, $nPages);
         } else {
-            error_log('>>>> NOT QUEUE <<<<');
+            \error_log('>>>> NOT QUEUE <<<<');
 
             for ($i = 1; $i <= $nPages; $i++) {
                 Log::debug('Adding job for page ' . $i);
                 $this->importPage($i);
             }
 
-            event(new FlickrSetImported($set));
+            \event(new FlickrSetImported($set));
         }
-
     }
 
-    /**
-     * @param int $page The page number to import, starting at 1
-     */
-    public function importPage($page)
+
+    /** @param int $page The page number to import, starting at 1 */
+    public function importPage(int $page): void
     {
         Log::debug('>>>>> IMPORT PAGE <<<<<');
         $photosetsApi = $this->getPhotosetsAPI();
@@ -119,8 +114,7 @@ class FlickrSetHelper
 
         $photos = $photoset['photo'];
 
-        foreach($photos as $photoArray)
-        {
+        foreach ($photos as $photoArray) {
                 Log::debug('>>>>> IMPORTING PHOTO <<<<<');
                 $flickrPhoto = $this->importPhotoFromArray($photoArray);
                 Log::debug('>>>>> ADDING FLICKR SET <<<<<' . $this->flickrSet);
@@ -129,15 +123,10 @@ class FlickrSetHelper
     }
 
 
-
-    /**
-     * @param $photoArray
-     * @return FlickrPhoto
-     */
-    private function importPhotoFromArray($photoArray)
+    private function importPhotoFromArray($photoArray): FlickrPhoto
     {
         $flickrPhoto = FlickrPhoto::where('flickr_id', $photoArray['id'])->first();
-        if (is_null($flickrPhoto)) {
+        if (\is_null($flickrPhoto)) {
             $flickrPhoto = new FlickrPhoto();
             $flickrPhoto->flickr_id = $photoArray['id'];
         }
@@ -219,14 +208,14 @@ class FlickrSetHelper
 
         $flickrPhoto->save();
 
-        event(new FlickrPhotoImported($flickrPhoto));
+        \event(new FlickrPhotoImported($flickrPhoto));
 
 
         if ($this->importFromQueue) {
-          UpdatePhotoFromExifJob::dispatch($flickrPhoto);
+            UpdatePhotoFromExifJob::dispatch($flickrPhoto);
         } else {
-          $helper = new FlickrExifHelper();
-          $helper->updateMetaDataFromExif($flickrPhoto);
+            $helper = new FlickrExifHelper();
+            $helper->updateMetaDataFromExif($flickrPhoto);
         }
 
 
@@ -244,12 +233,6 @@ Check isprimary for the primary photo in a set
 
  */
 
-
         return $flickrPhoto;
-
     }
-
-
-
-
 }

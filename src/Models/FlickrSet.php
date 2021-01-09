@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Suilven\FlickrEditor\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 
 class FlickrSet extends Model
 {
@@ -19,7 +20,6 @@ class FlickrSet extends Model
 
     public function flickrPhotos()
     {
-        return $this->belongsToMany(FlickrPhoto::class,'flickr_set_flickr_photo');
+        return $this->belongsToMany(FlickrPhoto::class, 'flickr_set_flickr_photo');
     }
-
 }

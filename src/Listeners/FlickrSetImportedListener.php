@@ -1,7 +1,8 @@
 <?php
 
-namespace Suilven\FlickrEditor\Listeners;
+declare(strict_types = 1);
 
+namespace Suilven\FlickrEditor\Listeners;
 
 use Suilven\FlickrEditor\Events\FlickrSetImported;
 
@@ -14,17 +15,13 @@ class FlickrSetImportedListener
      */
     public function __construct()
     {
-        //
     }
+
 
     /**
      * Handle the event.
-     *
-     * @param  FlickrSetImported  $event
-     * @return void
      */
-    public function handle(FlickrSetImported $event)
+    public function handle(FlickrSetImported $event): void
     {
-        //
     }
 }
