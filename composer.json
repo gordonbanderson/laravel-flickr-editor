@@ -14,21 +14,27 @@
         }
     },
     "autoload-dev": {
-            "psr-4": {
-                "Suilven\\FlickrEditor\\Tests\\": "tests"
-            }
-
+        "psr-4": {
+            "Suilven\\FlickrEditor\\Tests\\": "tests"
+        }
     },
-
     "minimum-stability": "dev",
     "require": {
-        "spatie/laravel-sluggable": "9999999-dev",
-        "ergebnis/composer-normalize": "9999999-dev",
-        "paquettg/php-html-parser": "9999999-dev",
-        "manticoresoftware/manticoresearch-php": "9999999-dev",
-        "mstaack/laravel-postgis": "9999999-dev",
-        "samwilson/phpflickr": "9999999-dev",
-        "league/climate": "9999999-dev"
+        "spatie/laravel-sluggable": "^2",
+        "manticoresoftware/manticoresearch-php": "^1",
+        "mstaack/laravel-postgis": "^5",
+        "samwilson/phpflickr": "^4",
+        "league/climate": "^3",
+        "suilven/php-travis-enhancer": "9999999-dev"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2",
+        "slevomat/coding-standard": "^6",
+        "php-parallel-lint/php-parallel-lint": "^1",
+        "php-parallel-lint/php-console-highlighter": "^0",
+        "phpstan/phpstan-strict-rules": "^0",
+        "phpstan/extension-installer": "^1",
+        "vimeo/psalm": "^4"
     },
     "extra": {
         "laravel": {
@@ -36,5 +42,13 @@
                 "Suilven\\FlickrEditor\\ServiceProvider\\FlickrEditorServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "checkcs": "vendor/bin/phpcs --standard=ruleset.xml --extensions=php --tab-width=4 -sp src tests",
+        "fixcs": "vendor/bin/phpcbf --standard=ruleset.xml --extensions=php --tab-width=4 -sp src tests",
+        "checkCode": "composer checkcs && composer lint && composer phpstan && composer psalm",
+        "lint": "vendor/bin/parallel-lint src/ tests/",
+        "phpstan": "vendor/bin/phpstan analyse --level=6 -c tests/phpstan.neon src/",
+        "psalm": "vendor/bin/psalm --show-info=true"
     }
 }
