@@ -11,6 +11,13 @@ use Manticoresearch\Search;
 use Suilven\Boris\Helper\IndexHelper;
 use Suilven\Boris\Models\Quote;
 
+/**
+ * Class HomeController
+ *
+ * @package Suilven\FlickrEditor\Http\Controllers
+ *
+ * @phpcs:disable SlevomatCodingStandard.Files.LineLength.LineTooLong
+ */
 class HomeController extends Controller
 {
     /**
@@ -33,7 +40,8 @@ class HomeController extends Controller
     }
 
 
-    public function show($slug)
+    /** @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View */
+    public function show(string $slug)
     {
         $result = Quote::where('slug', $slug)->first();
 
@@ -41,9 +49,10 @@ class HomeController extends Controller
     }
 
 
+    /** @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View */
     public function search(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'q' => 'required',
         ]);
 
@@ -77,7 +86,7 @@ class HomeController extends Controller
     }
 
 
-    /** @return array */
+    /** @return array<\stdClass> */
     public function makeSearchResultsRenderable(\Manticoresearch\ResultSet $searchResults): array
     {
         $results = [];

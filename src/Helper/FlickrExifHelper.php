@@ -7,12 +7,18 @@ namespace Suilven\FlickrEditor\Helper;
 use Samwilson\PhpFlickr\PhotosApi;
 use Suilven\FlickrEditor\Events\FlickrPhotoExifProcessed;
 
+/**
+ * Class FlickrExifHelper
+ *
+ * @package Suilven\FlickrEditor\Helper
+ *
+ * @phpcs:disable SlevomatCodingStandard.Classes.SuperfluousTraitNaming.SuperfluousSuffix
+ */
 class FlickrExifHelper
 {
 
     public function updateMetaDataFromExif(FlickrPhoto $flickrPhoto): void
     {
-        $authHelper = new FlickrAuthHelper();
         $photosAPI = $this->getPhotosAPI();
 
         $exifData = $photosAPI->getExif($flickrPhoto->flickr_id);

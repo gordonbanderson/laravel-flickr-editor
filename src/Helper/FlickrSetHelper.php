@@ -17,23 +17,29 @@ class FlickrSetHelper
 
     use PhotosetsAPITrait;
 
-    const EXTRAS = 'license, date_upload, date_taken, owner_name, icon_server, original_format, ' .
+    public const EXTRAS = 'license, date_upload, date_taken, owner_name, icon_server, original_format, ' .
     ' last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_t, url_s,' .
     ' url_q, url_m, url_n, url, url_z, url_c, url_h, url_k, url_l, url_o, description, url_sq';
 
-    const PAGE_SIZE = 500;
+    public const PAGE_SIZE = 500;
 
-    private $queueImport;
 
+    /** @var string */
     private $flickrSetID;
 
+    /** @var int */
     private $nPhotos;
 
+    /** @var bool */
     private $importFromQueue;
 
+    /** @var \Suilven\FlickrEditor\Models\FlickrSet */
     private $flickrSet;
 
-    public function __construct($flickrSetID, $importFromQueue = false)
+    /**
+     * FlickrSetHelper constructor.
+     */
+    public function __construct(string $flickrSetID, bool $importFromQueue = false)
     {
         $this->queueImport = $importFromQueue;
         $this->flickrSetID = $flickrSetID;
@@ -68,7 +74,6 @@ class FlickrSetHelper
         \print_r($photoset) && die;
 
 
-        /** @var \Suilven\FlickrEditor\Models\FlickrSet */
         $set = FlickrSet::where('flickr_id', '=', $this->flickrSetID)->first();
 
         if (\is_null($set)) {
@@ -123,7 +128,8 @@ class FlickrSetHelper
     }
 
 
-    private function importPhotoFromArray($photoArray): FlickrPhoto
+    /** @param array<string, string|int|float|array<string, string|int|float>> $photoArray */
+    private function importPhotoFromArray(array $photoArray): FlickrPhoto
     {
         $flickrPhoto = FlickrPhoto::where('flickr_id', $photoArray['id'])->first();
         if (\is_null($flickrPhoto)) {

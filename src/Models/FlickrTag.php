@@ -16,7 +16,7 @@ class FlickrTag extends Model
         'raw_value',
     ];
 
-    public function flickrPhotos()
+    public function flickrPhotos(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(FlickrPhoto::class, 'flickr_photo_flickr_tag');
     }

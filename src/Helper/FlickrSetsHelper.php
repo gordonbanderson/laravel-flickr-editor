@@ -16,8 +16,10 @@ class FlickrSetsHelper
     private $importFromQueue;
 
 
-
-    public function __construct($importFromQueue = false)
+    /**
+     * FlickrSetsHelper constructor.
+     */
+    public function __construct(bool $importFromQueue = false)
     {
         $this->importFromQueue = $importFromQueue;
     }

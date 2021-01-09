@@ -18,7 +18,7 @@ class FlickrSet extends Model
         'lock_geo',
     ];
 
-    public function flickrPhotos()
+    public function flickrPhotos(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(FlickrPhoto::class, 'flickr_set_flickr_photo');
     }

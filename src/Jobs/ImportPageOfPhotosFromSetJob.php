@@ -32,11 +32,9 @@ class ImportPageOfPhotosFromSetJob implements ShouldQueue
     private $numberOfPages;
 
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * ImportPageOfPhotosFromSetJob constructor.
      */
-    public function __construct(string $flickrID, $page, $numberOfPages)
+    public function __construct(string $flickrID, int $page, int $numberOfPages)
     {
         Log::debug('Job constructor, page=' . $page .', fsid=' . $flickrID);
         $this->flickrID= $flickrID;

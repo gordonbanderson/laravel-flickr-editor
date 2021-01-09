@@ -47,7 +47,7 @@ class FlickrEditorServiceProvider extends ServiceProvider
         ]);
 
 
-        /** @var \Suilven\FlickrEditor\ServiceProvider\Router $router */
+        // @var \Suilven\FlickrEditor\ServiceProvider\Router $router
         //    $router = $this->app['router'];
         //     $router->pushMiddlewareToGroup('web', \Illuminate\Session\Middleware\StartSession::class);
         //      $router->pushMiddlewareToGroup('web', \Illuminate\View\Middleware\ShareErrorsFromSession::class);
