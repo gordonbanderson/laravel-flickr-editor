@@ -3,16 +3,12 @@
 namespace Suilven\FlickrEditor\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 use Suilven\FlickrEditor\Helper\FlickrExifHelper;
-use Suilven\FlickrEditor\Helper\FlickrSetHelper;
 use Suilven\FlickrEditor\Models\FlickrPhoto;
-use Suilven\FlickrEditor\Models\FlickrSet;
 
 class UpdatePhotoFromExifJob implements ShouldQueue
 {
@@ -29,7 +25,6 @@ class UpdatePhotoFromExifJob implements ShouldQueue
      */
     public function __construct(FlickrPhoto $flickrPhoto)
     {
-        Log::debug('Updaing exif for photo ' . $flickrPhoto->flickr_id);
         $this->flickrID= $flickrPhoto;
 
     }
@@ -41,8 +36,6 @@ class UpdatePhotoFromExifJob implements ShouldQueue
      */
     public function handle()
     {
-        Log::debug('**** UpdatePhotoFromExifJob page = ' . $this->flickrID);
-
         $helper = new FlickrExifHelper();
         $helper->updateMetaDataFromExif($this->flickrID);
     }

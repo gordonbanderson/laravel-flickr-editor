@@ -2,7 +2,6 @@
 
 namespace Suilven\FlickrEditor\Http\Controllers;
 
-use _HumbugBox58fd4d9e2a25\Cassandra\Index;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller;

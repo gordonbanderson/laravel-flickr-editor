@@ -5,8 +5,9 @@ namespace Suilven\FlickrEditor\Console\Commands;
 use Illuminate\Console\Command;
 use Suilven\Boris\Models\Quote;
 use Suilven\FlickrEditor\Helper\FlickrSetHelper;
+use Suilven\FlickrEditor\Helper\FlickrSetsHelper;
 
-class ImportFlickrSet extends Command
+class ImportAllSets extends Command
 {
 
 
@@ -15,14 +16,14 @@ class ImportFlickrSet extends Command
      *
      * @var string
      */
-    protected $signature = 'flickr:import_set {id} {--queue}';
+    protected $signature = 'flickr:import_all_sets {--queue}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Import a flickr set';
+    protected $description = 'Import all flickr sets for current user';
 
     /**
      * Create a new command instance.
@@ -41,12 +42,11 @@ class ImportFlickrSet extends Command
      */
     public function handle()
     {
-        $flickrSetID = $this->argument('id');
         $queue = $this->option('queue');
 
-        $this->info('Importing flickr set ' . $flickrSetID, $queue);
-        $helper = new FlickrSetHelper($flickrSetID, $queue);
-        $helper->importSet();
+        $this->info('Importing flickr sets ' , $queue);
+        $helper = new FlickrSetsHelper($queue);
+        $helper->getSetsForUser();
 
         return 0;
     }

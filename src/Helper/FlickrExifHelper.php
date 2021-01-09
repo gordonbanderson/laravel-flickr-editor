@@ -4,9 +4,7 @@
 namespace Suilven\FlickrEditor\Helper;
 
 use Samwilson\PhpFlickr\PhotosApi;
-use Samwilson\PhpFlickr\PhotosetsApi;
 use Suilven\FlickrEditor\Events\FlickrPhotoExifProcessed;
-use Suilven\FlickrEditor\Events\FlickrPhotoImported;
 use Suilven\FlickrEditor\Models\FlickrPhoto;
 
 class FlickrExifHelper
@@ -22,11 +20,13 @@ class FlickrExifHelper
 
         $exifData = $photosAPI->getExif($flickrPhoto->flickr_id);
 
-        print_r($exifData);
-        die;
-
         foreach($exifData as $oneExif)
         {
+            if (!isset($oneExif['tag'])) {
+                continue;
+            }
+
+
             $tag = $oneExif['tag'];
             switch($tag)
             {

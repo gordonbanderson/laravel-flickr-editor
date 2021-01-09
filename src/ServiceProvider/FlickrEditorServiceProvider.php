@@ -6,6 +6,7 @@ namespace Suilven\FlickrEditor\ServiceProvider;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Suilven\FlickrEditor\Console\Commands\ImportAllSets;
 use Suilven\FlickrEditor\Console\Commands\ImportFlickrSet;
 use Suilven\FlickrEditor\View\Components\AppLayout;
 
@@ -39,6 +40,7 @@ class FlickrEditorServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                  ImportFlickrSet::class,
+                ImportAllSets::class
             ]);
 
 

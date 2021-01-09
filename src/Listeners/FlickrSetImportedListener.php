@@ -2,9 +2,8 @@
 
 namespace Suilven\FlickrEditor\Listeners;
 
-use App\Events\FlickrSetImported;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+
+use Suilven\FlickrEditor\Events\FlickrSetImported;
 
 class FlickrSetImportedListener
 {

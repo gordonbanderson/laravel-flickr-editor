@@ -3,7 +3,6 @@
 namespace Suilven\FlickrEditor\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -46,7 +45,7 @@ class ImportPageOfPhotosFromSetJob implements ShouldQueue
      */
     public function handle()
     {
-        Log::debug('**** ImportPageOfPhotosFromSetJob page = ' . $this->page . ' **** ' . $this->flickrID);
+        Log::debug('**** ImportPageOfPhotosFromSetJob page = ' . $this->page . ' **** set id=' . $this->flickrID);
         $helper = new FlickrSetHelper($this->flickrID, true);
         $helper->importPage($this->page);
 
