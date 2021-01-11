@@ -6,6 +6,7 @@ namespace Suilven\FlickrEditor\Helper;
 
 use Samwilson\PhpFlickr\PhotosApi;
 use Suilven\FlickrEditor\Events\FlickrPhotoExifProcessed;
+use Suilven\FlickrEditor\Models\FlickrPhoto;
 
 /**
  * Class FlickrExifHelper
