@@ -24,6 +24,7 @@ class CreateFlickrPhotosTable extends Migration
             $table->date('taken_at')->nullable();
             $table->timestamp('flickr_last_updated')->nullable();
             $table->boolean('geo_is_public')->default(true);
+            $table->boolean('lock_geo')->default(false);
             $table->boolean('is_dirty')->default(false);
             $table->boolean('is_public')->default(false);
             $table->integer('orientation')->default(0);
