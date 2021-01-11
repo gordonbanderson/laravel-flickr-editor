@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Suilven\FlickrEditor\Helper;
 
 use Illuminate\Support\Facades\Log;
+use MStaack\LaravelPostgis\Geometries\Point;
 use Suilven\FlickrEditor\Events\FlickrPhotoImported;
 use Suilven\FlickrEditor\Events\FlickrSetImported;
 use Suilven\FlickrEditor\Jobs\ImportPageOfPhotosFromSetJob;
@@ -71,7 +72,7 @@ class FlickrSetHelper
             1
         );
 
-        \print_r($photoset) && die;
+       // \print_r($photoset) && die;
 
 
         $set = FlickrSet::where('flickr_id', '=', $this->flickrSetID)->first();
@@ -199,13 +200,31 @@ class FlickrSetHelper
         $flickrPhoto->large_height = $photoArray['height_l'];
         $flickrPhoto->large_width = $photoArray['width_l'];
 
-        $flickrPhoto->large_url_1600 = $photoArray['url_h'];
-        $flickrPhoto->large_height_1600 = $photoArray['height_h'];
-        $flickrPhoto->large_width_1600 = $photoArray['width_h'];
+        $flickrPhoto->large_url_1600 = isset( $photoArray['url_h']) ?  $photoArray['url_h'] : null;
+        $flickrPhoto->large_height_1600 = isset($photoArray['height_h']) ? $photoArray['height_h'] : null;
+        $flickrPhoto->large_width_1600 = isset($photoArray['width_h']) ? $photoArray['width_h'] : null;
 
-        $flickrPhoto->large_url_2048 = $photoArray['url_k'];
-        $flickrPhoto->large_height_2048 = $photoArray['height_k'];
-        $flickrPhoto->large_width_2048 = $photoArray['width_k'];
+        $flickrPhoto->large_url_2048 = isset($photoArray['url_k']) ? $photoArray['url_k'] : null;
+        $flickrPhoto->large_height_2048 = isset($photoArray['height_k']) ? $photoArray['height_k'] : null;
+        $flickrPhoto->large_width_2048 = isset($photoArray['width_k']) ? $photoArray['width_k'] : null;
+
+        Log::debug(print_r($photoArray, true));
+
+        if (isset($photoArray['latitude']) && isset($photoArray['longitude'])) {
+            Log::debug('****** LOCATION ******');
+            $location = new Point((float) $photoArray['latitude'], (float) $photoArray['longitude']);
+
+            $flickrPhoto->location = $location;
+
+          //  Log::debug('Flickr photo location: ' . print_r($location, true));
+
+            // if geographic location is provided, set lock geo to true, so that the editor has to make a conscious
+            // decision to change photographic locations
+            if ($this->flickrSet->lock_geo == false) {
+                $this->flickrSet->lock_geo = true;
+                $this->flickrSet->save();
+            }
+        }
 
 
    //     $flickrPhoto->flickr_last_updated = $photoArray['lastupdate'];
