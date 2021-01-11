@@ -14,6 +14,6 @@ class FlickrSetImportedListener
      */
     public function handle(FlickrSetImported $event): void
     {
-        Log::debug('Flickr Set Imported: ' . $event);
+        print_r($event);
     }
 }
