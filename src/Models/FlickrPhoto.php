@@ -5,9 +5,12 @@ declare(strict_types = 1);
 namespace Suilven\FlickrEditor\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use MStaack\LaravelPostgis\Eloquent\PostgisTrait;
 
 class FlickrPhoto extends Model
 {
+    use PostgisTrait;
+
     protected $table = 'flickr_photos';
 
     protected $fillable = [
@@ -76,8 +79,22 @@ class FlickrPhoto extends Model
         'visible',
         'aspect_ratio',
         'image_unique_id',
+        'lock_geo'
 
     ];
+
+
+    protected $postgisFields = [
+        'location',
+    ];
+
+    protected $postgisTypes = [
+        'location' => [
+            'geomtype' => 'geography',
+            'srid' => 4326
+        ]
+    ];
+
 
 
     public function flickrSets(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
