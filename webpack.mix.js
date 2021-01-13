@@ -7,7 +7,7 @@ mix
     // This is required for hot reloading
     .setPublicPath('./public')
 
-    .postCss('resources/css/app.css', 'public/css/app.css',[
+    .postCss('resources/css/app.css', './public/vendor/suilven/flickr-editor/css/app.css',[
         require('postcss-import'),
         require('tailwindcss'),
         require('postcss-nested'),
@@ -22,7 +22,7 @@ mix
 
 
 
-/*
+
 // Add eslint to .jsx, .js and .vue files
 .webpackConfig({
     module: {
@@ -39,31 +39,22 @@ mix
         ]
     },
 })
-.react('src/js/app.js', 'dist/js').sourceMaps()
-.extract(['react', 'react-dom'])
+    .js('resources/js/editor.js', './public/suilven/flickr-editor/js').options({
+        terser: {
+            terserOptions: {
+                compress: {
+                    drop_console: false
+                }
+            }
+        }
+    }) //.sourceMaps()
+.react()
+    .extract(['react', 'react-dom'])
 
-.sass('src/scss/app.scss', 'dist/css')
-//    .options({
-//        processCssUrls: false,
-//        postCss: [ tailwindcss('./tailwind.js') ],
-//   })
-.tailwind().sourceMaps();
-*/
-
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel applications. By default, we are compiling the CSS
- | file for the application as well as bundling up all the JS files.
- |
-
-
-mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'public/css', [
-    require('postcss-import'),
-    require('tailwindcss'),
-    require('autoprefixer'),
-]);
-*/
+// for dev
+    .copy('./public/vendor/suilven/flickr-editor/css/app.css', '/var/www/app/public/vendor/suilven/flickr-editor/css/app.css')
+    .copy('./public/vendor/suilven/flickr-editor/css/app.css.map', '/var/www/app/public/vendor/suilven/flickr-editor/css/app.css.map')
+    .copy('./public/suilven/flickr-editor/js/editor.js', '/var/www/app/public/vendor/suilven/flickr-editor/js/editor.js')
+    .copy('./public/suilven/flickr-editor/js/editor.js.map', '/var/www/app/public/vendor/suilven/flickr-editor/js/editor.js.map')
+    .copy('./public/suilven/flickr-editor/js/vendor.js', '/var/www/app/public/vendor/suilven/flickr-editor/js/vendor.js')
+    .copy('./public/suilven/flickr-editor/js/vendor.js.map', '/var/www/app/public/vendor/suilven/flickr-editor/js/vendor.js.map')
