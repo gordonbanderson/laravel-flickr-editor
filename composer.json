@@ -25,7 +25,10 @@
         "mstaack/laravel-postgis": "^5",
         "samwilson/phpflickr": "^4",
         "league/climate": "^3",
-        "suilven/php-travis-enhancer": "9999999-dev"
+        "suilven/php-travis-enhancer": "9999999-dev",
+        "laravel/passport": "9999999-dev",
+        "nuwave/lighthouse": "9999999-dev",
+        "mll-lab/laravel-graphql-playground": "9999999-dev"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2",
