@@ -1,3 +1,12 @@
 {
-    "/css/app.css": "/css/app.css"
+    "/suilven/flickr-editor/js/editor.js": "/suilven/flickr-editor/js/editor.js",
+    "/suilven/flickr-editor/js/manifest.js": "/suilven/flickr-editor/js/manifest.js",
+    "/vendor/suilven/flickr-editor/css/app.css": "/vendor/suilven/flickr-editor/css/app.css",
+    "/suilven/flickr-editor/js/vendor.js": "/suilven/flickr-editor/js/vendor.js",
+    "/var/www/app/public/vendor/suilven/flickr-editor/css/app.css": "/var/www/app/public/vendor/suilven/flickr-editor/css/app.css",
+    "/var/www/app/public/vendor/suilven/flickr-editor/css/app.css.map": "/var/www/app/public/vendor/suilven/flickr-editor/css/app.css.map",
+    "/var/www/app/public/vendor/suilven/flickr-editor/js/editor.js": "/var/www/app/public/vendor/suilven/flickr-editor/js/editor.js",
+    "/var/www/app/public/vendor/suilven/flickr-editor/js/editor.js.map": "/var/www/app/public/vendor/suilven/flickr-editor/js/editor.js.map",
+    "/var/www/app/public/vendor/suilven/flickr-editor/js/vendor.js": "/var/www/app/public/vendor/suilven/flickr-editor/js/vendor.js",
+    "/var/www/app/public/vendor/suilven/flickr-editor/js/vendor.js.map": "/var/www/app/public/vendor/suilven/flickr-editor/js/vendor.js.map"
 }
