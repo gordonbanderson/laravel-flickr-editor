@@ -14,6 +14,8 @@ class CreateFlickrPhotoFlickrSet extends Migration
     public function up()
     {
         Schema::create('flickr_photo_flickr_set', function (Blueprint $table) {
+            // from https://cerwyn.medium.com/laravel-many-to-many-eloquent-orm-d22ecff81b72
+            // $table->primary(['user_id','event_id']);
             $table->id();
             $table->integer('flickr_photo_id')->unsigned();
             $table->integer('flickr_set_id')->unsigned();
