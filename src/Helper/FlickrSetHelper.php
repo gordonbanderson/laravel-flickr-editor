@@ -64,6 +64,9 @@ class FlickrSetHelper
         // config('flickreditor.flickrsets.import_page_size');
         $pageSize = self::PAGE_SIZE;
 
+        $info = $photosetsApi->getInfo($this->flickrSetID, null);
+        print_r($info);
+
         $photoset = $photosetsApi->getPhotos(
             $this->flickrSetID,
             null,
@@ -77,8 +80,11 @@ class FlickrSetHelper
 
         $set = FlickrSet::where('flickr_id', '=', $this->flickrSetID)->first();
 
+
+        print_r($photoset);
+
         if (\is_null($set)) {
-            $set = FlickrSet::create(['title' => $photoset['title'], 'flickr_id' => $this->flickrSetID]);
+            $set = FlickrSet::create(['title' => $info['title'], 'flickr_id' => $this->flickrSetID, 'description' => $info['description']]);
         }
 
         $this->flickrSet = $set;
@@ -139,7 +145,7 @@ class FlickrSetHelper
         }
 
         $flickrPhoto->title = $photoArray['title'];
-        $flickrPhoto->title = $photoArray['description'];
+        $flickrPhoto->description = isset($photoArray['description']) ? $photoArray['description'] : '';
         $flickrPhoto->is_public = $photoArray['ispublic'];
 
         $flickrPhoto->thumbnail_url = $photoArray['url_t'];

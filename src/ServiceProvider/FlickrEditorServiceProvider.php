@@ -6,6 +6,7 @@ namespace Suilven\FlickrEditor\ServiceProvider;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 use Suilven\FlickrEditor\Console\Commands\ImportAllSets;
 use Suilven\FlickrEditor\Console\Commands\ImportFlickrSet;
 use Suilven\FlickrEditor\View\Components\AppLayout;
@@ -45,6 +46,19 @@ class FlickrEditorServiceProvider extends ServiceProvider
              ImportFlickrSet::class,
             ImportAllSets::class,
         ]);
+
+
+        Passport::routes();
+
+        //Passport::loadKeysFrom(__DIR__.'/../storage/');
+
+
+        /*
+         *
+    Passport::tokensExpireIn(now()->addDays(15));
+    Passport::refreshTokensExpireIn(now()->addDays(30));
+    Passport::personalAccessTokensExpireIn(now()->addMonths(6));
+         */
 
 
         // @var \Suilven\FlickrEditor\ServiceProvider\Router $router

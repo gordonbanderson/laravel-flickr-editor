@@ -20,6 +20,6 @@ class FlickrSet extends Model
 
     public function flickrPhotos(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(FlickrPhoto::class, 'flickr_set_flickr_photo');
+        return $this->belongsToMany(FlickrPhoto::class);
     }
 }
