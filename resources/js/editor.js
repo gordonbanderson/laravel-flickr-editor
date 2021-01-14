@@ -18,6 +18,6 @@ window.addEventListener('load', function() {
 
     var el = document.getElementById('root');
     console.log('ELEMENT', el);
-    el.innerHTML('from js');
+    el.innerText = (' ************* from js');
 });
 

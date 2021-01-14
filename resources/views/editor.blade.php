@@ -1,7 +1,4 @@
 <x-app-layout>
-    <!-- Scripts -->
-    <script src="{{ asset('vendor/suilven/flickr-editor/js/vendor.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('vendor/suilven/flickr-editor/js/editor.js') }}" type="text/javascript" ></script>
 
     <!-- main -->
     <div class="container mx-auto px-4">
@@ -17,5 +14,9 @@
 
 
     </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('vendor/suilven/flickr-editor/js/vendor.js') }}" type="text/javascript" defer></script>
+    <script src="{{ asset('vendor/suilven/flickr-editor/js/editor.js') }}" type="text/javascript" defer></script>
 
 </x-app-layout>
