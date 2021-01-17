@@ -1,10 +1,11 @@
 // Flickr editor
-import ShoppingListRender from "./components/shoppinglist";
-import Car from "./components/car";
 
 // needed for the browser to work
 import React from "react";
 import ReactDOM from 'react-dom';
+
+import ShoppingListRender from "./components/shoppinglist";
+import Car from "./components/car";
 
 window.addEventListener('load', function() {
     console.log('All assets are loaded')
@@ -14,7 +15,7 @@ window.addEventListener('load', function() {
     alert('test');
     console.log('Rendering components');
 //ReactDOM.render(<ShoppingListRender/>, document.getElementById('flickrEditor'));
-ReactDOM.render(<Car color="red"/>, document.getElementById('wibble'));
+ReactDOM.render(<Car color="red"/>, document.getElementById('root'));
 
     var el = document.getElementById('root');
     console.log('ELEMENT', el);

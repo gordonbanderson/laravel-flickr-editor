@@ -39,7 +39,7 @@ mix
         ]
     },
 })
-    .js('resources/js/editor.js', './public/suilven/flickr-editor/js').options({
+    .js('resources/js/index.js', './public/suilven/flickr-editor/js').options({
         terser: {
             terserOptions: {
                 compress: {
@@ -49,12 +49,13 @@ mix
         }
     }) //.sourceMaps()
 .react()
-    .extract(['react', 'react-dom'])
+   .extract(['react', 'react-dom'])
 
 // for dev
     .copy('./public/vendor/suilven/flickr-editor/css/app.css', '/var/www/app/public/vendor/suilven/flickr-editor/css/app.css')
-    .copy('./public/vendor/suilven/flickr-editor/css/app.css.map', '/var/www/app/public/vendor/suilven/flickr-editor/css/app.css.map')
-    .copy('./public/suilven/flickr-editor/js/editor.js', '/var/www/app/public/vendor/suilven/flickr-editor/js/editor.js')
-    .copy('./public/suilven/flickr-editor/js/editor.js.map', '/var/www/app/public/vendor/suilven/flickr-editor/js/editor.js.map')
-    .copy('./public/suilven/flickr-editor/js/vendor.js', '/var/www/app/public/vendor/suilven/flickr-editor/js/vendor.js')
-    .copy('./public/suilven/flickr-editor/js/vendor.js.map', '/var/www/app/public/vendor/suilven/flickr-editor/js/vendor.js.map')
+   // .copy('./public/vendor/suilven/flickr-editor/css/app.css.map', '/var/www/app/public/vendor/suilven/flickr-editor/css/app.css.map')
+    .copy('./public/suilven/flickr-editor/js/index.js', '/var/www/app/public/vendor/suilven/flickr-editor/js/index.js')
+   // .copy('./public/suilven/flickr-editor/js/index.js.map', '/var/www/app/public/vendor/suilven/flickr-editor/js/index.js.map')
+   .copy('./public/suilven/flickr-editor/js/vendor.js', '/var/www/app/public/vendor/suilven/flickr-editor/js/vendor.js')
+//    .copy('./public/suilven/flickr-editor/js/vendor.js.map', '/var/www/app/public/vendor/suilven/flickr-editor/js/vendor.js.map')
+    .copy('./public/suilven/flickr-editor/js/manifest.js', '/var/www/app/public/vendor/suilven/flickr-editor/js/manifest.js')

@@ -16,7 +16,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('vendor/suilven/flickr-editor/js/vendor.js') }}" type="text/javascript" defer></script>
-    <script src="{{ asset('vendor/suilven/flickr-editor/js/editor.js') }}" type="text/javascript" defer></script>
+    <script src="{{ asset('vendor/suilven/flickr-editor/js/index.js') }}" type="text/javascript" defer></script>
 
 </x-app-layout>
