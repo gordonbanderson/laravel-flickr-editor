@@ -14,7 +14,7 @@ window.addEventListener('load', function() {
     alert('test');
     console.log('Rendering components');
 //ReactDOM.render(<ShoppingListRender/>, document.getElementById('flickrEditor'));
-//ReactDOM.render(<Car color="red"/>, document.getElementById('root'));
+ReactDOM.render(<Car color="red"/>, document.getElementById('wibble'));
 
     var el = document.getElementById('root');
     console.log('ELEMENT', el);

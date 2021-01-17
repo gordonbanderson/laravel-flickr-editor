@@ -1,4 +1,4 @@
-(self["webpackChunksuilven_flickr_editor"] = self["webpackChunksuilven_flickr_editor"] || []).push([["/suilven/flickr-editor/js/editor"],{
+(self["webpackChunksuilven_flickr_editor"] = self["webpackChunksuilven_flickr_editor"] || []).push([["/suilven/flickr-editor/js/index"],{
 
 /***/ "./resources/js/components/car.js":
 /*!****************************************!*\
@@ -147,21 +147,23 @@ function ShoppingListRender() {
 
 /***/ }),
 
-/***/ "./resources/js/editor.js":
-/*!********************************!*\
-  !*** ./resources/js/editor.js ***!
-  \********************************/
+/***/ "./resources/js/index.js":
+/*!*******************************!*\
+  !*** ./resources/js/index.js ***!
+  \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_shoppinglist__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/shoppinglist */ "./resources/js/components/shoppinglist.js");
-/* harmony import */ var _components_car__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/car */ "./resources/js/components/car.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-// Flickr editor
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _components_shoppinglist__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/shoppinglist */ "./resources/js/components/shoppinglist.js");
+/* harmony import */ var _components_car__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/car */ "./resources/js/components/car.js");
 
- // needed for the browser to work
+// Flickr editor
+// needed for the browser to work
+
 
 
 
@@ -171,11 +173,13 @@ window.addEventListener('load', function () {
 
   alert('test');
   console.log('Rendering components'); //ReactDOM.render(<ShoppingListRender/>, document.getElementById('flickrEditor'));
-  //ReactDOM.render(<Car color="red"/>, document.getElementById('root'));
 
+  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_car__WEBPACK_IMPORTED_MODULE_4__.default, {
+    color: "red"
+  }), document.getElementById('root'));
   var el = document.getElementById('root');
   console.log('ELEMENT', el);
-  el.innerHTML('from js');
+  el.innerText = ' ************* from js';
 });
 
 /***/ }),
@@ -1540,4 +1544,4 @@ if (false) {} else {
 /***/ })
 
 },
-0,[["./resources/js/editor.js","/suilven/flickr-editor/js/manifest","/suilven/flickr-editor/js/vendor"],["./resources/css/app.css","/suilven/flickr-editor/js/manifest","/suilven/flickr-editor/js/vendor"]]]);
+0,[["./resources/js/index.js","/suilven/flickr-editor/js/manifest","/suilven/flickr-editor/js/vendor"],["./resources/css/app.css","/suilven/flickr-editor/js/manifest","/suilven/flickr-editor/js/vendor"]]]);
