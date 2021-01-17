@@ -49,7 +49,7 @@ mix
         }
     }) //.sourceMaps()
 .react()
-   .extract(['react', 'react-dom'])
+   .extract()
 
 // for dev
     .copy('./public/vendor/suilven/flickr-editor/css/app.css', '/var/www/app/public/vendor/suilven/flickr-editor/css/app.css')
