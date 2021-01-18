@@ -11,12 +11,14 @@ function FlickrSets(props)  {
 
     console.log(data);
 
+    // see https://reactjs.org/docs/lists-and-keys.html, issue with keys
+
     return data.flickr_sets.map(({ title, id }) => (
-        <div key={id}>
-            <p>
-                {title}: {id}
-            </p>
-        </div>
+        <ul>
+            <li key={id.toString()}>
+                <a href={"/editor/set/"+id}>{title}: {id}</a>
+            </li>
+        </ul>
     ));
 }
 
