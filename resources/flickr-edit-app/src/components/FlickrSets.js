@@ -1,6 +1,7 @@
 import React from 'react';
 import {GET_FLICKR_SET_LIST} from "../constants";
 import {useQuery} from "@apollo/client";
+import {Link} from "react-router-dom";
 
 
 function FlickrSets(props)  {
@@ -16,7 +17,7 @@ function FlickrSets(props)  {
     return data.flickr_sets.map(({ title, id }) => (
         <ul>
             <li key={id.toString()}>
-                <a href={"/editor/set/"+id}>{title}: {id}</a>
+                <Link to={`/show/`+id}>Set {title}</Link>
             </li>
         </ul>
     ));
