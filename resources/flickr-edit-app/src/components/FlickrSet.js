@@ -8,7 +8,7 @@ function FlickrSet(props) {
 
     const { loading, error, data } = useQuery(gql`
         {
-          flickr_set(id: 2) {
+          flickr_set(id: 1) {
             title
             description
             flickrPhotos {
@@ -29,10 +29,10 @@ function FlickrSet(props) {
 
     console.log('Data', data.flickr_set);
 
-    return data.flickr_set.flickrPhotos.map(({ title, id, small_url }) => (
-        <ul>
-            <li key={id.toString()}>
-                <img src={small_url} title={title} />
+    return data.flickr_set.flickrPhotos.map(({ title, id, small_url, small_height }) => (
+        <ul className={"ml-auto flex items-center"}>
+            <li className={"setPhoto"} key={id.toString()}>
+                <img src={small_url} title={title}/>
             </li>
         </ul>
     ));

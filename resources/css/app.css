@@ -24,10 +24,19 @@
     .btn-google {
         @apply bg-gray-200 border border-gray-300 py-3 px-4 rounded hover:bg-gray-400 hover:border-gray-500;
     }
+
+
 }
 
 
 
 .quotation p {
     margin-bottom: 1.25rem;
+}
+
+li > .setPhoto {
+    border: solid red 2px;
+}
+.setPhoto {
+    @apply px-10 float-left inline;
 }
