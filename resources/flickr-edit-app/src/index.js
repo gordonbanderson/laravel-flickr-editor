@@ -1,17 +1,39 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {GRAPHQL_API} from "./constants";
+import * as Constants from './constants';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
+import App from "./App";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const React = require('react')
+const { render } = require('react-dom')
+//const { Provider } = require('react-redux')
+//const { createStore } = require('redux')
+//const reducers = require('./modules')
+//const routes = require('./routes.js')
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+/*
+module.exports = render((
+    <Provider store={createStore(reducers)}>
+        {routes}
+    </Provider>
+), document.getElementById('root'))
+ */
+
+
+
+
+
+/*
+function App() {
+    return (
+        <ApolloProvider client={client}>
+            <div>
+                <h2>My first Apollo app 🚀</h2>
+            </div>
+        </ApolloProvider>
+    );
+}
+
+ */
+
+render(<App />, document.getElementById('root'));

@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import * as Constants from './constants';
-import FlickrSet from "./components/FlickrSet";
+import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client';
+import {GRAPHQL_API} from "./constants";
+
+//import FlickrSet from "./components/FlickrSet";
+
+const client = new ApolloClient({
+    uri: GRAPHQL_API,
+    cache: new InMemoryCache()
+});
 
 
 function App() {
+        return (
+            <ApolloProvider client={client}>
+                <div>
+                    <h2>My first Apollo app 🚀</h2>
+                </div>
+            </ApolloProvider>);
+    /*
   const [data, setData] = useState({ flickrSets: [] })
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +50,8 @@ function App() {
         </ul>
       </div>
   );
+
+     */
 }
 
 export default App;
