@@ -39,7 +39,7 @@ mix
         ]
     },
 })
-    .js('resources/js/index.js', './public/suilven/flickr-editor/js').options({
+    .js('resources/flickr-edit-app/src/index.js', './public/suilven/flickr-editor/js').options({
         terser: {
             terserOptions: {
                 compress: {
