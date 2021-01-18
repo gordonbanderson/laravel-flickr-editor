@@ -1,8 +1,11 @@
+import gql from 'graphql-tag';
+
+
 export const GRAPHQL_API = 'http://localhost/graphql';
 
 export const TITLE = "Flickr Set List";
 
-export const GET_FLICKR_SET_LIST = `
+export const GET_FLICKR_SET_LIST = gql`
  {
   flickr_sets {
     id
@@ -11,5 +14,4 @@ export const GET_FLICKR_SET_LIST = `
     created_at
     updated_at
   }
-}
- `;
+}`;

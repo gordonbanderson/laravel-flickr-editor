@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client';
 import {GRAPHQL_API} from "./constants";
+import FlickrSets from "./components/FlickrSets";
 
 //import FlickrSet from "./components/FlickrSet";
 
@@ -15,6 +16,7 @@ function App() {
             <ApolloProvider client={client}>
                 <div>
                     <h2>My first Apollo app 🚀</h2>
+                    <FlickrSets/>
                 </div>
             </ApolloProvider>);
     /*
