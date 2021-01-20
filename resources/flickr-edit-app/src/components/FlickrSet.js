@@ -2,9 +2,10 @@ import React from 'react';
 import {useQuery} from "@apollo/client";
 import gql from 'graphql-tag';
 import {Link} from "react-router-dom";
+import { Helmet } from 'react-helmet';
 
 function FlickrSet(props) {
-    console.log('PROPS', props);
+    console.log('FS PROPS', props);
 
     let id=props.match.params.id;
 
@@ -51,13 +52,18 @@ function FlickrSet(props) {
 }
      */
 
-    return (<div className = "grid grid-cols-1 md:grid-cols-6" >
-        {data.flickr_set.flickrPhotos.map(({ title, id, small_url, small_height }) => (
+    let photos=data.flickr_set.flickrPhotos;
+
+
+    return (<div>
+        <Helmet><title>Set: {data.flickr_set.title}</title></Helmet>
+        <div className = "grid grid-cols-1 md:grid-cols-6" >
+        {photos.map(({ title, id, small_url, small_height }) => (
             <div className={"setPhoto"} key={id.toString()}>
                 <img src={small_url} title={title}/>
             </div>
         ))}
-    </div>)
+    </div></div>)
 
      ;
 }
