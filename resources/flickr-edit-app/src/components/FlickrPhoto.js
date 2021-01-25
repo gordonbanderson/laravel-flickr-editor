@@ -3,6 +3,7 @@ import {useQuery, useMutation} from "@apollo/client";
 import gql from 'graphql-tag';
 import {Link} from "react-router-dom";
 import {Helmet} from "react-helmet";
+import {FLICKR_PHOTO_SCREEN, getScreen, setScreen} from "./Screen";
 
 //const [todoInput, setTodoInput] = useState('');
 
@@ -19,6 +20,7 @@ const UPDATE_PHOTO = gql`
 
 const FlickrPhotoForm = (props) => {
     let photo = props.photo;
+    setScreen(FLICKR_PHOTO_SCREEN);
 
     const [titleInput, setTitleInput] = useState(photo.title);
     const [descriptionInput, setDescriptionInput] = useState(photo.description);
@@ -69,65 +71,6 @@ const FlickrPhotoForm = (props) => {
 };
 
 
-export function FlickrPhotoFormNOT(props) {
-    let photo = props.photo;
-    console.log('Form', props);
-
-    let input;
-    const [updatePhoto, { data }] = useMutation(UPDATE_PHOTO);
-
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        updatePhoto({ variables: { id: input.value, title: input.value, description: input.value } });
-    };
-    
-
-    /*
-    <form className="formInput" onSubmit={(e) => {
-          e.preventDefault();
-         addTodo({variables: {todo: todoInput, isPublic }});
-        }}>
-          <input
-            className="input"
-            placeholder="What needs to be done?"
-            value={todoInput}
-            onChange={e => (setTodoInput(e.target.value))}
-          />
-          <i className="inputMarker fa fa-angle-right" />
-        </form>
-     */
-
-    return (<form onSubmit={handleSubmit} className={"form p-10"}>
-        <div>
-            <input
-                className="input"
-                placeholder="What needs to be done?"
-                value={todoInput}
-                onChange={e => (setTodoInput(e.target.value))}
-            />
-            <label htmlFor="title">Title</label>
-            <input
-                type="text"
-                id="title"
-                name="title"
-                defaultValue={photo.title}
-            />
-        </div>
-        <div>
-            <label htmlFor="description">Description</label>
-            <textarea
-                id="description"
-                name="description"
-                defaultValue={photo.description}
-            />
-        </div>
-        <button className={"border rounded my-6 p-3"}>Save</button>
-    </form>
-);
-
-}
-
 function FlickrPhoto(props) {
     let id = props.match.params.photo_id;
 
@@ -155,6 +98,10 @@ function FlickrPhoto(props) {
 
     console.log('Photo Data', data);
     let photo = data.flickr_photo;
+
+
+    console.log('FPHOTO - getScreen=', getScreen());
+
 
     return <div><Helmet><title>Photo: {photo.title}</title></Helmet>
         <img src={photo.large_url} title={photo.title}/>

@@ -3,8 +3,10 @@ import {useQuery} from "@apollo/client";
 import gql from 'graphql-tag';
 import {Link} from "react-router-dom";
 import { Helmet } from 'react-helmet';
+import {FLICKR_SET_SCREEN, getScreen, setScreen} from "./Screen";
 
 function FlickrSet(props) {
+    setScreen(FLICKR_SET_SCREEN);
     console.log('FS PROPS', props);
 
     let id=props.match.params.id;
@@ -55,6 +57,7 @@ function FlickrSet(props) {
 
     let photos=data.flickr_set.flickrPhotos;
 
+    console.log('FSET - getScreen=', getScreen());
 
     return (<div>
         <Helmet><title>Set: {data.flickr_set.title}</title></Helmet>
