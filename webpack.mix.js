@@ -47,7 +47,7 @@ mix
                 }
             }
         }
-    }) //.sourceMaps()
+    }).sourceMaps()
 .react()
    .extract()
 
