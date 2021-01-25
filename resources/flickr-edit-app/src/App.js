@@ -4,6 +4,7 @@ import {GRAPHQL_API} from "./constants";
 import FlickrSets from "./components/FlickrSets";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import FlickrSet from "./components/FlickrSet";
+import FlickrPhoto from "./components/FlickrPhoto";
 
 //import FlickrSet from "./components/FlickrSet";
 
@@ -18,10 +19,9 @@ function App() {
             <ApolloProvider client={client}>
                 <Router>
                     <main>
-
                         <Route path="/" component={FlickrSets} />
-                        <Route path="/show/:id"  component={FlickrSet} />
-
+                        <Route path="/set/:id"  component={FlickrSet} />
+                        <Route path="/set/:id/photo/:photo_id"  component={FlickrPhoto} />
                     </main>
                 </Router>
             </ApolloProvider>);

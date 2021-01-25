@@ -20,6 +20,7 @@ function FlickrSet(props) {
     const { loading, error, data } = useQuery(gql`
         query FlickrSet($id: Int!) {
               flickr_set(id: $id) {
+                id
                 title
                 description
                 flickrPhotos {
@@ -60,7 +61,7 @@ function FlickrSet(props) {
         <div className = "grid grid-cols-1 md:grid-cols-6" >
         {photos.map(({ title, id, small_url, small_height }) => (
             <div className={"setPhoto"} key={id.toString()}>
-                <img src={small_url} title={title}/>
+                <Link to={`/set/`+data.flickr_set.id + '/photo/'+id}><img src={small_url} title={title}/></Link>
             </div>
         ))}
     </div></div>)

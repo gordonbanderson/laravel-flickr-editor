@@ -21,7 +21,7 @@ function FlickrSets(props)  {
         {data.flickr_sets.map(({ title, id }) => (
         <ul>
             <li key={id.toString()}>
-                <Link to={`/show/`+id}>Set {title}</Link>
+                <Link to={`/set/`+id}>Set {title}</Link>
             </li>
         </ul>
         ))}</div>;

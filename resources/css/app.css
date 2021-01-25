@@ -38,5 +38,30 @@ li > .setPhoto {
     border: solid red 2px;
 }
 .setPhoto {
-    @apply px-10 float-left inline;
+    @apply p-4 m-4 border-gray-400 border-4 rounded shadow content-center;
+
+    text-align: center;
+
+    img {
+        max-height: 135px;
+    }
+}
+
+/* ---- forms ---- */
+.form {
+    display: block;
+    background: cyan;
+
+    label {
+        @apply font-extrabold mx-3 my-3;
+    }
+
+    input {
+        @apply shadow appearance-none border-4 rounded w-full  py-2 px-3 text-gray-400 leading-tight ;
+    }
+
+    textarea {
+        @apply w-full;
+    }
+
 }
