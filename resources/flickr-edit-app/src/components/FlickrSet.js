@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import { Helmet } from 'react-helmet';
 import {FLICKR_PHOTO_SCREEN, FLICKR_SET_SCREEN, FLICKR_SETS_SCREEN, getScreen, setScreen} from "./Screen";
 import  { useParams } from "react-router";
+import {GET_FLICKR_SET_PHOTOS} from "../constants";
 
 function FlickrSet() {
     const {id} = useParams();
@@ -20,23 +21,7 @@ function FlickrSet() {
           }
         }
      */
-    const { loading, error, data } = useQuery(gql`
-        query FlickrSet($id: Int!) {
-              flickr_set(id: $id) {
-                id
-                title
-                description
-                flickrPhotos {
-                  title
-                  description
-                  small_url
-                  small_width
-                  small_height
-                  id
-                }
-              }
-            }
-    `, {
+    const { loading, error, data } = useQuery(GET_FLICKR_SET_PHOTOS, {
         variables: { id: parseInt(id,10) },
     });
 

@@ -19,6 +19,7 @@ function App() {
     setScreen(FLICKR_SETS_SCREEN);
         return (
             <ApolloProvider client={client}>
+
                 <Router>
                     <main>
                         <Route path="/">
@@ -33,9 +34,6 @@ function App() {
                             <FlickrPhoto />
                         </Route>
 
-                        <Route path="/set/:id">
-                            <FlickrSet />
-                        </Route>
                     </main>
                 </Router>
             </ApolloProvider>);

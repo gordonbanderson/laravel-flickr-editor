@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import {Helmet} from "react-helmet";
 import {FLICKR_PHOTO_SCREEN, getScreen, setScreen} from "./Screen";
 import {useParams} from "react-router";
+import {GET_FLICKR_PHOTO} from "../constants";
 
 //const [todoInput, setTodoInput] = useState('');
 
@@ -76,21 +77,7 @@ function FlickrPhoto(props) {
     const {id,set_id} = useParams();
 
 
-    const { loading, error, data } = useQuery(gql`
-        query FlickrPhoto($id: Int!) {
-              flickr_photo(id: $id) {
-                id
-                 title
-                  description
-                  small_url
-                  small_width
-                  small_height
-                  large_url
-                  large_width
-                  large_height
-              }
-            }
-    `, {
+    const { loading, error, data } = useQuery(GET_FLICKR_PHOTO, {
         variables: { id: parseInt(id,10) },
     });
 
