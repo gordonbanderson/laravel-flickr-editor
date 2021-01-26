@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import {Link} from "react-router-dom";
 import {Helmet} from "react-helmet";
 import {FLICKR_PHOTO_SCREEN, getScreen, setScreen} from "./Screen";
+import {useParams} from "react-router";
 
 //const [todoInput, setTodoInput] = useState('');
 
@@ -72,7 +73,8 @@ const FlickrPhotoForm = (props) => {
 
 
 function FlickrPhoto(props) {
-    let id = props.match.params.photo_id;
+    const {id,set_id} = useParams();
+
 
     const { loading, error, data } = useQuery(gql`
         query FlickrPhoto($id: Int!) {

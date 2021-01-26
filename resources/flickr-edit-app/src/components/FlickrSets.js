@@ -17,7 +17,7 @@ function FlickrSets(props)  {
 
     console.log('FSETS - getScreen=', getScreen());
 
-    if (getScreen() == FLICKR_SETS_SCREEN) {return <div>
+    return <div>
         <Helmet><title>Flickr Sets</title></Helmet>
 
         {data.flickr_sets.map(({ title, id }) => (
@@ -26,9 +26,8 @@ function FlickrSets(props)  {
                 <Link to={`/set/`+id} onClick={setScreen(FLICKR_SET_SCREEN)}>Set {title}</Link>
             </li>
         </ul>
-        ))}</div>} else {
-        return null;
-    };
+        ))}</div>
+    ;
 }
 
 export default FlickrSets;

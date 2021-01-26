@@ -21,9 +21,21 @@ function App() {
             <ApolloProvider client={client}>
                 <Router>
                     <main>
-                        <Route path="/" component={FlickrSets} />
-                        <Route path="/set/:id"  component={FlickrSet} />
-                        <Route path="/set/:id/photo/:photo_id"  component={FlickrPhoto}  />
+                        <Route path="/">
+                            <FlickrSets />
+                        </Route>
+
+                        <Route path="/set/:id">
+                            <FlickrSet />
+                        </Route>
+
+                        <Route path="/photo/:id/set/:set_id">
+                            <FlickrPhoto />
+                        </Route>
+
+                        <Route path="/set/:id">
+                            <FlickrSet />
+                        </Route>
                     </main>
                 </Router>
             </ApolloProvider>);
