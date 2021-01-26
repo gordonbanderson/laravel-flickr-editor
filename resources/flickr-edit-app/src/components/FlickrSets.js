@@ -3,10 +3,9 @@ import {GET_FLICKR_SET_LIST} from "../constants";
 import {useQuery} from "@apollo/client";
 import {Link} from "react-router-dom";
 import { Helmet } from 'react-helmet';
-import {FLICKR_SETS_SCREEN, getScreen, setScreen} from "./Screen";
+import {FLICKR_SET_SCREEN, FLICKR_SETS_SCREEN, getScreen, setScreen} from "./Screen";
 
 function FlickrSets(props)  {
-    setScreen(FLICKR_SETS_SCREEN);
     const { loading, error, data } = useQuery(GET_FLICKR_SET_LIST);
 
     if (loading) return <p>Loading...</p>;
@@ -24,7 +23,7 @@ function FlickrSets(props)  {
         {data.flickr_sets.map(({ title, id }) => (
         <ul>
             <li key={id.toString()}>
-                <Link to={`/set/`+id}>Set {title}</Link>
+                <Link to={`/set/`+id} onClick={setScreen(FLICKR_SET_SCREEN)}>Set {title}</Link>
             </li>
         </ul>
         ))}</div>} else {

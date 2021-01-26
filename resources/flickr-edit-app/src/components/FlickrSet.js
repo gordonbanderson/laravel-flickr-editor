@@ -3,10 +3,9 @@ import {useQuery} from "@apollo/client";
 import gql from 'graphql-tag';
 import {Link} from "react-router-dom";
 import { Helmet } from 'react-helmet';
-import {FLICKR_SET_SCREEN, getScreen, setScreen} from "./Screen";
+import {FLICKR_PHOTO_SCREEN, FLICKR_SET_SCREEN, FLICKR_SETS_SCREEN, getScreen, setScreen} from "./Screen";
 
 function FlickrSet(props) {
-    setScreen(FLICKR_SET_SCREEN);
     console.log('FS PROPS', props);
 
     let id=props.match.params.id;
@@ -59,15 +58,17 @@ function FlickrSet(props) {
 
     console.log('FSET - getScreen=', getScreen());
 
-    return (<div>
+     if (getScreen() == FLICKR_SET_SCREEN) {return  (<div>
         <Helmet><title>Set: {data.flickr_set.title}</title></Helmet>
         <div className = "grid grid-cols-1 md:grid-cols-6" >
         {photos.map(({ title, id, small_url, small_height }) => (
             <div className={"setPhoto"} key={id.toString()}>
-                <Link to={`/set/`+data.flickr_set.id + '/photo/'+id}><img src={small_url} title={title}/></Link>
+                <Link to={`/set/`+data.flickr_set.id + '/photo/'+id} onClick={setScreen(FLICKR_PHOTO_SCREEN)}><img src={small_url} title={title}/></Link>
             </div>
         ))}
-    </div></div>)
+    </div></div>)} else {
+         return null;
+     }
 
      ;
 }
