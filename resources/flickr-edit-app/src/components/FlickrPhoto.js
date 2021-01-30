@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {Helmet} from "react-helmet";
 import {FLICKR_PHOTO_SCREEN, getScreen, setScreen} from "./Screen";
 import {useParams} from "react-router";
-import {GET_FLICKR_PHOTO} from "../constants";
+import {GET_FLICKR_PHOTO, GET_FLICKR_SET_PHOTO_IDS} from "../constants";
 
 //const [todoInput, setTodoInput] = useState('');
 
@@ -73,9 +73,89 @@ const FlickrPhotoForm = (props) => {
 };
 
 
+const prevID = (ids, id) =>
+{
+    var prevID = null;
+    for (let i=0; i < ids.length; i++) {
+        if (ids[i] == id) {
+            break;
+        }
+
+        prevID = ids[i];
+    }
+
+    return prevID;
+}
+
+
+
+const nextID = (ids, id) =>
+{
+    var nextID = null;
+    for (let i=ids.length; i >= 0; i--) {
+        if (ids[i] == id) {
+            break;
+        }
+
+        nextID = ids[i];
+    }
+
+    return nextID;
+}
+
+const PrevPhotoLink = (props) => {
+    console.log('PREV', props)
+    let previousID = prevID(props.ids, props.id);
+    console.log('PREVIOUS ID=', previousID)
+    if (previousID === null) {
+        return null;
+    } else {
+        return <Link to={'/photo/' + previousID + '/set/' + props.set_id} >Previous</Link>
+    }
+}
+
+const NextPhotoLink = (props) => {
+    let theNextID = nextID(props.ids, props.id);
+    console.log('NEXT ID=', nextID)
+    if (theNextID === null) {
+        return null;
+    } else {
+        return <Link to={'/photo/' + theNextID + '/set/' + props.set_id} >Next</Link>
+    }
+}
+
+
+const getFlickrPhotoIDs = (set_id) => {
+    console.log('Getting photo ids......')
+    const { loading, error, data } = useQuery(GET_FLICKR_SET_PHOTO_IDS, {
+        variables: { id: parseInt(set_id,10) },
+    });
+
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+
+
+    // @todo map instead of noddy code
+
+    var ids=[];
+    var flickrPHotoObjs = data.flickr_set.flickrPhotos;
+    for(let i=0; i< flickrPHotoObjs.length; i++) {
+        ids.push(flickrPHotoObjs[i].id);
+    }
+
+    console.log('IDS', ids);
+
+    return ids;
+}
+
+
+
+
 function FlickrPhoto(props) {
     const {id,set_id} = useParams();
 
+    let setPhotoIDS = getFlickrPhotoIDs(set_id);
 
     const { loading, error, data } = useQuery(GET_FLICKR_PHOTO, {
         variables: { id: parseInt(id,10) },
@@ -93,6 +173,8 @@ function FlickrPhoto(props) {
 
 
     return <div><Helmet><title>Photo: {photo.title}</title></Helmet>
+        <PrevPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
+        <NextPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
         <img src={photo.large_url} title={photo.title}/>
         <FlickrPhotoForm photo={photo}/>
     </div>;

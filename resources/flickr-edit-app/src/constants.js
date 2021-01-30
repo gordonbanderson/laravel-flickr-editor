@@ -50,3 +50,14 @@ export const GET_FLICKR_SET_PHOTOS = gql`
         }
     }
 `;
+
+export const GET_FLICKR_SET_PHOTO_IDS = gql`
+    query FlickrSet($id: Int!) {
+        flickr_set(id: $id) {
+            id
+            flickrPhotos {
+                id
+            }
+        }
+    }
+`;
