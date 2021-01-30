@@ -7,6 +7,7 @@ namespace Suilven\FlickrEditor\Helper;
 use Illuminate\Support\Facades\Log;
 use Suilven\FlickrEditor\Events\FlickrSetImported;
 use Suilven\FlickrEditor\Jobs\ImportPageOfPhotosFromSetJob;
+use Suilven\FlickrEditor\Models\FlickrSet;
 
 class FlickrSetsHelper
 {
@@ -25,7 +26,43 @@ class FlickrSetsHelper
     }
 
 
-    public function getSetsForUser(): void
+    /**
+     * @return array<FlickrSet>
+     */
+    public function getSetsForUser()
+    {
+        $page = 1;
+        $pages = 1e10;
+
+        $flickrSets = [];
+
+        while ($page <= $pages) {
+            $photoSetsAPI = $this->getPhotosetsAPI();
+            $response = $photoSetsAPI->getList(null, $page);
+            $pages = $response['pages'];
+            $sets = $response['photoset'];
+            print_r($sets);
+
+            foreach ($sets as $set) {
+                echo "=====\n";
+                $id = $set['id'];
+                $title = $set['title'];
+                $description = $set['description'];
+                $helper = new FlickrSetHelper($id);
+                $flickrSet = $helper->findOrCreateFlickrSet($title, $description);
+                $flickrSets[] = $flickrSet;
+
+                echo $id . "\n";
+            }
+
+            $page++;
+        }
+
+        return $flickrSets;
+    }
+
+
+    public function importSetsForUser(): void
     {
         $page = 1;
         $pages = 1e10;

@@ -5,9 +5,10 @@ declare(strict_types = 1);
 namespace Suilven\FlickrEditor\Console\Commands;
 
 use Illuminate\Console\Command;
+use Suilven\FlickrEditor\Helper\FlickrSetHelper;
 use Suilven\FlickrEditor\Helper\FlickrSetsHelper;
 
-class ImportAllSets extends Command
+class ImportFlickrSetMeta extends Command
 {
 
 
@@ -16,14 +17,14 @@ class ImportAllSets extends Command
      *
      * @var string
      */
-    protected $signature = 'flickr:import_all_sets {--queue}';
+    protected $signature = 'flickr:import_sets_meta {--queue}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Import all flickr sets for current user';
+    protected $description = 'Import list of flickr sets without importing images';
 
     /**
      * Create a new command instance.
@@ -43,9 +44,11 @@ class ImportAllSets extends Command
     {
         $queue = $this->option('queue');
 
-        $this->info('Importing flickr sets ', $queue);
-        $helper = new FlickrSetsHelper($queue);
-        $helper->importSetsForUser();
+        $this->info('Importing meta data for sets', $queue);
+        $helper = new FlickrSetsHelper();
+        $setsMetaData = $helper->getSetsForUser();
+
+        print_r($setsMetaData);
 
         return 0;
     }

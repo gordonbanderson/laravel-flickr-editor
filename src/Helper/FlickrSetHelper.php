@@ -56,6 +56,21 @@ class FlickrSetHelper
     }
 
 
+    /**
+     * @param $title
+     * @param $description
+     * @return FlickrSet
+     */
+    public function findOrCreateFlickrSet($title, $description) {
+        $set = FlickrSet::where('flickr_id', '=', $this->flickrSetID)->first();
+        if (\is_null($set)) {
+            $set = FlickrSet::create(['title' => $title, 'flickr_id' => $this->flickrSetID, 'description' => $description]);
+        }
+
+        return $set;
+    }
+
+
     public function importSet(): void
     {
         $photosetsApi = $this->getPhotosetsAPI();
@@ -77,15 +92,7 @@ class FlickrSetHelper
 
        // \print_r($photoset) && die;
 
-
-        $set = FlickrSet::where('flickr_id', '=', $this->flickrSetID)->first();
-
-
-        print_r($photoset);
-
-        if (\is_null($set)) {
-            $set = FlickrSet::create(['title' => $info['title'], 'flickr_id' => $this->flickrSetID, 'description' => $info['description']]);
-        }
+        $set = $this->findOrCreateFlickrSet($info['title'], $info['description']);
 
         $this->flickrSet = $set;
 
