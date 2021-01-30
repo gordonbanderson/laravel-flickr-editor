@@ -23,7 +23,7 @@ function FlickrSets(props)  {
         {data.flickr_sets.map(({ title, id }) => (
         <ul>
             <li key={id.toString()}>
-                <Link to={`/set/`+id} onClick={setScreen(FLICKR_SET_SCREEN)}>Set {title}</Link>
+                <Link to={`/edit/set/`+id} onClick={setScreen(FLICKR_SET_SCREEN)}>Set {title}</Link>
             </li>
         </ul>
         ))}</div>

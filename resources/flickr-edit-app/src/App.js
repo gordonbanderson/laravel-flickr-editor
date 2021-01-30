@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import FlickrSet from "./components/FlickrSet";
 import FlickrPhoto from "./components/FlickrPhoto";
 import {FLICKR_SETS_SCREEN, setScreen} from "./components/Screen";
+import HomePanel from "./components/HomePanel";
 
 //import FlickrSet from "./components/FlickrSet";
 
@@ -23,14 +24,18 @@ function App() {
                 <Router>
                     <main>
                         <Route path="/">
+                            <HomePanel />
+                        </Route>
+
+                        <Route path="/edit/sets">
                             <FlickrSets />
                         </Route>
 
-                        <Route path="/set/:id">
+                        <Route path="/edit/set/:id">
                             <FlickrSet />
                         </Route>
 
-                        <Route path="/photo/:id/set/:set_id">
+                        <Route path="/edit/photo/:id/set/:set_id">
                             <FlickrPhoto />
                         </Route>
 

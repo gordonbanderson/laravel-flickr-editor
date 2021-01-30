@@ -1,12 +1,11 @@
 <x-app-layout>
 
     <!-- main -->
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4" style="background: cyan; >
         <div class="flex justify-center pt-20">
+            <h1>Editor</h1>
             <div>
-               <p>This is the editor : </p>
-
-                <div id="root">Edit here
+                <div id="root">
 
                 </div>
             </div>

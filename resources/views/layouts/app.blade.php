@@ -17,20 +17,6 @@
 </head>
 <body class="font-sans antialiased">
 
-<hr/>
-
-<div class="flex justify-between text-sm text-gray-700">
-    <div class="flex items-center">
-        <a class="block p-3">About</a>
-        <a class="block p-3">Store</a>
-    </div>
-
-    <div class="flex items-center">
-        <a class="block p-3">Gmail</a>
-        <a class="block p-3">Images</a>
-        <img class="rounded-full block py-3 px-4" src="https://lh3.googleusercontent.com/-qKDxtPVf3MA/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdxXjFhEvxN4q1JUHeo4xlUIanULA.CMID/s64-c/photo.jpg">
-    </div>
-</div>
 
 
 

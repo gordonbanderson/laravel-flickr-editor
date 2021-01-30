@@ -43,14 +43,12 @@ function FlickrSet() {
 
     let photos=data.flickr_set.flickrPhotos;
 
-    console.log('FSET - getScreen=', getScreen());
-
      return  (<div>
         <Helmet><title>Set: {data.flickr_set.title}</title></Helmet>
         <div className = "grid grid-cols-1 md:grid-cols-6" >
         {photos.map(({ title, id, small_url, small_height }) => (
             <div className={"setPhoto"} key={id.toString()}>
-                <Link to={'/photo/'+id + `/set/`+data.flickr_set.id} onClick={setScreen(FLICKR_PHOTO_SCREEN)}><img src={small_url} title={title}/></Link>
+                <Link to={'/edit/photo/'+id + `/set/`+data.flickr_set.id} onClick={setScreen(FLICKR_PHOTO_SCREEN)}><img src={small_url} title={title}/></Link>
             </div>
         ))}
     </div></div>)
