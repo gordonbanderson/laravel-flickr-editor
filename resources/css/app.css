@@ -8,6 +8,9 @@
 /* Utilities */
 @import "tailwindcss/utilities";
 
+/* Toast */
+@import "react-toastify/dist/ReactToastify.css";
+
 
 @layer base {
     h1 {

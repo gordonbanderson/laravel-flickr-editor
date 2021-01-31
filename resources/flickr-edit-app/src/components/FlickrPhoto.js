@@ -6,6 +6,7 @@ import {Helmet} from "react-helmet";
 import {FLICKR_PHOTO_SCREEN, getScreen, setScreen} from "./Screen";
 import {useParams} from "react-router";
 import {GET_FLICKR_PHOTO, GET_FLICKR_SET_PHOTO_IDS} from "../constants";
+import { ToastContainer, toast } from 'react-toastify';
 
 //const [todoInput, setTodoInput] = useState('');
 
@@ -27,6 +28,7 @@ const FlickrPhotoForm = (props) => {
     const [titleInput, setTitleInput] = useState(photo.title);
     const [descriptionInput, setDescriptionInput] = useState(photo.description);
 
+    // @TODO
     const updateCache = (cache, {data}) => {
         // If this is for the public feed, do nothing
         if (isPublic) {
@@ -53,6 +55,7 @@ const FlickrPhotoForm = (props) => {
         <form className="formInput" className={"form p-10"} onSubmit={(e) => {
             e.preventDefault();
             updatePhoto({variables: {id: parseInt(photo.id), title: titleInput, description: descriptionInput }});
+            toast('Image information updated');
         }}>
             <input
                 className="input border"
@@ -177,6 +180,7 @@ function FlickrPhoto(props) {
         <NextPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
         <img src={photo.large_url} title={photo.title}/>
         <FlickrPhotoForm photo={photo}/>
+        <ToastContainer position={"bottom-center"}/>
     </div>;
 }
 
