@@ -21,8 +21,16 @@
 }
 
 @layer components {
-    .btn-google {
-        @apply bg-gray-200 border border-gray-300 py-3 px-4 rounded hover:bg-gray-400 hover:border-gray-500;
+    .tab.active {
+        @apply border-b-0 font-medium bg-white font-extrabold;
+    }
+
+    .tab {
+       @apply text-gray-600 py-4 px-6 block hover:text-gray-100 text-gray-800  border-2 border-gray-400 rounded-tl-lg rounded-tr-lg bg-gray-200 ;
+    }
+
+    .tab a {
+        @apply text-gray-900 hover:text-gray-500;
     }
 
 
@@ -38,13 +46,18 @@ li > .setPhoto {
     border: solid red 2px;
 }
 .setPhoto {
-    @apply p-4 m-4 border-gray-400 border-4 rounded shadow content-center;
+    @apply p-2 m-2 border-gray-200 border-4 rounded  content-center flex justify-center align-middle;
 
     text-align: center;
 
     img {
         max-height: 135px;
     }
+}
+
+
+.singlePhoto img {
+    @apply flex justify-center;
 }
 
 /* ---- forms ---- */

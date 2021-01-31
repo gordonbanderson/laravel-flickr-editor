@@ -110,7 +110,7 @@ const PrevPhotoLink = (props) => {
     if (previousID === null) {
         return null;
     } else {
-        return <Link to={'/photo/' + previousID + '/set/' + props.set_id} >Previous</Link>
+        return <Link to={'/edit/photo/' + previousID + '/set/' + props.set_id} >Previous</Link>
     }
 }
 
@@ -120,7 +120,7 @@ const NextPhotoLink = (props) => {
     if (theNextID === null) {
         return null;
     } else {
-        return <Link to={'/photo/' + theNextID + '/set/' + props.set_id} >Next</Link>
+        return <Link to={'/edit/photo/' + theNextID + '/set/' + props.set_id} >Next</Link>
     }
 }
 
@@ -172,7 +172,7 @@ function FlickrPhoto(props) {
     console.log('FPHOTO - getScreen=', getScreen());
 
 
-    return <div><Helmet><title>Photo: {photo.title}</title></Helmet>
+    return <div className={'singlePhoto'}><Helmet><title>Photo: {photo.title}</title></Helmet>
         <PrevPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
         <NextPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
         <img src={photo.large_url} title={photo.title}/>

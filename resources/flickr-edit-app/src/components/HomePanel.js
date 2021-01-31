@@ -10,11 +10,17 @@ function HomePanel(props)  {
 
     return <div>
         <Helmet><title>Flickr Editor</title></Helmet>
-        <ul>
-            <li><Link to={'edit/sets'}>Edit Imported Sets</Link></li>
-            <li><Link to={'/import/sets'}>Import Unimported Sets</Link></li>
-            <li><Link to={'/orphan/photos'}>Organise Orphan Photos</Link></li>
-        </ul>
+            <nav className={'flex flex-row sm:flex-row'}>
+                <button className="tab active">
+                    <Link to={'edit/sets'}>Edit Imported Sets</Link>
+                </button>
+                <button className="tab">
+                    <Link to={'/import/sets'}>Import Unimported Sets</Link>
+                </button>
+                <button className="tab">
+                    <Link to={'/orphan/photos'}>Organise Orphan Photos</Link>
+                </button>
+            </nav>
         </div>
     ;
 }

@@ -1,8 +1,8 @@
 <x-app-layout>
 
     <!-- main -->
-    <div class="container mx-auto px-4" style="background: cyan; >
-        <div class="flex justify-center pt-20">
+    <div class="container mx-auto px-4" >
+        <div class="pt-20">
             <h1>Editor</h1>
             <div>
                 <div id="root">
