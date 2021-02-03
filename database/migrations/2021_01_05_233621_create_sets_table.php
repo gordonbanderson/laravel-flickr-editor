@@ -26,6 +26,7 @@ class CreateSetsTable extends Migration
 
             $table->boolean('is_dirty')->default(false);
             $table->boolean('lock_geo')->default(true);
+            $table->boolean('imported')->default(false);
 
         });
     }

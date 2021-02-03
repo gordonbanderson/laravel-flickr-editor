@@ -27,7 +27,7 @@ class CreateFlickrPhotosTable extends Migration
             $table->boolean('lock_geo')->default(false);
             $table->boolean('is_dirty')->default(false);
             $table->boolean('is_public')->default(false);
-            $table->integer('orientation')->default(0);
+            $table->integer('orientation')->nullable()->default(null);
             $table->integer('rotation')->default(0);
             $table->integer('accuracy')->default(0);
             $table->string('woe_id')->nullable();
@@ -78,9 +78,9 @@ class CreateFlickrPhotosTable extends Migration
 
 
             // ---- large ----
-            $table->string('large_url');
-            $table->integer('large_height');
-            $table->integer('large_width');
+            $table->string('large_url')->nullable();
+            $table->integer('large_height')->nullable();
+            $table->integer('large_width')->nullable();
 
             $table->string('large_url_1600')->nullable();
             $table->integer('large_height_1600')->nullable();
@@ -113,7 +113,6 @@ class CreateFlickrPhotosTable extends Migration
             $table->string('perceptive_hash')->nullable();
 
             $table->float('aspect_ratio')->nullable();
-
 
             $table->string('image_unique_id')->nullable();
             $table->timestamps();
