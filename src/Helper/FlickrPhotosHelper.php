@@ -8,15 +8,16 @@ use Illuminate\Support\Facades\Log;
 use MStaack\LaravelPostgis\Geometries\Point;
 use Suilven\FlickrEditor\Events\FlickrPhotoImported;
 use Suilven\FlickrEditor\Events\FlickrSetImported;
+use Suilven\FlickrEditor\Jobs\ImportPageOfOrphanPhotosJob;
 use Suilven\FlickrEditor\Jobs\ImportPageOfPhotosFromSetJob;
 use Suilven\FlickrEditor\Jobs\UpdatePhotoFromExifJob;
 use Suilven\FlickrEditor\Models\FlickrPhoto;
 use Suilven\FlickrEditor\Models\FlickrSet;
 
-class FlickrSetHelper
+class FlickrPhotosHelper
 {
 
-    use PhotosetsAPITrait;
+    use PhotosAPITrait;
 
     public const EXTRAS = 'license, date_upload, date_taken, owner_name, icon_server, original_format, ' .
     ' last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_t, url_s,' .
@@ -37,72 +38,55 @@ class FlickrSetHelper
     /** @var \Suilven\FlickrEditor\Models\FlickrSet */
     private $flickrSet;
 
-    /**
-     * FlickrSetHelper constructor.
-     */
-    public function __construct(string $flickrSetID, bool $importFromQueue = false)
+
+    public function __construct( bool $importFromQueue = false)
     {
-        $this->queueImport = $importFromQueue;
-        $this->flickrSetID = $flickrSetID;
         $this->importFromQueue = $importFromQueue;
-
-        /**
-         * This will exist after importSet has been called once, so in the case of queued jobs, this is needed to
-         * populate the FlickrSet variable
-         *
-         * @var \Suilven\FlickrEditor\Models\FlickrSet
-         */
-        $this->flickrSet = FlickrSet::where('flickr_id', '=', $this->flickrSetID)->first();
     }
 
 
-    /**
-     * @param $title
-     * @param $description
-     * @return FlickrSet
-     */
-    public function findOrCreateFlickrSet($title, $description) {
-        $set = FlickrSet::where('flickr_id', '=', $this->flickrSetID)->first();
-        if (\is_null($set)) {
-            $set = FlickrSet::create(['title' => $title, 'flickr_id' => $this->flickrSetID, 'description' => $description]);
-        }
-
-        return $set;
-    }
 
 
-    public function importSet(): void
+    public function importOrphanPhotos(): void
     {
-        $photosetsApi = $this->getPhotosetsAPI();
+        $photosAPI = $this->getPhotosAPI();
 
         // initially only grab one image, the goal being to find the number of photos in a set
         // config('flickreditor.flickrsets.import_page_size');
         $pageSize = self::PAGE_SIZE;
 
-        $info = $photosetsApi->getInfo($this->flickrSetID, null);
-        print_r($info);
 
-        $photoset = $photosetsApi->getPhotos(
-            $this->flickrSetID,
+        $photos = $photosAPI->getNotInSet(null,
+            null,
+            null,
+            null,
+            null,
             null,
             self::EXTRAS,
-            $pageSize,
+            self::PAGE_SIZE,
             1
         );
 
-       // \print_r($photoset) && die;
 
-        $set = $this->findOrCreateFlickrSet($info['title'], $info['description']);
+        /*
+         *     [photos] => Array
+        (
+            [page] => 1
+            [pages] => 34
+            [perpage] => 500
+            [total] => 16505
+            [photo] => Array
+                (
 
-        $this->flickrSet = $set;
+         */
 
-        $this->nPhotos = $photoset['total'];
+        $this->nPhotos = $photos['photos']['total'];
         $nPages = \floor(1 + ($this->nPhotos) / self::PAGE_SIZE);
 
-        if ($this->queueImport) {
+        if ($this->importFromQueue) {
             \error_log('>>>> QUEUE <<<<');
             // this will trigger subsequent jobs
-            ImportPageOfPhotosFromSetJob::dispatch($this->flickrSetID, 1, $nPages);
+            ImportPageOfOrphanPhotosJob::dispatch( 1, $nPages);
         } else {
             \error_log('>>>> NOT QUEUE <<<<');
 
@@ -111,7 +95,6 @@ class FlickrSetHelper
                 $this->importPage($i);
             }
 
-            \event(new FlickrSetImported($set));
         }
     }
 
@@ -119,23 +102,25 @@ class FlickrSetHelper
     /** @param int $page The page number to import, starting at 1 */
     public function importPage(int $page): void
     {
-        Log::debug('>>>>> IMPORT PAGE ' . $page . ' for set ' . $this->flickrSetID . ' <<<<<');
-        $photosetsApi = $this->getPhotosetsAPI();
+        Log::debug('>>>>> IMPORT ORPHANED PHOTOS PAGE ' . $page . ' for set ' . $this->flickrSetID . ' <<<<<');
+        $photosAPI = $this->getPhotosAPI();
 
 
-        $photoset = $photosetsApi->getPhotos(
-            $this->flickrSetID,
+        $photosResponse = $photosAPI->getNotInSet(null,
+            null,
+            null,
+            null,
+            null,
             null,
             self::EXTRAS,
             self::PAGE_SIZE,
             $page
         );
 
-        $photos = $photoset['photo'];
+        $photos = $photosResponse['photos']['photo'];
 
         foreach ($photos as $photoArray) {
                 $flickrPhoto = $this->importPhotoFromArray($photoArray);
-                $flickrPhoto->flickrSets()->attach($this->flickrSet);
         }
     }
 
@@ -203,13 +188,14 @@ class FlickrSetHelper
         $flickrPhoto->medium_height = $photoArray['height_m'];
         $flickrPhoto->medium_width = $photoArray['width_m'];
 
-        $flickrPhoto->medium_url_800 = $photoArray['url_c'];
-        $flickrPhoto->medium_height_800 = $photoArray['height_c'];
-        $flickrPhoto->medium_width_800 = $photoArray['width_c'];
+        $flickrPhoto->medium_url_800 = isset( $photoArray['url_c']) ?  $photoArray['url_c'] : null;
+        $flickrPhoto->medium_height_800 = isset($photoArray['height_c']) ? $photoArray['height_c'] : null;
+        $flickrPhoto->medium_width_800 = isset($photoArray['width_c']) ? $photoArray['width_c'] : null;
 
-        $flickrPhoto->large_url = $photoArray['url_l'];
-        $flickrPhoto->large_height = $photoArray['height_l'];
-        $flickrPhoto->large_width = $photoArray['width_l'];
+
+        $flickrPhoto->large_url = isset( $photoArray['url_l']) ?  $photoArray['url_l'] : null;
+        $flickrPhoto->large_height = isset($photoArray['height_l']) ? $photoArray['height_l'] : null;
+        $flickrPhoto->large_width = isset($photoArray['width_l']) ? $photoArray['width_l'] : null;
 
         $flickrPhoto->large_url_1600 = isset( $photoArray['url_h']) ?  $photoArray['url_h'] : null;
         $flickrPhoto->large_height_1600 = isset($photoArray['height_h']) ? $photoArray['height_h'] : null;
@@ -222,19 +208,9 @@ class FlickrSetHelper
         Log::debug(print_r($photoArray, true));
 
         if (isset($photoArray['latitude']) && isset($photoArray['longitude'])) {
-            Log::debug('****** LOCATION ******');
             $location = new Point((float) $photoArray['latitude'], (float) $photoArray['longitude']);
 
             $flickrPhoto->location = $location;
-
-          //  Log::debug('Flickr photo location: ' . print_r($location, true));
-
-            // if geographic location is provided, set lock geo to true, so that the editor has to make a conscious
-            // decision to change photographic locations
-            if ($this->flickrSet->lock_geo == false) {
-                $this->flickrSet->lock_geo = true;
-                $this->flickrSet->save();
-            }
         }
 
 
@@ -253,21 +229,6 @@ class FlickrSetHelper
             $helper = new FlickrExifHelper();
             $helper->updateMetaDataFromExif($flickrPhoto);
         }
-
-
-/*
-@todo
-    [license] => 4
-    [ownername] => gordon.b.anderson
-    [pathalias] => gordonbanderson
-
-    [latitude] => 0
-    [longitude] => 0
-    [accuracy] => 0
-
-Check isprimary for the primary photo in a set
-
- */
 
         return $flickrPhoto;
     }

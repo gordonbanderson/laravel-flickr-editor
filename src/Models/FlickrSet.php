@@ -16,6 +16,7 @@ class FlickrSet extends Model
         'description',
         'is_dirty',
         'lock_geo',
+        'imported'
     ];
 
     public function flickrPhotos(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

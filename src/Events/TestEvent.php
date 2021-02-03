@@ -11,31 +11,31 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Suilven\FlickrEditor\Models\FlickrPhoto;
+use Suilven\FlickrEditor\Models\FlickrSet;
 
-class FlickrPhotoImported implements ShouldBroadcast, ShouldQueue
+class TestEvent implements ShouldBroadcast
 {
-
-    use Dispatchable;
-    use InteractsWithSockets;
     use SerializesModels;
 
-    /** @var \Suilven\FlickrEditor\Models\FlickrPhoto */
-    private $flickrPhoto;
+    public $text;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(FlickrPhoto $flickrPhoto)
+    public function __construct($text)
     {
-        $this->flickrPhoto = $flickrPhoto;
+        $this->text = $text;
     }
 
-
-    public function broadcastOn(): Channel
+    /**
+     * Get the channels the event should be broadcast on.
+     *
+     * @return array
+     */
+    public function broadcastOn()
     {
-        return new Channel('flickr.photo');
+        return new Channel('test.channel');
     }
 }

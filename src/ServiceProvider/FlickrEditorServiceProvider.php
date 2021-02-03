@@ -10,6 +10,7 @@ use Laravel\Passport\Passport;
 use Suilven\FlickrEditor\Console\Commands\ImportAllSets;
 use Suilven\FlickrEditor\Console\Commands\ImportFlickrSet;
 use Suilven\FlickrEditor\Console\Commands\ImportFlickrSetMeta;
+use Suilven\FlickrEditor\Console\Commands\ImportOrphanPhotos;
 use Suilven\FlickrEditor\View\Components\AppLayout;
 
 class FlickrEditorServiceProvider extends ServiceProvider
@@ -46,7 +47,8 @@ class FlickrEditorServiceProvider extends ServiceProvider
         $this->commands([
              ImportFlickrSet::class,
             ImportAllSets::class,
-            ImportFlickrSetMeta::class
+            ImportFlickrSetMeta::class,
+            ImportOrphanPhotos::class
         ]);
 
 

@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Suilven\FlickrEditor\Helper\FlickrExifHelper;
 use Suilven\FlickrEditor\Models\FlickrPhoto;
 
@@ -21,7 +22,7 @@ class UpdatePhotoFromExifJob implements ShouldQueue
     use SerializesModels;
 
     /** @var string */
-    private $flickrID;
+    private $flickrPhoto;
 
 
     /**
@@ -31,7 +32,7 @@ class UpdatePhotoFromExifJob implements ShouldQueue
      */
     public function __construct(FlickrPhoto $flickrPhoto)
     {
-        $this->flickrID= $flickrPhoto;
+        $this->flickrPhoto= $flickrPhoto;
     }
 
 
@@ -40,7 +41,8 @@ class UpdatePhotoFromExifJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Log::debug('Updating EXIF data for image '  . $this->flickrPhoto->flickr_id);
         $helper = new FlickrExifHelper();
-        $helper->updateMetaDataFromExif($this->flickrID);
+        $helper->updateMetaDataFromExif($this->flickrPhoto);
     }
 }

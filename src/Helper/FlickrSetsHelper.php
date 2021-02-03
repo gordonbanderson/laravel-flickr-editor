@@ -41,7 +41,6 @@ class FlickrSetsHelper
             $response = $photoSetsAPI->getList(null, $page);
             $pages = $response['pages'];
             $sets = $response['photoset'];
-            print_r($sets);
 
             foreach ($sets as $set) {
                 echo "=====\n";
