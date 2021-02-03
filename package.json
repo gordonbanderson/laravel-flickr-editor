@@ -40,6 +40,8 @@
     "tailwindcss": "^2.0.2"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.12.10"
+    "@babel/preset-react": "^7.12.10",
+    "laravel-echo": "^1.10.0",
+    "pusher-js": "^7.0.3"
   }
 }
