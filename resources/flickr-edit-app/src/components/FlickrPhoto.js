@@ -153,7 +153,13 @@ const getFlickrPhotoIDs = (set_id) => {
 }
 
 
+function handleKeyDown(event) {
+    if(event.keyCode === 13) {
+        console.log('Enter key pressed')
+    }
 
+    console.log('KEY DOWN', event);
+}
 
 function FlickrPhoto(props) {
     const {id,set_id} = useParams();
@@ -175,10 +181,10 @@ function FlickrPhoto(props) {
     console.log('FPHOTO - getScreen=', getScreen());
 
 
-    return <div className={'singlePhoto'}><Helmet><title>Photo: {photo.title}</title></Helmet>
+    return <div onKeyDown={handleKeyDown} className={'singlePhoto'}><Helmet><title>Photo: {photo.title}</title></Helmet>
         <PrevPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
         <NextPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
-        <img src={photo.large_url} title={photo.title}/>
+        <img src={photo.large_url} title={photo.title} />
         <FlickrPhotoForm photo={photo}/>
         <ToastContainer position={"bottom-center"}/>
     </div>;
