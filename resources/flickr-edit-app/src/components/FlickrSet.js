@@ -1,10 +1,9 @@
 import React from 'react';
 import {useQuery} from "@apollo/client";
-import gql from 'graphql-tag';
 import {Link} from "react-router-dom";
-import { Helmet } from 'react-helmet';
-import {FLICKR_PHOTO_SCREEN, FLICKR_SET_SCREEN, FLICKR_SETS_SCREEN, getScreen, setScreen} from "./Screen";
-import  { useParams } from "react-router";
+import {Helmet} from 'react-helmet';
+import {FLICKR_PHOTO_SCREEN, setScreen} from "./Screen";
+import {useParams} from "react-router";
 import {GET_FLICKR_SET_PHOTOS} from "../constants";
 
 function FlickrSet() {

@@ -2,8 +2,8 @@ import React from 'react';
 import {GET_FLICKR_SET_LIST} from "../constants";
 import {useQuery} from "@apollo/client";
 import {Link} from "react-router-dom";
-import { Helmet } from 'react-helmet';
-import {FLICKR_SET_SCREEN, FLICKR_SETS_SCREEN, getScreen, setScreen} from "./Screen";
+import {Helmet} from 'react-helmet';
+import {FLICKR_SET_SCREEN, getScreen, setScreen} from "./Screen";
 
 function FlickrSets(props)  {
     const { loading, error, data } = useQuery(GET_FLICKR_SET_LIST);

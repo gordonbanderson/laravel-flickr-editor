@@ -7,6 +7,9 @@ import FlickrSet from "./components/FlickrSet";
 import FlickrPhoto from "./components/FlickrPhoto";
 import {FLICKR_SETS_SCREEN, setScreen} from "./components/Screen";
 import HomePanel from "./components/HomePanel";
+import OrphanedPanel from "./components/orphaned/OrphanedPanel";
+import UnimportedPanel from "./components/unimported/UnimportedPanel";
+import StatusPanel from "./components/status/StatusPanel";
 
 //import FlickrSet from "./components/FlickrSet";
 
@@ -37,6 +40,18 @@ function App() {
 
                         <Route path="/edit/photo/:id/set/:set_id">
                             <FlickrPhoto />
+                        </Route>
+
+                        <Route path="/import/sets">
+                            <UnimportedPanel />
+                        </Route>
+
+                        <Route path="/orphan/photos">
+                            <OrphanedPanel />
+                        </Route>
+
+                        <Route path="/status">
+                            <StatusPanel />
                         </Route>
 
                     </main>
