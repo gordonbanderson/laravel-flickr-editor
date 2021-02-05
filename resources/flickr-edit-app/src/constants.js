@@ -61,3 +61,11 @@ export const GET_FLICKR_SET_PHOTO_IDS = gql`
         }
     }
 `;
+
+export const GET_AMOUNT_OF_ORPHAN_PHOTOS_BY_DAY = gql `
+    {
+        orphaned_photos_by_date {
+            amount_of_photos
+            date_of_photos
+        }
+    }`;
