@@ -1,7 +1,3 @@
-import {GRAPHQL_API} from "./constants";
-import * as Constants from './constants';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { ApolloProvider } from '@apollo/client';
 import App from "./App";
 
 const React = require('react')

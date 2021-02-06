@@ -1,8 +1,8 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {Fragment} from 'react';
 import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client';
 import {GRAPHQL_API} from "./constants";
 import FlickrSets from "./components/FlickrSets";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 import FlickrSet from "./components/FlickrSet";
 import FlickrPhoto from "./components/FlickrPhoto";
 import {FLICKR_SETS_SCREEN, setScreen} from "./components/Screen";
@@ -10,6 +10,8 @@ import HomePanel from "./components/HomePanel";
 import OrphanedPanel from "./components/orphaned/OrphanedPanel";
 import UnimportedPanel from "./components/unimported/UnimportedPanel";
 import StatusPanel from "./components/status/StatusPanel";
+import PhotosForDatePanel from "./components/orphaned/PhotosForDatePanel";
+
 
 //import FlickrSet from "./components/FlickrSet";
 
@@ -20,6 +22,7 @@ const client = new ApolloClient({
 
 
 function App() {
+
     setScreen(FLICKR_SETS_SCREEN);
         return (
             <ApolloProvider client={client}>
@@ -46,9 +49,15 @@ function App() {
                             <UnimportedPanel />
                         </Route>
 
-                        <Route path="/orphan/photos">
+
+                        <Route exact path="/orphan/photos">
                             <OrphanedPanel />
                         </Route>
+
+                        <Route path="/orphan/photos/:date">
+                            <PhotosForDatePanel />
+                        </Route>
+
 
                         <Route path="/status">
                             <StatusPanel />

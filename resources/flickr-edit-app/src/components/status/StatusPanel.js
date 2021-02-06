@@ -1,7 +1,5 @@
 import React from 'react';
 import {Helmet} from 'react-helmet';
-import { VictoryBar } from "victory";
-import { VictoryLabel } from "victory";
 
 function StatusPanel(props)  {
 

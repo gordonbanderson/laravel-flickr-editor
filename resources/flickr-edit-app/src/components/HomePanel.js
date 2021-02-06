@@ -16,7 +16,7 @@ function HomePanel(props)  {
                     <Link to={'/import/sets'} onClick={setScreen(FLICKR_UNIMPORTED_SETS_SCREEN)}>Import Unimported Sets</Link>
                 </button>
                 <button className="tab">
-                    <Link to={'/orphan/photos'} onClick={setScreen(FLICKR_ORPHANED_PHOTOS)}>Organise Orphan Photos</Link>
+                    <Link to={'/orphan/photos/2015-05-17'} onClick={setScreen(FLICKR_ORPHANED_PHOTOS)}>Organise Orphan Photos</Link>
                 </button>
                 <button className="tab">
                     <Link to={'/status'} onClick={setScreen(FLICKR_ORPHANED_PHOTOS)}>Status</Link>

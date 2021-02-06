@@ -40,12 +40,12 @@ export const GET_FLICKR_SET_PHOTOS = gql`
             title
             description
             flickrPhotos {
+                id
                 title
                 description
                 small_url
                 small_width
                 small_height
-                id
             }
         }
     }
@@ -64,8 +64,21 @@ export const GET_FLICKR_SET_PHOTO_IDS = gql`
 
 export const GET_AMOUNT_OF_ORPHAN_PHOTOS_BY_DAY = gql `
     {
-        orphaned_photos_by_date {
+        number_of_orphaned_photos_by_date {
             amount_of_photos
             date_of_photos
         }
     }`;
+
+export const GET_ORPHANED_PHOTOS_BY_DAY =gql`
+    query PhotosByDate($date: String!) {
+        photos_by_date(date:$date) {
+            id
+            title
+            description
+            small_url
+            small_width
+            small_height
+        }
+    }	
+`;
