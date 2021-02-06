@@ -46,8 +46,7 @@ function OrphanedPanel(props)  {
                         eventHandlers: {
                             onClick: (e, clickedProps) => {
                                 console.log('Clicked bar', clickedProps.datum.label);
-                               // history.push( "/orphan/photos/" + clickedProps.datum.label );
-                                history.push('/edit/set/1');
+                                history.push( "/orphan/photos/" + clickedProps.datum.label );
                                // <Redirect to={ '/wibble'} />
                             }
                         }
