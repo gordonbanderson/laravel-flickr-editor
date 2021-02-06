@@ -5,6 +5,7 @@ import {Helmet} from 'react-helmet';
 import {FLICKR_PHOTO_SCREEN, setScreen} from "./Screen";
 import {useParams} from "react-router";
 import {GET_FLICKR_SET_PHOTOS} from "../constants";
+import FlickrPhotoThumbnail from "./FlickrPhotoThumbnail";
 
 function FlickrSet() {
     const {id} = useParams();
@@ -46,9 +47,7 @@ function FlickrSet() {
         <Helmet><title>Set: {data.flickr_set.title}</title></Helmet>
         <div className = "grid grid-cols-1 md:grid-cols-6" >
         {photos.map(({ title, id, small_url, small_height }) => (
-            <div className={"setPhoto"} key={id.toString()}>
-                <Link to={'/edit/photo/'+id + `/set/`+data.flickr_set.id} onClick={setScreen(FLICKR_PHOTO_SCREEN)}><img src={small_url} title={title}/></Link>
-            </div>
+            <FlickrPhotoThumbnail id={id} setID={data.flickr_set.id} small_url={small_url} title={title} />
         ))}
     </div></div>)
 
