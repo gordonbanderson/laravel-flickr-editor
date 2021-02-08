@@ -16,7 +16,6 @@ class CreateFlickrPhotosTable extends Migration
         Schema::create('flickr_photos', function (Blueprint $table) {
             $table->id();
             $table->string('flickr_id', 255)->unique();
-            $table->index('flickr_id');
             $table->string('title');
             $table->text('description')->default('');
             $table->point('location')->nullable();

@@ -17,7 +17,7 @@ class CreateSetsTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->string('flickr_id', 255)->unique();
+            $table->string('flickr_id', 255)->nullable()->unique();
             $table->index('flickr_id');
             $table->string('title');
 
