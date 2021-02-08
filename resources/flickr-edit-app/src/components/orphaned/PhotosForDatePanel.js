@@ -4,6 +4,7 @@ import {GET_ORPHANED_PHOTOS_BY_DAY} from "../../constants";
 import {useQuery} from "@apollo/client";
 import {Helmet} from "react-helmet";
 import FlickrPhotoThumbnail from "../FlickrPhotoThumbnail";
+import NewFlickrSetForm from "./NewFlickrSetForm";
 
 function PhotosForDatePanel(props)  {
     const {date} = useParams();
@@ -30,11 +31,14 @@ function PhotosForDatePanel(props)  {
 
     return  (<div>
         <Helmet><title>Orphaned Photos for {date}</title></Helmet>
+        <h1>Orphaned Images for {date}</h1>
         <div className = "grid grid-cols-1 md:grid-cols-6" >
             {photos.map(({ title, id, small_url, small_height }) => (
                 <FlickrPhotoThumbnail id={id} setID={null} small_url={small_url} title={title} />
             ))}
-        </div></div>)
+        </div>
+        <NewFlickrSetForm title={date} />
+    </div>)
 
 }
 

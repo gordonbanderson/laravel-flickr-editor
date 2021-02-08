@@ -82,3 +82,24 @@ export const GET_ORPHANED_PHOTOS_BY_DAY =gql`
         }
     }	
 `;
+
+export const CREATE_FLICKR_SET = gql`
+    mutation CreateFlickrSet($title: String!, $description: String!) {
+        createFlickrSet(title: $title, description: $description) {
+            id
+            title
+            description
+        }
+    }`;
+
+/*
+gql`
+
+    mutation CreateFlickrSet($title: String!, $description: String!) {
+        createFlickrSet(title: title: $title, description: $description) {
+            id
+            title
+            description
+        }
+    }`;
+    */
