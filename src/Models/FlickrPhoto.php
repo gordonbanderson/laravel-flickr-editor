@@ -101,4 +101,16 @@ class FlickrPhoto extends Model
     {
         return $this->belongsToMany(FlickrSet::class);
     }
+
+    /**
+     * @todo Orphans, by checking flickr_photos_flickr_sets table with an outer join
+     *
+     * @param $query
+     * @param string $theDate a date, e.g. 2021-01-20
+     * @return mixed
+     */
+    public function scopeOrphanedOnDate($query, $theDate)
+    {
+        return $query->whereDate('taken_at', $theDate);
+    }
 }

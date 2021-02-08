@@ -207,9 +207,9 @@ class FlickrSetHelper
         $flickrPhoto->medium_height_800 = $photoArray['height_c'];
         $flickrPhoto->medium_width_800 = $photoArray['width_c'];
 
-        $flickrPhoto->large_url = $photoArray['url_l'];
-        $flickrPhoto->large_height = $photoArray['height_l'];
-        $flickrPhoto->large_width = $photoArray['width_l'];
+        $flickrPhoto->large_url = isset( $photoArray['url_l']) ?  $photoArray['url_l'] : null;
+        $flickrPhoto->large_height = isset($photoArray['height_l']) ? $photoArray['height_l'] : null;
+        $flickrPhoto->large_width= isset($photoArray['width_l']) ? $photoArray['width_l'] : null;
 
         $flickrPhoto->large_url_1600 = isset( $photoArray['url_h']) ?  $photoArray['url_h'] : null;
         $flickrPhoto->large_height_1600 = isset($photoArray['height_h']) ? $photoArray['height_h'] : null;
