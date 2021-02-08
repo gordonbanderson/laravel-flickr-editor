@@ -18,26 +18,17 @@ function PhotosForDatePanel(props)  {
 
     console.log(data);
 
-    /*
-
-    const { loading, error, data } = useQuery(GET_FLICKR_SET_PHOTOS, {
-        variables: { id: parseInt(id,10) },
-    });
-
-
-
-*/
     let photos=data.photos_by_date;
 
     return  (<div>
         <Helmet><title>Orphaned Photos for {date}</title></Helmet>
-        <h1>Orphaned Images for {date}</h1>
+        <h1 className="pt-4">Orphaned Images for {date}</h1>
         <div className = "grid grid-cols-1 md:grid-cols-6" >
             {photos.map(({ title, id, small_url, small_height }) => (
                 <FlickrPhotoThumbnail id={id} setID={null} small_url={small_url} title={title} />
             ))}
         </div>
-        <NewFlickrSetForm title={date} />
+        <NewFlickrSetForm title={date} photos={photos} />
     </div>)
 
 }

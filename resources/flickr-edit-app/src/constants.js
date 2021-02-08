@@ -92,6 +92,24 @@ export const CREATE_FLICKR_SET = gql`
         }
     }`;
 
+
+export const ADD_PHOTOS_TO_FLICKR_SET = gql`
+    mutation AddPhotosToFlickrSet($id: Int!, $photo_ids: [Int!]) {
+        addPhotosToFlickrSet(id: $id, photo_ids: $photo_ids) {
+            id
+            title
+            description
+            flickrPhotos {
+                id
+                title
+                description
+                small_url
+                small_width
+                small_height
+            }
+        }
+    }`;
+
 /*
 gql`
 
