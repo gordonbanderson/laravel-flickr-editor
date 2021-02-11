@@ -9,4 +9,8 @@ function FlickrPhotoThumbnail(props) {
     </div>
 }
 
+FlickrPhotoThumbnail.defaultProps = {
+    editable: false
+}
+
 export default FlickrPhotoThumbnail;
