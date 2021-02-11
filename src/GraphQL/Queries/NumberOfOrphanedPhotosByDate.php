@@ -15,6 +15,7 @@ class NumberOfOrphanedPhotosByDate
          select COUNT(*) as amount_of_photos,
          date(taken_at) as date_of_photos
          FROM flickr_photos
+         WHERE (flickr_photos.id NOT IN (SELECT flickr_photo_id FROM flickr_photo_flickr_set))
          GROUP BY date_of_photos
          ORDER BY date_of_photos DESC
         SQL;
