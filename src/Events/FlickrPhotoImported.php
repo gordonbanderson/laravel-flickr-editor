@@ -36,6 +36,6 @@ class FlickrPhotoImported implements ShouldBroadcast, ShouldQueue
 
     public function broadcastOn(): Channel
     {
-        return new Channel('flickr.photo');
+        return new Channel('flickr.photos');
     }
 }
