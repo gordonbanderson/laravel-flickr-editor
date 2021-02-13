@@ -5,14 +5,27 @@ export const GRAPHQL_API = 'http://localhost/graphql';
 
 export const TITLE = "Flickr Set List";
 
-export const GET_FLICKR_SET_LIST = gql`
+export const GET_IMPORTED_FLICKR_SET_LIST = gql`
  {
-  flickr_sets {
+  imported_flickr_sets {
     id
     title
     description
     created_at
-    updated_at
+    updated_at,
+    imported
+  }
+}`;
+
+export const GET_UNIMPORTED_FLICKR_SET_LIST = gql`
+ {
+  unimported_flickr_sets {
+    id
+    title
+    description
+    created_at
+    updated_at,
+    imported
   }
 }`;
 
