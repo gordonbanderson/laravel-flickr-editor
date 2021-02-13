@@ -94,6 +94,10 @@ class FlickrSetHelper
 
         $set = $this->findOrCreateFlickrSet($info['title'], $info['description']);
 
+        // reset the set images back to empty.  If not multiple imports of the same set will reference the same image
+        // multiple times, which breaks react key and the visual interface
+        $set->flickrPhotos()->sync([]);
+
         $this->flickrSet = $set;
 
         $this->nPhotos = $photoset['total'];
