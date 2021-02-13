@@ -19,14 +19,14 @@ function UnimportedPanel(props)  {
 
     return <div>
         <Helmet><title>Unimported Flickr Sets</title></Helmet>
-
+        <ul>
         {data.unimported_flickr_sets.map(({ title, id, imported }) => (
-            <ul>
-                <li key={id.toString()}>
-                    <Link to={`/edit/set/`+id} onClick={setScreen(FLICKR_SET_SCREEN)}>Set {title}</Link>
+                <li key={id}>
+                    <Link to={`/edit/set/`+id} onClick={setScreen(FLICKR_SET_SCREEN)}>{id} {title}</Link>
                 </li>
-            </ul>
-        ))}</div>
+        ))}
+        </ul>
+    </div>
         ;
 }
 
