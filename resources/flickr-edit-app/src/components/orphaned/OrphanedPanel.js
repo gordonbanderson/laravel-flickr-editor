@@ -27,7 +27,7 @@ function OrphanedPanel(props)  {
 
     return <div>
         <Helmet><title>Orphaned Images</title></Helmet>
-           <h1>Orphaned images</h1>
+           <h1 className={"pt-4 pb-2"}>Orphaned images</h1>
         <VictoryChart>
 
             <VictoryAxis
@@ -46,8 +46,7 @@ function OrphanedPanel(props)  {
                         eventHandlers: {
                             onClick: (e, clickedProps) => {
                                 console.log('Clicked bar', clickedProps.datum.label);
-                                history.push( "/orphan/photos/" + clickedProps.datum.label );
-                               // <Redirect to={ '/wibble'} />
+                                history.push( "/editor/orphan/photos/" + clickedProps.datum.label );
                             }
                         }
                     }

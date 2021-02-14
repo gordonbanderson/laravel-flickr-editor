@@ -1,5 +1,5 @@
 import React from 'react';
-import {GET_FLICKR_SET_LIST, GET_IMPORTED_FLICKR_SET_LIST} from "../constants";
+import {GET_IMPORTED_FLICKR_SET_LIST} from "../constants";
 import {useQuery} from "@apollo/client";
 import {Link} from "react-router-dom";
 import {Helmet} from 'react-helmet';
@@ -19,11 +19,12 @@ function FlickrSets(props)  {
 
     return <div>
         <Helmet><title>Flickr Sets</title></Helmet>
-        <ul>
+        <h1 className="pt-4 pb-2">Imported Sets</h1>
 
+        <ul>
         {data.imported_flickr_sets.map(({ title, id, imported }) => (
             <li key={id}>
-                <Link to={`/edit/set/`+id} onClick={setScreen(FLICKR_SET_SCREEN)}>Set {title}</Link>
+                <Link to={`/editor/edit/set/`+id} onClick={setScreen(FLICKR_SET_SCREEN)}>Set {title}</Link>
             </li>
         ))}
         </ul>

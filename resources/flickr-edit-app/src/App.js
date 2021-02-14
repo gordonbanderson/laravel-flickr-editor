@@ -33,33 +33,33 @@ function App() {
                             <HomePanel />
                         </Route>
 
-                        <Route path="/edit/sets">
+                        <Route path="/editor/edit/sets">
                             <FlickrSets />
                         </Route>
 
-                        <Route path="/edit/set/:id">
+                        <Route path="/editor/edit/set/:id">
                             <FlickrSet />
                         </Route>
 
-                        <Route path="/edit/photo/:id/set/:set_id">
+                        <Route path="/editor/edit/photo/:id/set/:set_id">
                             <FlickrPhoto />
                         </Route>
 
-                        <Route path="/import/sets">
+                        <Route path="/editor/import/sets">
                             <UnimportedPanel />
                         </Route>
 
 
-                        <Route exact path="/orphan/photos">
+                        <Route exact path="/editor/orphan/photos">
                             <OrphanedPanel />
                         </Route>
 
-                        <Route path="/orphan/photos/:date">
+                        <Route path="/editor/orphan/photos/:date">
                             <PhotosForDatePanel />
                         </Route>
 
 
-                        <Route path="/status">
+                        <Route path="/editor/status">
                             <StatusPanel />
                         </Route>
 

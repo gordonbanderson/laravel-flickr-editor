@@ -1,13 +1,8 @@
 import React, {useState} from 'react';
-import {useMutation, useQuery} from "@apollo/client";
-import gql from 'graphql-tag';
-import {Link} from "react-router-dom";
-import {Helmet} from "react-helmet";
-import {FLICKR_PHOTO_SCREEN, getScreen, setScreen} from "../Screen";
-import {useParams} from "react-router";
+import {useMutation} from "@apollo/client";
+import {useHistory} from "react-router-dom";
 import {toast, ToastContainer} from 'react-toastify';
 import {ADD_PHOTOS_TO_FLICKR_SET, CREATE_FLICKR_SET} from "../../constants";
-import {useHistory} from "react-router-dom";
 
 const NewFlickrSetForm = (props) => {
     // setScreen(FLICKR_PHOTO_SCREEN);
@@ -56,7 +51,7 @@ const NewFlickrSetForm = (props) => {
                         .then((response) => {
                             toast('Images added');
                             console.log('After updating set images', response);
-                            history.push('/edit/set/' + response.data.addPhotosToFlickrSet.id);
+                            history.push('/editor/edit/set/' + response.data.addPhotosToFlickrSet.id);
                         })
 
                 })

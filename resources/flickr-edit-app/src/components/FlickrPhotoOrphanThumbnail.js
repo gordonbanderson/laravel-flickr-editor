@@ -1,6 +1,4 @@
 import React from 'react';
-import {Link} from "react-router-dom";
-import {FLICKR_PHOTO_SCREEN, setScreen} from "./Screen";
 
 
 function FlickrPhotoOrphanThumbnail(props) {

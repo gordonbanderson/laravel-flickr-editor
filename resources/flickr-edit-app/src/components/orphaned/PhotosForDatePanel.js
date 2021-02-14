@@ -3,7 +3,6 @@ import {useParams} from "react-router";
 import {GET_ORPHANED_PHOTOS_BY_DAY} from "../../constants";
 import {useQuery} from "@apollo/client";
 import {Helmet} from "react-helmet";
-import FlickrPhotoThumbnail from "../FlickrPhotoThumbnail";
 import NewFlickrSetForm from "./NewFlickrSetForm";
 import FlickrPhotoOrphanThumbnail from "../FlickrPhotoOrphanThumbnail";
 

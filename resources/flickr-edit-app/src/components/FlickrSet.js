@@ -23,7 +23,7 @@ function FlickrSet() {
 
      return  (<div>
         <Helmet><title>Set: {data.flickr_set.title}</title></Helmet>
-         <h1 className="pt-4">{data.flickr_set.title}</h1>
+         <h1 className="pt-4 pb-4">{data.flickr_set.title}</h1>
         <ul className = "grid grid-cols-1 md:grid-cols-6" >
         {photos.map(({ title, id, small_url, small_height }) => (
             <li key={id} className={"setPhoto"}>
