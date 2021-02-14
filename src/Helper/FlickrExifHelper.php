@@ -76,7 +76,7 @@ class FlickrExifHelper
 
         $flickrPhoto->save();
 
-        \event(new FlickrPhotoExifProcessed($flickrPhoto));
+        FlickrPhotoExifProcessed::dispatch($flickrPhoto);
     }
 
 

@@ -2,6 +2,7 @@ import React from 'react';
 import {Helmet} from 'react-helmet';
 
 import Echo from "laravel-echo"
+import {useEffect} from "react";
 
 window.Pusher = require('pusher-js');
 
@@ -14,43 +15,38 @@ window.Echo = new Echo({
     disableStats: true,
 });
 
-const methods = {
-    componentDidMount(props) {
-        console.log('I mounted! Here are my props: ', props);
-    }
-};
+
 
 
 function StatusPanel(props)  {
+    useEffect(() => {
+        console.log('Status panel use effect');
 
-    function componentDidMount() {
-        //this.fetchInitialDataUsingHttp();
-        console.log('Status panel did mount')
-
-        //Set up listeners when the component is being mounted
-        window.Echo.channel('flickr.photos').listen('.FlickrPhotoExifProcessed', (e) =>{
+        window.Echo.channel('flickr.photos').listen('.exif.processed', (e) => {
             console.log('FlickrPhotoExifProcessed', e);
-        });
+        })
+            .listen('.test',(e) => {
+                console.log('test', e);
+            })
 
-        /*
-        .listen('OrderUpdated', (e) =>{
+            .listen('.photo.imported',(e) => {
+                console.log('Photo imported', e);
+            })
 
-            this.updateOrder(e.order);
-        }).listen('OrderDeleted', (e) =>{
-            this.removeOrder(e.order);
-        });
-        */
+            .listen('.orphan.imported',(e) => {
+                console.log('Orphan photo imported', e);
+            })
 
-    }
 
-    function componentWillUnmount() {
-        //@TODO: Disconnect echo
-    }
-
+        return function cleanup() {
+            console.log('Status panel clean up')
+            // Echo.leave('flickr.photos');
+        };
+    });
 
     return <div>
         <Helmet><title>Status Panel</title></Helmet>
-           <h1>Status Panel</h1>
+           <h1 className={"pt-4"}>Status Panel</h1>
 
         </div>
     ;

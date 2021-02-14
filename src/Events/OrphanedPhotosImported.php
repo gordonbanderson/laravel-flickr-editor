@@ -6,12 +6,10 @@ namespace Suilven\FlickrEditor\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Suilven\FlickrEditor\Models\FlickrSet;
 
 class OrphanedPhotosImported implements ShouldBroadcast, ShouldQueue
 {
@@ -25,5 +23,10 @@ class OrphanedPhotosImported implements ShouldBroadcast, ShouldQueue
     public function broadcastOn(): Channel
     {
         return new Channel('flickr.photos');
+    }
+
+    public function broadcastAs()
+    {
+        return 'orphan.imported';
     }
 }

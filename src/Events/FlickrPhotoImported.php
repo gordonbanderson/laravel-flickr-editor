@@ -6,7 +6,6 @@ namespace Suilven\FlickrEditor\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -21,7 +20,7 @@ class FlickrPhotoImported implements ShouldBroadcast, ShouldQueue
     use SerializesModels;
 
     /** @var \Suilven\FlickrEditor\Models\FlickrPhoto */
-    private $flickrPhoto;
+    public $flickrPhoto;
 
     /**
      * Create a new event instance.
@@ -37,5 +36,10 @@ class FlickrPhotoImported implements ShouldBroadcast, ShouldQueue
     public function broadcastOn(): Channel
     {
         return new Channel('flickr.photos');
+    }
+
+    public function broadcastAs()
+    {
+        return 'photo.imported';
     }
 }

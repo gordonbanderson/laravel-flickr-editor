@@ -5,8 +5,11 @@ declare(strict_types = 1);
 namespace Suilven\FlickrEditor\Console\Commands;
 
 use Illuminate\Console\Command;
+use Suilven\FlickrEditor\Events\FlickrPhotoExifProcessed;
+use Suilven\FlickrEditor\Events\TestEvent;
 use Suilven\FlickrEditor\Helper\FlickrPhotosHelper;
 use Suilven\FlickrEditor\Helper\FlickrSetHelper;
+use Suilven\FlickrEditor\Models\FlickrPhoto;
 
 class ImportOrphanPhotos extends Command
 {
@@ -43,6 +46,17 @@ class ImportOrphanPhotos extends Command
     public function handle(): int
     {
         $queue = $this->option('queue');
+
+        $fp = FlickrPhoto::find(100);
+        $event = new FlickrPhotoExifProcessed($fp);
+        $this->info('Sending event');
+        FlickrPhotoExifProcessed::dispatch($fp);
+
+        for ($i=1; $i<=4;$i++) {
+            TestEvent::dispatch('This is test event ' . $i , $fp);
+        }
+
+        die;
 
         $this->info('Importing orphan Flickr photos');
         $helper = new FlickrPhotosHelper($queue);

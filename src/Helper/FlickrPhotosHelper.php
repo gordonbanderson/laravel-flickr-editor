@@ -220,8 +220,7 @@ class FlickrPhotosHelper
 
         $flickrPhoto->save();
 
-        \event(new FlickrPhotoImported($flickrPhoto));
-
+        FlickrPhotoImported::dispatch($flickrPhoto);
 
         if ($this->importFromQueue) {
             UpdatePhotoFromExifJob::dispatch($flickrPhoto);
