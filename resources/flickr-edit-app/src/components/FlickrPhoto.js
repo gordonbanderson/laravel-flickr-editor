@@ -56,6 +56,7 @@ const useKeyPress = function(targetKey) {
 
 const FlickrPhotoForm = (props) => {
     console.log('++++ Flickr photo form', props);
+    const [keyPressCount, setKeyPressCount] = useState(0);
 
     let history = useHistory();
     let photo = props.photo;
@@ -69,18 +70,27 @@ const FlickrPhotoForm = (props) => {
 
 
     useEffect(() => {
-        console.log('Use effect of left press', props);
+        console.log('+++++ Use effect of left press', props);
     }, [leftPress]);
 
     useEffect(() => {
-        console.log('Use effect of right press', props.photoIDS);
+        console.log('>>>>> Use effect of right press', props.photoIDS);
+
         let ids = props.photoIDS;
         let index= ids.indexOf(photo.id);
         console.log('INDEX', index);
         let nextID = index < ids.length-1 ? ids[index+2] : null;
         console.log('NEXT', nextID);
-       let url='/editor/edit/photo/' + nextID + '/set/'  + props.setID;
-       console.log('NEXT', url);
+
+        if (keyPressCount == 1 && nextID !== null && nextID !== undefined) {
+            let url='/editor/edit/photo/' + nextID + '/set/'  + props.setID;
+            console.log('NEXT', url);
+            history.push(url);
+        }
+
+
+       console.log('COUNT', keyPressCount);
+       setKeyPressCount(keyPressCount+1);
        //history.push(url);
        // let theNextID = nextID(props.ids, props.id);
         //console.log('NEXT ID=', nextID)
