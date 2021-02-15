@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Suilven\FlickrEditor\Events\FlickrSetImported;
+use Suilven\FlickrEditor\Events\FlickrSetImportStatus;
 use Suilven\FlickrEditor\Helper\FlickrSetHelper;
 use Suilven\FlickrEditor\Models\FlickrSet;
 
@@ -51,12 +52,15 @@ class ImportPageOfPhotosFromSetJob implements ShouldQueue
         Log::debug('**** ImportPageOfPhotosFromSetJob page = ' . $this->page . ' **** set id=' . $this->flickrID);
         $helper = new FlickrSetHelper($this->flickrID, true);
         $helper->importPage($this->page);
+        $set = FlickrSet::where('flickr_id', $this->flickrID)->first();
+
+
 
         if ($this->page < $this->numberOfPages) {
+            FlickrSetImportStatus::dispatch("Importing page " . $this->page . " of " . $this->numberOfPages, $set);
             ImportPageOfPhotosFromSetJob::dispatch($this->flickrID, $this->page+1, $this->numberOfPages);
         } else {
-            $set = FlickrSet::where('flickr_id', $this->flickrID)->first();
-            \event(new FlickrSetImported($set));
+            FlickrSetImportStatus::dispatch("Completed import of photographs, now updating EXIF data", $set);
         }
     }
 }
