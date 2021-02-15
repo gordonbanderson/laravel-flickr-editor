@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useMutation, useQuery} from "@apollo/client";
 import gql from 'graphql-tag';
 import {Link} from "react-router-dom";
@@ -7,7 +7,7 @@ import {FLICKR_PHOTO_SCREEN, getScreen, setScreen} from "./Screen";
 import {useParams} from "react-router";
 import {GET_FLICKR_PHOTO, GET_FLICKR_SET_PHOTO_IDS} from "../constants";
 import {toast, ToastContainer} from 'react-toastify';
-
+import {useHistory} from "react-router-dom";
 //const [todoInput, setTodoInput] = useState('');
 
 const UPDATE_PHOTO = gql`
@@ -21,12 +21,71 @@ const UPDATE_PHOTO = gql`
 `;
 
 
+// see https://stackoverflow.com/questions/42036865/react-how-to-navigate-through-list-by-arrow-keys
+// @todo Separate this for other components to use
+const useKeyPress = function(targetKey) {
+    const [keyPressed, setKeyPressed] = useState(false);
+
+    function downHandler({ key }) {
+        console.log('DOWN' ,key);
+        if (key === targetKey) {
+            setKeyPressed(true);
+        }
+    }
+
+    const upHandler = ({ key }) => {
+        console.log('UP' ,key);
+
+        if (key === targetKey) {
+            setKeyPressed(false);
+        }
+    };
+
+    React.useEffect(() => {
+        window.addEventListener("keydown", downHandler);
+        window.addEventListener("keyup", upHandler);
+
+        return () => {
+            window.removeEventListener("keydown", downHandler);
+            window.removeEventListener("keyup", upHandler);
+        };
+    });
+
+    return keyPressed;
+};
+
 const FlickrPhotoForm = (props) => {
+    console.log('++++ Flickr photo form', props);
+
+    let history = useHistory();
     let photo = props.photo;
+
     setScreen(FLICKR_PHOTO_SCREEN);
 
     const [titleInput, setTitleInput] = useState(photo.title);
     const [descriptionInput, setDescriptionInput] = useState(photo.description);
+    const leftPress = useKeyPress("ArrowLeft");
+    const rightPress = useKeyPress("ArrowRight");
+
+
+    useEffect(() => {
+        console.log('Use effect of left press', props);
+    }, [leftPress]);
+
+    useEffect(() => {
+        console.log('Use effect of right press', props.photoIDS);
+        let ids = props.photoIDS;
+        let index= ids.indexOf(photo.id);
+        console.log('INDEX', index);
+        let nextID = index < ids.length-1 ? ids[index+2] : null;
+        console.log('NEXT', nextID);
+       let url='/editor/edit/photo/' + nextID + '/set/'  + props.setID;
+       console.log('NEXT', url);
+       //history.push(url);
+       // let theNextID = nextID(props.ids, props.id);
+        //console.log('NEXT ID=', nextID)
+    }, [rightPress]);
+
 
     // @TODO
     const updateCache = (cache, {data}) => {
@@ -113,7 +172,7 @@ const PrevPhotoLink = (props) => {
     if (previousID === null) {
         return null;
     } else {
-        return <Link to={'/edit/photo/' + previousID + '/set/' + props.set_id} >Previous</Link>
+        return <Link to={'/editor/edit/photo/' + previousID + '/set/' + props.set_id} >Previous</Link>
     }
 }
 
@@ -123,7 +182,7 @@ const NextPhotoLink = (props) => {
     if (theNextID === null) {
         return null;
     } else {
-        return <Link to={'/edit/photo/' + theNextID + '/set/' + props.set_id} >Next</Link>
+        return <Link to={'/editor/edit/photo/' + theNextID + '/set/' + props.set_id} >Next</Link>
     }
 }
 
@@ -153,16 +212,15 @@ const getFlickrPhotoIDs = (set_id) => {
 }
 
 
-function handleKeyDown(event) {
-    if(event.keyCode === 13) {
-        console.log('Enter key pressed')
-    }
-
-    console.log('KEY DOWN', event);
+function handleKeyDown(e) {
+    console.log('KEY:', e.key)
 }
 
 function FlickrPhoto(props) {
-    const {id,set_id} = useParams();
+    const {id,set_id, prev_id, next_id} = useParams();
+
+    console.log('**** PREV ****', prev_id)
+    console.log('**** NEXT ****', next_id)
 
     let setPhotoIDS = getFlickrPhotoIDs(set_id);
 
@@ -185,7 +243,7 @@ function FlickrPhoto(props) {
         <PrevPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
         <NextPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
         <img src={photo.large_url} title={photo.title} />
-        <FlickrPhotoForm photo={photo}/>
+        <FlickrPhotoForm photo={photo} photoIDS={setPhotoIDS} setID={set_id}/>
         <ToastContainer position={"bottom-center"}/>
     </div>;
 }
