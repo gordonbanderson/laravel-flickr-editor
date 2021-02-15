@@ -46,7 +46,7 @@ class ImportOrphanPhotos extends Command
     public function handle(): int
     {
         $queue = $this->option('queue');
-
+/*
         $fp = FlickrPhoto::find(100);
         $event = new FlickrPhotoExifProcessed($fp);
         $this->info('Sending event');
@@ -57,6 +57,7 @@ class ImportOrphanPhotos extends Command
         }
 
         die;
+*/
 
         $this->info('Importing orphan Flickr photos');
         $helper = new FlickrPhotosHelper($queue);
