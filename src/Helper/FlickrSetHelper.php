@@ -226,7 +226,6 @@ class FlickrSetHelper
         Log::debug(print_r($photoArray, true));
 
         if (isset($photoArray['latitude']) && isset($photoArray['longitude'])) {
-            Log::debug('****** LOCATION ******');
             $location = new Point((float) $photoArray['latitude'], (float) $photoArray['longitude']);
 
             $flickrPhoto->location = $location;
