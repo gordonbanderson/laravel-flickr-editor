@@ -1,0 +1,84 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+type Query {
+    users: [User!]! @paginate(defaultCount: 10)
+    user(id: ID @eq): User @find
+
+    flickr_sets: [FlickrSet!]! @all
+    flickr_set(id: Int! @eq): FlickrSet @find
+
+    flickr_photo(id: Int! @eq): FlickrPhoto @find
+
+    number_of_orphaned_photos_by_date: [DailyPhotoCount!]!  @field(resolver: "NumberOfOrphanedPhotosByDate")
+
+    photos_by_date(date: String! @eq): [FlickrPhoto!]! @field(resolver: "PhotosByDate")
+    #hello: String! @field(resolver: "Hello")
+
+    imported_flickr_sets: [FlickrSet!]!  @field(resolver: "ImportedFlickrSets")
+    unimported_flickr_sets: [FlickrSet!]!  @field(resolver: "UnimportedFlickrSets")
+
+}
+
+# See https://stackoverflow.com/questions/61608236/laravel-lighthouse-how-to-update-multiple-models for multiple models update
+type Mutation {
+  update_photo(
+    id: Int! @eq
+    title: String @rules(apply: ["required", "min:2"])
+    description: String @rules(apply: ["required", "min:12"])
+  ): FlickrPhoto @update
+
+    createFlickrSet(title: String!, description: String): FlickrSet! @create
+
+    addPhotosToFlickrSet(
+        id: Int!,
+        photo_ids: [Int!]
+    ): FlickrSet!
+    @field(resolver: "AddPhotosToFlickrSet")
+}
+
+type DailyPhotoCount {
+    amount_of_photos: Int!
+    date_of_photos: Date!
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+
+type FlickrSet {
+    id: ID!
+    title: String!
+    flickr_id: String!
+    description: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    flickrPhotos: [FlickrPhoto!]! @hasMany
+    imported: Boolean
+}
+
+
+type FlickrPhoto {
+    id: ID!
+    title: String!
+    flickr_id: String!
+    description: String!
+    taken_at: DateTime!
+    created_at: DateTime!
+    updated_at: DateTime!
+    small_url: String
+    small_height: Int
+    small_width: Int
+    large_url: String
+    large_height: Int
+    large_width: Int
+
+}
