@@ -56,7 +56,8 @@ const useKeyPress = function(targetKey) {
 
 const FlickrPhotoForm = (props) => {
     console.log('++++ Flickr photo form', props);
-    const [keyPressCount, setKeyPressCount] = useState(0);
+    const [leftKeyPressCount, setLeftKeyPressCount] = useState(0);
+    const [rightKeyPressCount, setRightKeyPressCount] = useState(0);
 
     let history = useHistory();
     let photo = props.photo;
@@ -71,29 +72,45 @@ const FlickrPhotoForm = (props) => {
 
     useEffect(() => {
         console.log('+++++ Use effect of left press', props);
-    }, [leftPress]);
-
-    useEffect(() => {
-        console.log('>>>>> Use effect of right press', props.photoIDS);
-
         let ids = props.photoIDS;
         let index= ids.indexOf(photo.id);
-        console.log('INDEX', index);
-        let nextID = index < ids.length-1 ? ids[index+2] : null;
-        console.log('NEXT', nextID);
+        let prevID = index > 0 ? ids[index-1] : null;
 
-        if (keyPressCount == 1 && nextID !== null && nextID !== undefined) {
-            let url='/editor/edit/photo/' + nextID + '/set/'  + props.setID;
-            console.log('NEXT', url);
+        console.log('PREV ID', prevID);
+        console.log('COUNT (left, right)', leftKeyPressCount, rightKeyPressCount);
+
+        // 1) Ignore key presses other than the first one.   Note that this function is called prior to key being
+        // pressed, as such need to check the keyPressCount state
+        // 2) If nextID is not defined we are at the last image
+        if (leftKeyPressCount == 1 && prevID !== null && prevID !== undefined) {
+            let url='/editor/edit/photo/' + prevID + '/set/'  + props.setID;
+            console.log('PREV URL', url);
             history.push(url);
         }
 
+        setLeftKeyPressCount(leftKeyPressCount+1);
 
-       console.log('COUNT', keyPressCount);
-       setKeyPressCount(keyPressCount+1);
-       //history.push(url);
-       // let theNextID = nextID(props.ids, props.id);
-        //console.log('NEXT ID=', nextID)
+
+    }, [leftPress]);
+
+    useEffect(() => {
+        let ids = props.photoIDS;
+        let index= ids.indexOf(photo.id);
+        let nextID = index < ids.length-1 ? ids[index+1] : null;
+        console.log('COUNT (left, right)', leftKeyPressCount, rightKeyPressCount);
+
+        // 1) Ignore key presses other than the first one.   Note that this function is called prior to key being
+        // pressed, as such need to check the keyPressCount state
+        // 2) If nextID is not defined we are at the last image
+        if (rightKeyPressCount == 1 && nextID !== null && nextID !== undefined) {
+            let url='/editor/edit/photo/' + nextID + '/set/'  + props.setID;
+            console.log('NEXT URL', url);
+            history.push(url);
+        }
+
+        setRightKeyPressCount(rightKeyPressCount+1);
+
+
     }, [rightPress]);
 
 
@@ -188,7 +205,7 @@ const PrevPhotoLink = (props) => {
 
 const NextPhotoLink = (props) => {
     let theNextID = nextID(props.ids, props.id);
-    console.log('NEXT ID=', nextID)
+    console.log('NEXT ID=', theNextID)
     if (theNextID === null) {
         return null;
     } else {
