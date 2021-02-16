@@ -19,6 +19,15 @@ function FlickrSet() {
 
     let photos=data.flickr_set.flickrPhotos;
 
+        //preloading image
+        photos.forEach((photo) => {
+            const img = new Image();
+            img.src = photo.large_url;
+            console.log('Single photo', photo.large_url)
+        });
+
+
+
     console.log('FS PHOTOS', photos);
 
      return  (<div>
