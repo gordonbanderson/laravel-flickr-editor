@@ -32,7 +32,6 @@ function App() {
                         <Route path="/">
                             <HomePanel />
                         </Route>
-
                         <Route path="/editor/edit/sets">
                             <FlickrSets />
                         </Route>

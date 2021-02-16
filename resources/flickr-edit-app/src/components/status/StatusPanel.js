@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Helmet} from 'react-helmet';
 
 import Echo from "laravel-echo"
-import {useEffect} from "react";
 
 window.Pusher = require('pusher-js');
 
