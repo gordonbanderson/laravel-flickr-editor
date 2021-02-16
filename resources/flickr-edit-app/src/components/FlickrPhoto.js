@@ -49,12 +49,13 @@ const useKeyPress = function(targetKey) {
             window.removeEventListener("keydown", downHandler);
             window.removeEventListener("keyup", upHandler);
         };
-    });
+    }, []); // see https://stackoverflow.com/questions/59546928/keydown-up-events-with-react-hooks-not-working-properly
 
     return keyPressed;
 };
 
 const FlickrPhotoForm = (props) => {
+    console.log('------------------------------- new form ------------------------------');
     console.log('++++ Flickr photo form', props);
     const [leftKeyPressCount, setLeftKeyPressCount] = useState(0);
     const [rightKeyPressCount, setRightKeyPressCount] = useState(0);
@@ -82,10 +83,12 @@ const FlickrPhotoForm = (props) => {
         // 1) Ignore key presses other than the first one.   Note that this function is called prior to key being
         // pressed, as such need to check the keyPressCount state
         // 2) If nextID is not defined we are at the last image
-        if (leftKeyPressCount == 1 && prevID !== null && prevID !== undefined) {
+        if (leftKeyPressCount >= 1 && prevID !== null && prevID !== undefined) {
             let url='/editor/edit/photo/' + prevID + '/set/'  + props.setID;
             console.log('PREV URL', url);
             history.push(url);
+        } else {
+            setRightKeyPressCount(0);
         }
 
         setLeftKeyPressCount(leftKeyPressCount+1);
@@ -102,10 +105,12 @@ const FlickrPhotoForm = (props) => {
         // 1) Ignore key presses other than the first one.   Note that this function is called prior to key being
         // pressed, as such need to check the keyPressCount state
         // 2) If nextID is not defined we are at the last image
-        if (rightKeyPressCount == 1 && nextID !== null && nextID !== undefined) {
+        if (rightKeyPressCount >= 1 && nextID !== null && nextID !== undefined) {
             let url='/editor/edit/photo/' + nextID + '/set/'  + props.setID;
             console.log('NEXT URL', url);
             history.push(url);
+        } else {
+            setLeftKeyPressCount(0);
         }
 
         setRightKeyPressCount(rightKeyPressCount+1);
@@ -244,10 +249,7 @@ function handleKeyDown(e) {
 }
 
 function FlickrPhoto(props) {
-    const {id,set_id, prev_id, next_id} = useParams();
-
-    console.log('**** PREV ****', prev_id)
-    console.log('**** NEXT ****', next_id)
+    const {id,set_id} = useParams();
 
     let setPhotoIDS = getFlickrPhotoIDs(set_id);
 
