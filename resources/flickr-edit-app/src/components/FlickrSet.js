@@ -36,7 +36,7 @@ function FlickrSet() {
         <ul className = "grid grid-cols-1 md:grid-cols-6" >
         {photos.map(({ title, id, small_url, small_height }, index) => (
             <li key={id} className={"setPhoto"}>
-                {console.log(index)}<FlickrPhotoThumbnail id={id} prevID={index>0 ? photos[index-1].id : null} setID={data.flickr_set.id} small_url={small_url} title={title} editable={true}/>
+                <FlickrPhotoThumbnail id={id}  setID={data.flickr_set.id} small_url={small_url} title={title} editable={true}/>
             </li>
         ))}
     </ul></div>)
