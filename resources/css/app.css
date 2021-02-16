@@ -59,6 +59,10 @@ li > .setPhoto {
 }
 
 
+.singlePhoto.inner {
+    position: relative;
+}
+
 .singlePhoto img {
     margin-left: auto;
     margin-right: auto;
@@ -81,4 +85,28 @@ li > .setPhoto {
         @apply w-full;
     }
 
+}
+
+.previousLink {
+     position: absolute;
+    left: 0px;
+    top: 50%;
+}
+
+.nextLink {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+}
+
+
+div.previousLink a, div.nextLink a {
+    background: black;
+    color: white;
+    opacity: 0.5;
+    font-size: 24pt;
+    margin:0px;
+    padding: 25px 40px;
+    font-size: 24pt;
+    @apply rounded-2xl;
 }

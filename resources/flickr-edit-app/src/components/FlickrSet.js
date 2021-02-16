@@ -23,12 +23,8 @@ function FlickrSet() {
         photos.forEach((photo) => {
             const img = new Image();
             img.src = photo.large_url;
-            console.log('Single photo', photo.large_url)
         });
 
-
-
-    console.log('FS PHOTOS', photos);
 
      return  (<div>
         <Helmet><title>Set: {data.flickr_set.title}</title></Helmet>

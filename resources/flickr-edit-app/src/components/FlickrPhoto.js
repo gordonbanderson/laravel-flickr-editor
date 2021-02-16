@@ -168,16 +168,16 @@ const nextID = (ids, id) =>
 
 const PrevPhotoLink = (props) => {
     let previousID = prevID(props.ids, props.id);
-    return previousID === null ? null : <Link to={'/editor/edit/photo/' + previousID + '/set/' + props.set_id} >Previous</Link>;
+    return previousID === null ? null : <div className={"previousLink"}><Link to={'/editor/edit/photo/' + previousID + '/set/' + props.set_id} >❮</Link></div>;
 }
 
 const NextPhotoLink = (props) => {
     let theNextID = nextID(props.ids, props.id);
-    return theNextID === null? null : <Link to={'/editor/edit/photo/' + theNextID + '/set/' + props.set_id} >Next</Link>;
+    return theNextID === null? null : <div className={"nextLink"}> <Link to={'/editor/edit/photo/' + theNextID + '/set/' + props.set_id} >❯</Link></div>;
 }
 
 
-const getFlickrPhotoIDs = (set_id) => {
+const getFlickrPhotoIDsAndTitle = (set_id) => {
     const { loading, error, data } = useQuery(GET_FLICKR_SET_PHOTO_IDS, {
         variables: { id: parseInt(set_id,10) },
     });
@@ -188,14 +188,19 @@ const getFlickrPhotoIDs = (set_id) => {
     var flickrPHotoObjs = data.flickr_set.flickrPhotos;
     const ids = flickrPHotoObjs.map(photo => Number(photo.id));
 
-    return ids;
+    let result = [];
+    result['ids'] = ids;
+    result['title'] = data.flickr_set.title;
+    return result;
 }
 
 
 function FlickrPhoto(props) {
     const {id,set_id} = useParams();
 
-    let setPhotoIDS = getFlickrPhotoIDs(set_id);
+
+    let setInfo = getFlickrPhotoIDsAndTitle(set_id);
+    let setPhotoIDS = setInfo['ids'];
 
     const { loading, error, data } = useQuery(GET_FLICKR_PHOTO, {
         variables: { id: parseInt(id,10) },
@@ -208,9 +213,13 @@ function FlickrPhoto(props) {
     let photo = data.flickr_photo;
 
     return <div className={'singlePhoto'}><Helmet><title>Photo: {photo.title}</title></Helmet>
+        <h1 className={"pt-4 pb-4"}><a href={"/editor/edit/set/" + set_id}>{setInfo.title}</a></h1>
+            <h4 className={"pb-4"}>&nbsp;&nbsp;{photo.title}</h4>
+        <div className={"inner"}>
+        <img src={photo.large_url} title={photo.title} />
         <PrevPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
         <NextPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
-        <img src={photo.large_url} title={photo.title} />
+        </div>
         <FlickrPhotoForm photo={photo} photoIDS={setPhotoIDS} setID={set_id}/>
         <ToastContainer position={"bottom-center"}/>
     </div>;
