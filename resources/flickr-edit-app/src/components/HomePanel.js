@@ -1,32 +1,33 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import {Helmet} from 'react-helmet';
-import {FLICKR_ORPHANED_PHOTOS, FLICKR_SETS_SCREEN, FLICKR_UNIMPORTED_SETS_SCREEN, setScreen} from "./Screen";
+const HOME_TAB='Home';
+const EDIT_IMPORTED_TAB='Edit Imported Sets';
+const IMPORT_UNIMPORTED_TAB='Import Unimported Sets';
+const ORPHAN_TAB='Organise Orphan Photos';
+const STATUS_TAB='Status';
+
+const Tab = props => {
+    const {selectedTab, setSelectedTab, children} = props;
+    console.log('Tab props', props);
+    return <button className={"tab" + (props.name === selectedTab ? ' active' : '')} onClick={() => {setSelectedTab(props.name);}}>
+        <Link to={props.link}>{props.name}</Link>
+    </button>;
+}
 
 function HomePanel(props)  {
-    const [selectedTab, setSelectedTab] = useState(1);
+    // @todo get the relevant tab from the route
+    const [selectedTab, setSelectedTab] = useState(HOME_TAB);
 
     return <div>
         <Helmet><title>Flickr Editor</title></Helmet>
-        <nav className={'flex flex-row sm:flex-row'}>
-            <button className="tab active">
-                <Link to={'/'} onClick={setScreen(FLICKR_SETS_SCREEN)}>Intro</Link>
-            </button>
-            <button className="tab">
-                <Link to={'/editor/edit/sets'} onClick={setScreen(FLICKR_SETS_SCREEN)}>Edit Imported Sets</Link>
-            </button>
-                <button className="tab">
-                    <Link to={'/editor/import/sets'} onClick={setScreen(FLICKR_UNIMPORTED_SETS_SCREEN)}>Import Unimported Sets</Link>
-                </button>
-                <button className="tab">
-                    <Link to={'/editor/orphan/photos'} onClick={setScreen(FLICKR_ORPHANED_PHOTOS)}>Organise Orphan Photos</Link>
-                </button>
-                <button className="tab">
-                    <Link to={'/editor/status'} onClick={setScreen(FLICKR_ORPHANED_PHOTOS)}>Status</Link>
-                </button>
+            <nav className={'flex flex-row sm:flex-row'}>
+                <Tab name={HOME_TAB} link={"/editor"} setSelectedTab={setSelectedTab} selectedTab={selectedTab} />
+                <Tab name={EDIT_IMPORTED_TAB} link={"/editor/edit/sets"} setSelectedTab={setSelectedTab}  selectedTab={selectedTab}/>
+                <Tab name={IMPORT_UNIMPORTED_TAB} link={"/editor/import/sets"} setSelectedTab={setSelectedTab}  selectedTab={selectedTab}/>
+                <Tab name={ORPHAN_TAB} link={"/editor/orphan/photos"} setSelectedTab={setSelectedTab}  selectedTab={selectedTab}/>
+                <Tab name={STATUS_TAB} link={"/editor/status"} setSelectedTab={setSelectedTab}  selectedTab={selectedTab}/>
             </nav>
-
-        <h1 className={"pt-4"}>Intro Screen</h1>
         </div>
     ;
 }
