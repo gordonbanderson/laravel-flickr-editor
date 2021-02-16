@@ -74,7 +74,7 @@ const FlickrPhotoForm = (props) => {
     useEffect(() => {
         console.log('+++++ Use effect of left press', props);
         let ids = props.photoIDS;
-        let index= ids.indexOf(photo.id);
+        let index= ids.indexOf(Number(photo.id));
         let prevID = index > 0 ? ids[index-1] : null;
 
         console.log('PREV ID', prevID);
@@ -98,7 +98,12 @@ const FlickrPhotoForm = (props) => {
 
     useEffect(() => {
         let ids = props.photoIDS;
-        let index= ids.indexOf(photo.id);
+        console.log('RIGHT KEY, IDS=', ids);
+
+        let index= ids.indexOf(Number(photo.id));
+        console.log('RIGHT KEY, INDEX OF '+ photo.id , index);
+        console.log('TYPE OF photo.id', typeof photo.id);
+        console.log('TYPE OF id in array', typeof ids[2]);
         let nextID = index < ids.length-1 ? ids[index+1] : null;
         console.log('COUNT (left, right)', leftKeyPressCount, rightKeyPressCount);
 
