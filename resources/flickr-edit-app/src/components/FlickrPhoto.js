@@ -220,25 +220,15 @@ const NextPhotoLink = (props) => {
 
 
 const getFlickrPhotoIDs = (set_id) => {
-    console.log('Getting photo ids......')
     const { loading, error, data } = useQuery(GET_FLICKR_SET_PHOTO_IDS, {
         variables: { id: parseInt(set_id,10) },
     });
 
-
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
 
-
-    // @todo map instead of noddy code
-
-    var ids=[];
     var flickrPHotoObjs = data.flickr_set.flickrPhotos;
-    for(let i=0; i< flickrPHotoObjs.length; i++) {
-        ids.push(flickrPHotoObjs[i].id);
-    }
-
-    console.log('IDS', ids);
+    const ids = flickrPHotoObjs.map(photo => Number(photo.id));
 
     return ids;
 }
