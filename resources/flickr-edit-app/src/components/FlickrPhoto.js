@@ -27,14 +27,12 @@ const useKeyPress = function(targetKey) {
     const [keyPressed, setKeyPressed] = useState(false);
 
     function downHandler({ key }) {
-        console.log('DOWN' ,key);
         if (key === targetKey) {
             setKeyPressed(true);
         }
     }
 
     const upHandler = ({ key }) => {
-        console.log('UP' ,key);
 
         if (key === targetKey) {
             setKeyPressed(false);
@@ -55,8 +53,6 @@ const useKeyPress = function(targetKey) {
 };
 
 const FlickrPhotoForm = (props) => {
-    console.log('------------------------------- new form ------------------------------');
-    console.log('++++ Flickr photo form', props);
     const [leftKeyPressCount, setLeftKeyPressCount] = useState(0);
     const [rightKeyPressCount, setRightKeyPressCount] = useState(0);
 
@@ -72,20 +68,15 @@ const FlickrPhotoForm = (props) => {
 
 
     useEffect(() => {
-        console.log('+++++ Use effect of left press', props);
         let ids = props.photoIDS;
         let index= ids.indexOf(Number(photo.id));
         let prevID = index > 0 ? ids[index-1] : null;
-
-        console.log('PREV ID', prevID);
-        console.log('COUNT (left, right)', leftKeyPressCount, rightKeyPressCount);
 
         // 1) Ignore key presses other than the first one.   Note that this function is called prior to key being
         // pressed, as such need to check the keyPressCount state
         // 2) If nextID is not defined we are at the last image
         if (leftKeyPressCount >= 1 && prevID !== null && prevID !== undefined) {
             let url='/editor/edit/photo/' + prevID + '/set/'  + props.setID;
-            console.log('PREV URL', url);
             history.push(url);
         } else {
             setRightKeyPressCount(0);
@@ -98,21 +89,15 @@ const FlickrPhotoForm = (props) => {
 
     useEffect(() => {
         let ids = props.photoIDS;
-        console.log('RIGHT KEY, IDS=', ids);
 
         let index= ids.indexOf(Number(photo.id));
-        console.log('RIGHT KEY, INDEX OF '+ photo.id , index);
-        console.log('TYPE OF photo.id', typeof photo.id);
-        console.log('TYPE OF id in array', typeof ids[2]);
         let nextID = index < ids.length-1 ? ids[index+1] : null;
-        console.log('COUNT (left, right)', leftKeyPressCount, rightKeyPressCount);
 
         // 1) Ignore key presses other than the first one.   Note that this function is called prior to key being
         // pressed, as such need to check the keyPressCount state
         // 2) If nextID is not defined we are at the last image
         if (rightKeyPressCount >= 1 && nextID !== null && nextID !== undefined) {
             let url='/editor/edit/photo/' + nextID + '/set/'  + props.setID;
-            console.log('NEXT URL', url);
             history.push(url);
         } else {
             setLeftKeyPressCount(0);
@@ -144,9 +129,6 @@ const FlickrPhotoForm = (props) => {
 
     const [updatePhoto] = useMutation(UPDATE_PHOTO);
 
-    console.log('Form', props);
-
-
     return (
         <form className="formInput" className={"form p-10"} onSubmit={(e) => {
             e.preventDefault();
@@ -174,32 +156,16 @@ const FlickrPhotoForm = (props) => {
 
 const prevID = (ids, id) =>
 {
-    var prevID = null;
-    for (let i=0; i < ids.length; i++) {
-        if (ids[i] == id) {
-            break;
-        }
-
-        prevID = ids[i];
-    }
-
-    return prevID;
+    let index= ids.indexOf(Number(id)); //Number(photo.id));
+    return index > 0 ? ids[index-1] : null;
 }
 
 
 
 const nextID = (ids, id) =>
 {
-    var nextID = null;
-    for (let i=ids.length; i >= 0; i--) {
-        if (ids[i] == id) {
-            break;
-        }
-
-        nextID = ids[i];
-    }
-
-    return nextID;
+    let index= ids.indexOf(Number(id)); //Number(photo.id));
+    return index < ids.length-1 ? ids[index+1] : null;
 }
 
 const PrevPhotoLink = (props) => {
@@ -239,10 +205,6 @@ const getFlickrPhotoIDs = (set_id) => {
 }
 
 
-function handleKeyDown(e) {
-    console.log('KEY:', e.key)
-}
-
 function FlickrPhoto(props) {
     const {id,set_id} = useParams();
 
@@ -256,14 +218,9 @@ function FlickrPhoto(props) {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
 
-    console.log('Photo Data', data);
     let photo = data.flickr_photo;
 
-
-    console.log('FPHOTO - getScreen=', getScreen());
-
-
-    return <div onKeyDown={handleKeyDown} className={'singlePhoto'}><Helmet><title>Photo: {photo.title}</title></Helmet>
+    return <div className={'singlePhoto'}><Helmet><title>Photo: {photo.title}</title></Helmet>
         <PrevPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
         <NextPhotoLink id={id} ids={setPhotoIDS} set_id={set_id}/>
         <img src={photo.large_url} title={photo.title} />
