@@ -160,8 +160,6 @@ const prevID = (ids, id) =>
     return index > 0 ? ids[index-1] : null;
 }
 
-
-
 const nextID = (ids, id) =>
 {
     let index= ids.indexOf(Number(id)); //Number(photo.id));
@@ -169,24 +167,13 @@ const nextID = (ids, id) =>
 }
 
 const PrevPhotoLink = (props) => {
-    console.log('PREV', props)
     let previousID = prevID(props.ids, props.id);
-    console.log('PREVIOUS ID=', previousID)
-    if (previousID === null) {
-        return null;
-    } else {
-        return <Link to={'/editor/edit/photo/' + previousID + '/set/' + props.set_id} >Previous</Link>
-    }
+    return previousID === null ? null : <Link to={'/editor/edit/photo/' + previousID + '/set/' + props.set_id} >Previous</Link>;
 }
 
 const NextPhotoLink = (props) => {
     let theNextID = nextID(props.ids, props.id);
-    console.log('NEXT ID=', theNextID)
-    if (theNextID === null) {
-        return null;
-    } else {
-        return <Link to={'/editor/edit/photo/' + theNextID + '/set/' + props.set_id} >Next</Link>
-    }
+    return theNextID === null? null : <Link to={'/editor/edit/photo/' + theNextID + '/set/' + props.set_id} >Next</Link>;
 }
 
 
