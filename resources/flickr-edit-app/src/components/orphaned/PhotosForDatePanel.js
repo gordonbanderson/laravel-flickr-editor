@@ -23,11 +23,13 @@ function PhotosForDatePanel(props)  {
     return  (<div>
         <Helmet><title>Orphaned Photos for {date}</title></Helmet>
         <h1 className="pt-4">Orphaned Images for {date}</h1>
-        <div className = "grid grid-cols-1 md:grid-cols-6" >
+        <ul className = "grid grid-cols-1 md:grid-cols-6" >
             {photos.map(({ title, id, small_url, small_height }) => (
+                <li key={id} className={"setPhoto"}>
                 <FlickrPhotoOrphanThumbnail id={id} setID={null} small_url={small_url} title={title} />
+                </li>
             ))}
-        </div>
+        </ul>
         <NewFlickrSetForm title={date} photos={photos} />
     </div>)
 

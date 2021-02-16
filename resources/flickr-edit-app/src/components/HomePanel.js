@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import {Helmet} from 'react-helmet';
-const HOME_TAB='Home';
+import IntroPage from "./IntroPage";
+export const HOME_TAB='Home';
 const EDIT_IMPORTED_TAB='Edit Imported Sets';
 const IMPORT_UNIMPORTED_TAB='Import Unimported Sets';
 const ORPHAN_TAB='Organise Orphan Photos';
@@ -28,6 +29,7 @@ function HomePanel(props)  {
                 <Tab name={ORPHAN_TAB} link={"/editor/orphan/photos"} setSelectedTab={setSelectedTab}  selectedTab={selectedTab}/>
                 <Tab name={STATUS_TAB} link={"/editor/status"} setSelectedTab={setSelectedTab}  selectedTab={selectedTab}/>
             </nav>
+            <IntroPage selectedTab={selectedTab}/>
         </div>
     ;
 }
