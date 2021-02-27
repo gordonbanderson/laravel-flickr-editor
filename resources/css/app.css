@@ -11,9 +11,6 @@
 /* Toast */
 @import "react-toastify/dist/ReactToastify.css";
 
-$slideLightGrey: #aaa;
-$slideDarkGrey: #333;
-
 
 @layer base {
     h1 {
@@ -54,19 +51,20 @@ li > .setPhoto {
 .setPhoto {
     @apply p-2 m-2  rounded content-center flex justify-center  items-center shadow-lg;
 
-    border-left: solid $slideLightGrey 2px;
-    border-top: solid $slideLightGrey 2px;
-    border-bottom: solid $slideDarkGrey 2px;
-    border-right: solid $slideDarkGrey 2px;
+    border-left: solid #aaa 2px;
+    border-top: solid #aaa 2px;
+    border-bottom: solid #444 2px;
+    border-right: solid #444 2px;
 
     img {
         max-height: 135px;
 
 
-        border-left: solid $slideDarkGrey 2px;
-        border-top: solid $slideDarkGrey 2px;
-        border-bottom: solid $slideLightGrey 2px;
-        border-right: solid $slideLightGrey 2px;
+        border-left: solid #444 4px;
+        border-top: solid #444 4px;
+        border-bottom: solid #aaa 4px;
+        border-right: solid #aaa 4px;
+
     }
 
 }
