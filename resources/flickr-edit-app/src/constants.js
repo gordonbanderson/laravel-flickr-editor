@@ -62,6 +62,7 @@ export const GET_FLICKR_SET_PHOTOS = gql`
                 large_url
                 large_width
                 large_height
+                orientation
             }
         }
     }
