@@ -12,6 +12,7 @@ const NewFlickrSetForm = (props) => {
     const [descriptionInput, setDescriptionInput] = useState('');
 
     // @TODO
+    /*
     const updateCache = (cache, {data}) => {
         // If this is for the public feed, do nothing
         if (isPublic) {
@@ -28,6 +29,8 @@ const NewFlickrSetForm = (props) => {
             data: {todos: [newTodo, ...existingTodos.todos]}
         });
     };
+
+     */
 
     const [createFlickrSet] = useMutation(CREATE_FLICKR_SET);
     const [addPhotosToSet] = useMutation(ADD_PHOTOS_TO_FLICKR_SET);
