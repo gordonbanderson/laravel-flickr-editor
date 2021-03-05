@@ -43,6 +43,9 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.12.10",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-jest": "^24.1.5",
+    "eslint-plugin-testing-library": "^3.10.1",
     "laravel-echo": "^1.10.0",
     "pusher-js": "^7.0.3",
     "sass-loader": "^11.0.1"
