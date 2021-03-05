@@ -57,14 +57,14 @@ li > .setPhoto {
     border-right: solid #444 2px;
 
     img {
-        max-height: 135px;
-
-
+        max-height: 70%;
+        max-width: 70%;
         border-left: solid #444 4px;
         border-top: solid #444 4px;
         border-bottom: solid #aaa 4px;
         border-right: solid #aaa 4px;
-
+        padding: 0px;
+        margin: auto;
     }
 
 }
