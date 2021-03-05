@@ -108,24 +108,6 @@ const FlickrPhotoForm = (props) => {
     }, [rightPress]);
 
 
-    // @TODO
-    const updateCache = (cache, {data}) => {
-        // If this is for the public feed, do nothing
-        if (isPublic) {
-            return null;
-        }
-        // Fetch the todos from the cache
-        const existingTodos = cache.readQuery({
-            query: GET_MY_TODOS
-        });
-        // Add the new todo to the cache
-        const newTodo = data.insert_todos.returning[0];
-        cache.writeQuery({
-            query: GET_MY_TODOS,
-            data: {todos: [newTodo, ...existingTodos.todos]}
-        });
-    };
-
     const [updatePhoto] = useMutation(UPDATE_PHOTO);
 
     return (
@@ -176,7 +158,9 @@ const NextPhotoLink = (props) => {
 }
 
 
+// @TODO Fix linting error
 const getFlickrPhotoIDsAndTitle = (set_id) => {
+    // eslint-disable-next-line
     const { loading, error, data } = useQuery(GET_FLICKR_SET_PHOTO_IDS, {
         variables: { id: parseInt(set_id,10) },
     });
