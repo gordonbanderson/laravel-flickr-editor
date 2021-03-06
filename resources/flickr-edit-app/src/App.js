@@ -11,8 +11,8 @@ import OrphanedPanel from "./components/orphaned/OrphanedPanel";
 import UnimportedPanel from "./components/unimported/UnimportedPanel";
 import StatusPanel from "./components/status/StatusPanel";
 import PhotosForDatePanel from "./components/orphaned/PhotosForDatePanel";
-
-
+import {Provider} from 'react-redux';
+import store from "./store/store";
 //import FlickrSet from "./components/FlickrSet";
 
 const client = new ApolloClient({
@@ -26,7 +26,7 @@ function App() {
     setScreen(FLICKR_SETS_SCREEN);
         return (
             <ApolloProvider client={client}>
-
+                <Provider store={store}>
                 <Router>
                     <main>
                         <Route path="/">
@@ -64,6 +64,7 @@ function App() {
 
                     </main>
                 </Router>
+                </Provider>
             </ApolloProvider>);
 
 }
