@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
 import {Helmet} from 'react-helmet';
 import IntroPage from "./IntroPage";
 import {useDispatch, useSelector} from "react-redux";
 import {selectTab} from "../store/slices/tabSlice";
 import {EDIT_IMPORTED_TAB, HOME_TAB, IMPORT_UNIMPORTED_TAB, ORPHAN_TAB, STATUS_TAB} from "./constants/tabs";
-
 
 
 // see https://dev.to/nazmifeeroz/using-usecontext-and-usestate-hooks-as-a-store-mnm
@@ -24,18 +23,12 @@ const Tab = props => {
 }
 
 const Tabs = props => {
-    // @todo get the relevant tab from the route
-    const [selectedTab, setSelectedTab] = useState(HOME_TAB);
-    const tabSharedProps = { selectedTab, setSelectedTab };
-
-
-
     return  <nav className={'flex flex-row sm:flex-row'}>
-        <Tab name={HOME_TAB} link="/editor" {...tabSharedProps} />
-        <Tab name={EDIT_IMPORTED_TAB} link="/editor/edit/sets" {...tabSharedProps}/>
-        <Tab name={IMPORT_UNIMPORTED_TAB} link="/editor/import/sets" {...tabSharedProps}/>
-        <Tab name={ORPHAN_TAB} link="/editor/orphan/photos" {...tabSharedProps}/>
-        <Tab name={STATUS_TAB} link="/editor/status" {...tabSharedProps}/>
+        <Tab name={HOME_TAB} link="/editor"  />
+        <Tab name={EDIT_IMPORTED_TAB} link="/editor/edit/sets" />
+        <Tab name={IMPORT_UNIMPORTED_TAB} link="/editor/import/sets" />
+        <Tab name={ORPHAN_TAB} link="/editor/orphan/photos" />
+        <Tab name={STATUS_TAB} link="/editor/status" />
     </nav>;
 }
 
