@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Suilven\FlickrEditor\Events;
 
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -15,6 +16,7 @@ class FlickrPhotoExifProcessed implements ShouldBroadcast, ShouldQueue
 {
 
     use Dispatchable;
+    use InteractsWithSockets;
     use SerializesModels;
 
     public $afterCommit = true;
@@ -24,14 +26,23 @@ class FlickrPhotoExifProcessed implements ShouldBroadcast, ShouldQueue
      */
     public $flickrPhoto;
 
+    /** @var int */
+    public $counter;
+
+
+    /** @var int */
+    public $numberOfPhotos;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(FlickrPhoto $flickrPhoto)
+    public function __construct(FlickrPhoto $flickrPhoto, int $counter, int $numberOfPhotos)
     {
         $this->flickrPhoto = $flickrPhoto;
+        $this->counter = $counter;
+        $this->numberOfPhotos = $numberOfPhotos;
     }
 
 

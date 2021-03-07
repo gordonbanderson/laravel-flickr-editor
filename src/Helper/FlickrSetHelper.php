@@ -105,8 +105,6 @@ class FlickrSetHelper
         $this->nPhotos = $photoset['total'];
         $nPages = \floor(1 + ($this->nPhotos) / self::PAGE_SIZE);
 
-        Log::debug('>>>> T1 nPhotos = ' . $this->nPhotos);
-
         if ($this->queueImport) {
             \error_log('>>>> QUEUE <<<<');
             // this will trigger subsequent jobs
@@ -145,8 +143,6 @@ class FlickrSetHelper
         $photoHelper = new FlickrPhotosHelper($this->importFromQueue);
         $ctr = 1;
         foreach ($photos as $photoArray) {
-            Log::debug('>>>> T2 nPhotos = ' . $this->nPhotos);
-
             $flickrPhoto = $photoHelper->importPhotoFromArray($photoArray, $ctr, $this->nPhotos);
                 $flickrPhoto->flickrSets()->attach($this->flickrSet);
                 $ctr++;

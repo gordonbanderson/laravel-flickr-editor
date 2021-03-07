@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Suilven\FlickrEditor\Helper;
 
+use Illuminate\Support\Facades\Log;
 use Samwilson\PhpFlickr\PhotosApi;
 use Suilven\FlickrEditor\Events\FlickrPhotoExifProcessed;
 use Suilven\FlickrEditor\Models\FlickrPhoto;
@@ -18,10 +19,33 @@ use Suilven\FlickrEditor\Models\FlickrPhoto;
 class FlickrExifHelper
 {
 
+    /** @var int */
+    private $counter;
+
+
+    /** @var int */
+    private $numberOfPhotos;
+
+    /**
+     * @param int $counter
+     */
+    public function setCounter(int $counter): void
+    {
+        $this->counter = $counter;
+    }
+
+    /**
+     * @param int $numberOfPhotos
+     */
+    public function setNumberOfPhotos(int $numberOfPhotos): void
+    {
+        $this->numberOfPhotos = $numberOfPhotos;
+    }
+
+
     public function updateMetaDataFromExif(FlickrPhoto $flickrPhoto): void
     {
         $photosAPI = $this->getPhotosAPI();
-
         $exifData = $photosAPI->getExif($flickrPhoto->flickr_id);
 
         foreach ($exifData as $oneExif) {
@@ -76,7 +100,9 @@ class FlickrExifHelper
 
         $flickrPhoto->save();
 
-        FlickrPhotoExifProcessed::dispatch($flickrPhoto);
+        Log::debug('T2 UpdatePhotoFromExifJob ctr=' . $this->counter .', nPhotos = ' . $this->numberOfPhotos);
+
+        FlickrPhotoExifProcessed::dispatch($flickrPhoto, $this->counter, $this->numberOfPhotos);
     }
 
 

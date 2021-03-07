@@ -203,11 +203,9 @@ class FlickrPhotosHelper
         $flickrPhoto->large_height_2048 = isset($photoArray['height_k']) ? $photoArray['height_k'] : null;
         $flickrPhoto->large_width_2048 = isset($photoArray['width_k']) ? $photoArray['width_k'] : null;
 
-        Log::debug(print_r($photoArray, true));
 
         if (isset($photoArray['latitude']) && isset($photoArray['longitude'])) {
             $location = new Point((float) $photoArray['latitude'], (float) $photoArray['longitude']);
-
             $flickrPhoto->location = $location;
         }
 
@@ -221,9 +219,12 @@ class FlickrPhotosHelper
         FlickrPhotoImported::dispatch($flickrPhoto, $ctr, $total);
 
         if ($this->importFromQueue) {
-            UpdatePhotoFromExifJob::dispatch($flickrPhoto);
+            Log::debug('T1 UpdatePhotoFromExifJob ctr=' . $ctr .', nPhotos = ' . $total);
+            UpdatePhotoFromExifJob::dispatch($flickrPhoto, $ctr, $total);
         } else {
             $helper = new FlickrExifHelper();
+            $helper->setCounter($ctr);
+            $helper->setNumberOfPhotos($total);
             $helper->updateMetaDataFromExif($flickrPhoto);
         }
 

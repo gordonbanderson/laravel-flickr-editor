@@ -24,15 +24,24 @@ class UpdatePhotoFromExifJob implements ShouldQueue
     /** @var string */
     private $flickrPhoto;
 
+    /** @var int */
+    private $counter;
+
+
+    /** @var int */
+    private $numberOfPhotos;
+
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(FlickrPhoto $flickrPhoto)
+    public function __construct(FlickrPhoto $flickrPhoto, int $counter, int $numberOfPhotos)
     {
         $this->flickrPhoto= $flickrPhoto;
+        $this->counter = $counter;
+        $this->numberOfPhotos = $numberOfPhotos;
     }
 
 
@@ -43,6 +52,8 @@ class UpdatePhotoFromExifJob implements ShouldQueue
     {
         Log::debug('Updating EXIF data for image '  . $this->flickrPhoto->flickr_id);
         $helper = new FlickrExifHelper();
+        $helper->setCounter($this->counter);
+        $helper->setNumberOfPhotos($this->numberOfPhotos);
         $helper->updateMetaDataFromExif($this->flickrPhoto);
     }
 }
