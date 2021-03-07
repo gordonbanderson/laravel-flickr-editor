@@ -22,14 +22,21 @@ class FlickrPhotoImported implements ShouldBroadcast, ShouldQueue
     /** @var \Suilven\FlickrEditor\Models\FlickrPhoto */
     public $flickrPhoto;
 
+
+    public $ctr;
+
+    public $totalPhotos;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(FlickrPhoto $flickrPhoto)
+    public function __construct(FlickrPhoto $flickrPhoto, $ctr, $totalPhotos)
     {
         $this->flickrPhoto = $flickrPhoto;
+        $this->ctr = $ctr;
+        $this->totalPhotos = $totalPhotos;
     }
 
 

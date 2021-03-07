@@ -7,7 +7,6 @@ namespace Suilven\FlickrEditor\Listeners;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Suilven\FlickrEditor\Events\FlickrSetImported;
-use Suilven\FlickrEditor\Models\FlickrSet;
 
 class FlickrSetImportedListener
 {

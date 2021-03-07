@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Suilven\FlickrEditor\Helper;
 
 use Samwilson\PhpFlickr\PhotosApi;
-use Samwilson\PhpFlickr\PhotosetsApi;
 
 /**
  * Trait PhotosetsAPITrait

@@ -4,10 +4,7 @@ declare(strict_types = 1);
 
 namespace Suilven\FlickrEditor\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller;
-use Manticoresearch\Search;
 use Suilven\Boris\Helper\IndexHelper;
 use Suilven\Boris\Models\Quote;
 

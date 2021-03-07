@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Suilven\FlickrEditor\Console\Commands;
 
 use Illuminate\Console\Command;
-use Suilven\FlickrEditor\Helper\FlickrSetHelper;
 use Suilven\FlickrEditor\Helper\FlickrSetsHelper;
 
 class ImportFlickrSetMeta extends Command

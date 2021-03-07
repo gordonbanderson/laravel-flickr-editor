@@ -2,7 +2,6 @@
 
 namespace Suilven\FlickrEditor\GraphQL\Queries;
 
-use Illuminate\Support\Facades\DB;
 use Suilven\FlickrEditor\Models\FlickrPhoto;
 
 // @TODO change to orphaned photos by date

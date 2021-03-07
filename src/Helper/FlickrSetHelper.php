@@ -5,12 +5,8 @@ declare(strict_types = 1);
 namespace Suilven\FlickrEditor\Helper;
 
 use Illuminate\Support\Facades\Log;
-use MStaack\LaravelPostgis\Geometries\Point;
-use Suilven\FlickrEditor\Events\FlickrPhotoImported;
 use Suilven\FlickrEditor\Events\FlickrSetImported;
 use Suilven\FlickrEditor\Jobs\ImportPageOfPhotosFromSetJob;
-use Suilven\FlickrEditor\Jobs\UpdatePhotoFromExifJob;
-use Suilven\FlickrEditor\Models\FlickrPhoto;
 use Suilven\FlickrEditor\Models\FlickrSet;
 
 class FlickrSetHelper
@@ -53,6 +49,12 @@ class FlickrSetHelper
          * @var \Suilven\FlickrEditor\Models\FlickrSet
          */
         $this->flickrSet = FlickrSet::where('flickr_id', '=', $this->flickrSetID)->first();
+    }
+
+
+    public function setNumberOfImages($newNPhotos)
+    {
+        $this->nPhotos = $newNPhotos;
     }
 
 
@@ -103,10 +105,12 @@ class FlickrSetHelper
         $this->nPhotos = $photoset['total'];
         $nPages = \floor(1 + ($this->nPhotos) / self::PAGE_SIZE);
 
+        Log::debug('>>>> T1 nPhotos = ' . $this->nPhotos);
+
         if ($this->queueImport) {
             \error_log('>>>> QUEUE <<<<');
             // this will trigger subsequent jobs
-            ImportPageOfPhotosFromSetJob::dispatch($this->flickrSetID, 1, $nPages);
+            ImportPageOfPhotosFromSetJob::dispatch($this->flickrSetID, 1, $nPages, $this->nPhotos);
         } else {
             \error_log('>>>> NOT QUEUE <<<<');
 
@@ -115,6 +119,7 @@ class FlickrSetHelper
                 $this->importPage($i);
             }
 
+            // @todo This should probably be after the exif data is imported
             \event(new FlickrSetImported($set));
         }
     }
@@ -137,141 +142,15 @@ class FlickrSetHelper
 
         $photos = $photoset['photo'];
 
+        $photoHelper = new FlickrPhotosHelper($this->importFromQueue);
+        $ctr = 1;
         foreach ($photos as $photoArray) {
-                $flickrPhoto = $this->importPhotoFromArray($photoArray);
+            Log::debug('>>>> T2 nPhotos = ' . $this->nPhotos);
+
+            $flickrPhoto = $photoHelper->importPhotoFromArray($photoArray, $ctr, $this->nPhotos);
                 $flickrPhoto->flickrSets()->attach($this->flickrSet);
+                $ctr++;
         }
     }
 
-
-    /** @param array<string, string|int|float|array<string, string|int|float>> $photoArray */
-    private function importPhotoFromArray(array $photoArray): FlickrPhoto
-    {
-        $flickrPhoto = FlickrPhoto::where('flickr_id', $photoArray['id'])->first();
-        if (\is_null($flickrPhoto)) {
-            $flickrPhoto = new FlickrPhoto();
-            $flickrPhoto->flickr_id = $photoArray['id'];
-        }
-
-        $flickrPhoto->title = $photoArray['title'];
-        $flickrPhoto->description = isset($photoArray['description']) ? $photoArray['description'] : '';
-        $flickrPhoto->is_public = $photoArray['ispublic'];
-
-        $flickrPhoto->thumbnail_url = $photoArray['url_t'];
-        $flickrPhoto->thumbnail_height = $photoArray['height_t'];
-        $flickrPhoto->thumbnail_width = $photoArray['width_t'];
-
-        $flickrPhoto->square_url = $photoArray['url_sq'];
-        $flickrPhoto->square_height = $photoArray['height_sq'];
-        $flickrPhoto->square_width = $photoArray['width_sq'];
-
-        $flickrPhoto->original_url = $photoArray['url_o'];
-        $flickrPhoto->original_height = $photoArray['height_o'];
-        $flickrPhoto->original_width = $photoArray['width_o'];
-
-
-
-        $flickrPhoto->small_url = $photoArray['url_s'];
-        $flickrPhoto->small_height = $photoArray['height_s'];
-        $flickrPhoto->small_width = $photoArray['width_s'];
-
-        $flickrPhoto->small_url_320 = $photoArray['url_n'];
-        $flickrPhoto->small_height_320 = $photoArray['height_n'];
-        $flickrPhoto->small_width_320 = $photoArray['width_n'];
-
-        $flickrPhoto->square_url = $photoArray['url_sq'];
-        $flickrPhoto->square_height = $photoArray['height_sq'];
-        $flickrPhoto->square_width = $photoArray['width_sq'];
-
-        $flickrPhoto->square_url = $photoArray['url_sq'];
-        $flickrPhoto->square_height = $photoArray['height_sq'];
-        $flickrPhoto->square_width = $photoArray['width_sq'];
-
-        $flickrPhoto->square_url = $photoArray['url_sq'];
-        $flickrPhoto->square_height = $photoArray['height_sq'];
-        $flickrPhoto->square_width = $photoArray['width_sq'];
-
-        $flickrPhoto->square_url = $photoArray['url_sq'];
-        $flickrPhoto->square_height = $photoArray['height_sq'];
-        $flickrPhoto->square_width = $photoArray['width_sq'];
-
-        $flickrPhoto->square_url = $photoArray['url_sq'];
-        $flickrPhoto->square_height = $photoArray['height_sq'];
-        $flickrPhoto->square_width = $photoArray['width_sq'];
-
-        $flickrPhoto->medium_url_640 = $photoArray['url_z'];
-        $flickrPhoto->medium_height_640 = $photoArray['height_z'];
-        $flickrPhoto->medium_width_640 = $photoArray['width_z'];
-
-        $flickrPhoto->medium_url = $photoArray['url_m'];
-        $flickrPhoto->medium_height = $photoArray['height_m'];
-        $flickrPhoto->medium_width = $photoArray['width_m'];
-
-        $flickrPhoto->medium_url_800 = $photoArray['url_c'];
-        $flickrPhoto->medium_height_800 = $photoArray['height_c'];
-        $flickrPhoto->medium_width_800 = $photoArray['width_c'];
-
-        $flickrPhoto->large_url = isset( $photoArray['url_l']) ?  $photoArray['url_l'] : null;
-        $flickrPhoto->large_height = isset($photoArray['height_l']) ? $photoArray['height_l'] : null;
-        $flickrPhoto->large_width= isset($photoArray['width_l']) ? $photoArray['width_l'] : null;
-
-        $flickrPhoto->large_url_1600 = isset( $photoArray['url_h']) ?  $photoArray['url_h'] : null;
-        $flickrPhoto->large_height_1600 = isset($photoArray['height_h']) ? $photoArray['height_h'] : null;
-        $flickrPhoto->large_width_1600 = isset($photoArray['width_h']) ? $photoArray['width_h'] : null;
-
-        $flickrPhoto->large_url_2048 = isset($photoArray['url_k']) ? $photoArray['url_k'] : null;
-        $flickrPhoto->large_height_2048 = isset($photoArray['height_k']) ? $photoArray['height_k'] : null;
-        $flickrPhoto->large_width_2048 = isset($photoArray['width_k']) ? $photoArray['width_k'] : null;
-
-        Log::debug(print_r($photoArray, true));
-
-        if (isset($photoArray['latitude']) && isset($photoArray['longitude'])) {
-            $location = new Point((float) $photoArray['latitude'], (float) $photoArray['longitude']);
-
-            $flickrPhoto->location = $location;
-
-          //  Log::debug('Flickr photo location: ' . print_r($location, true));
-
-            // if geographic location is provided, set lock geo to true, so that the editor has to make a conscious
-            // decision to change photographic locations
-            if ($this->flickrSet->lock_geo == false) {
-                $this->flickrSet->lock_geo = true;
-                $this->flickrSet->save();
-            }
-        }
-
-
-   //     $flickrPhoto->flickr_last_updated = $photoArray['lastupdate'];
-     //   $flickrPhoto->upload_unix_time_stamp = $photoArray['dateupload'];
-        $flickrPhoto->taken_at = $photoArray['datetaken'];
-
-        $flickrPhoto->save();
-
-        \event(new FlickrPhotoImported($flickrPhoto));
-
-
-        if ($this->importFromQueue) {
-            UpdatePhotoFromExifJob::dispatch($flickrPhoto);
-        } else {
-            $helper = new FlickrExifHelper();
-            $helper->updateMetaDataFromExif($flickrPhoto);
-        }
-
-
-/*
-@todo
-    [license] => 4
-    [ownername] => gordon.b.anderson
-    [pathalias] => gordonbanderson
-
-    [latitude] => 0
-    [longitude] => 0
-    [accuracy] => 0
-
-Check isprimary for the primary photo in a set
-
- */
-
-        return $flickrPhoto;
-    }
 }

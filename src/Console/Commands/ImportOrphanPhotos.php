@@ -5,11 +5,7 @@ declare(strict_types = 1);
 namespace Suilven\FlickrEditor\Console\Commands;
 
 use Illuminate\Console\Command;
-use Suilven\FlickrEditor\Events\FlickrPhotoExifProcessed;
-use Suilven\FlickrEditor\Events\TestEvent;
 use Suilven\FlickrEditor\Helper\FlickrPhotosHelper;
-use Suilven\FlickrEditor\Helper\FlickrSetHelper;
-use Suilven\FlickrEditor\Models\FlickrPhoto;
 
 class ImportOrphanPhotos extends Command
 {

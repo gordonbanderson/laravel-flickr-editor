@@ -7,12 +7,9 @@ namespace Suilven\FlickrEditor\Helper;
 use Illuminate\Support\Facades\Log;
 use MStaack\LaravelPostgis\Geometries\Point;
 use Suilven\FlickrEditor\Events\FlickrPhotoImported;
-use Suilven\FlickrEditor\Events\FlickrSetImported;
 use Suilven\FlickrEditor\Jobs\ImportPageOfOrphanPhotosJob;
-use Suilven\FlickrEditor\Jobs\ImportPageOfPhotosFromSetJob;
 use Suilven\FlickrEditor\Jobs\UpdatePhotoFromExifJob;
 use Suilven\FlickrEditor\Models\FlickrPhoto;
-use Suilven\FlickrEditor\Models\FlickrSet;
 
 class FlickrPhotosHelper
 {
@@ -126,8 +123,9 @@ class FlickrPhotosHelper
 
 
     /** @param array<string, string|int|float|array<string, string|int|float>> $photoArray */
-    private function importPhotoFromArray(array $photoArray): FlickrPhoto
+    public function importPhotoFromArray(array $photoArray, $ctr = 0, $total = 0): FlickrPhoto
     {
+        Log::debug('importPhotoFromArray total=' . $total);
         $flickrPhoto = FlickrPhoto::where('flickr_id', $photoArray['id'])->first();
         if (\is_null($flickrPhoto)) {
             $flickrPhoto = new FlickrPhoto();
@@ -220,7 +218,7 @@ class FlickrPhotosHelper
 
         $flickrPhoto->save();
 
-        FlickrPhotoImported::dispatch($flickrPhoto);
+        FlickrPhotoImported::dispatch($flickrPhoto, $ctr, $total);
 
         if ($this->importFromQueue) {
             UpdatePhotoFromExifJob::dispatch($flickrPhoto);

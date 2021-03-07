@@ -10,7 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Suilven\FlickrEditor\Events\FlickrSetImported;
 use Suilven\FlickrEditor\Events\FlickrSetImportStatus;
 use Suilven\FlickrEditor\Helper\FlickrSetHelper;
 use Suilven\FlickrEditor\Models\FlickrSet;
@@ -32,15 +31,19 @@ class ImportPageOfPhotosFromSetJob implements ShouldQueue
     /** @var int */
     private $numberOfPages;
 
+    /** @var int */
+    private $numberOfImages;
+
     /**
      * ImportPageOfPhotosFromSetJob constructor.
      */
-    public function __construct(string $flickrID, int $page, int $numberOfPages)
+    public function __construct(string $flickrID, int $page, int $numberOfPages, int $numberOfImages)
     {
         Log::debug('Job constructor, page=' . $page .', fsid=' . $flickrID);
         $this->flickrID= $flickrID;
         $this->page = $page;
         $this->numberOfPages = $numberOfPages;
+        $this->numberOfImages = $numberOfImages;
     }
 
 
@@ -51,6 +54,7 @@ class ImportPageOfPhotosFromSetJob implements ShouldQueue
     {
         Log::debug('**** ImportPageOfPhotosFromSetJob page = ' . $this->page . ' **** set id=' . $this->flickrID);
         $helper = new FlickrSetHelper($this->flickrID, true);
+        $helper->setNumberOfImages($this->numberOfImages);
         $helper->importPage($this->page);
         $set = FlickrSet::where('flickr_id', $this->flickrID)->first();
 

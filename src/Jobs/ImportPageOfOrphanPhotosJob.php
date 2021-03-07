@@ -12,7 +12,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Suilven\FlickrEditor\Events\FlickrSetImported;
 use Suilven\FlickrEditor\Helper\FlickrPhotosHelper;
-use Suilven\FlickrEditor\Helper\FlickrSetHelper;
 use Suilven\FlickrEditor\Models\FlickrSet;
 
 class ImportPageOfOrphanPhotosJob implements ShouldQueue
