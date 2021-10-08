@@ -24,9 +24,6 @@ function StatusPanel(props)  {
         window.Echo.channel('flickr.photos').listen('.exif.processed', (e) => {
             console.log('FlickrPhotoExifProcessed', e);
         })
-            .listen('.test',(e) => {
-                console.log('test', e);
-            })
 
             .listen('.photo.imported',(e) => {
                 console.log('Photo imported', e);
