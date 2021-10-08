@@ -9,4 +9,11 @@ return [
         'import_page_size' => env('FLICKR_SET_PAGE_IMPORT_SIZE', 20)
     ],
 
+    /*
+     * config/app.php
+     *
+     *     \Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider::class,
+
+     */
+
 ];
