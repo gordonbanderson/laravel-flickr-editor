@@ -81,12 +81,9 @@ class FlickrPhotosHelper
         $nPages = \floor(1 + ($this->nPhotos) / self::PAGE_SIZE);
 
         if ($this->importFromQueue) {
-            \error_log('>>>> QUEUE <<<<');
             // this will trigger subsequent jobs
             ImportPageOfOrphanPhotosJob::dispatch( 1, $nPages);
         } else {
-            \error_log('>>>> NOT QUEUE <<<<');
-
             for ($i = 1; $i <= $nPages; $i++) {
                 Log::debug('Adding job for page ' . $i);
                 $this->importPage($i);
@@ -125,7 +122,6 @@ class FlickrPhotosHelper
     /** @param array<string, string|int|float|array<string, string|int|float>> $photoArray */
     public function importPhotoFromArray(array $photoArray, $ctr = 0, $total = 0): FlickrPhoto
     {
-        Log::debug('importPhotoFromArray total=' . $total);
         $flickrPhoto = FlickrPhoto::where('flickr_id', $photoArray['id'])->first();
         if (\is_null($flickrPhoto)) {
             $flickrPhoto = new FlickrPhoto();
@@ -219,7 +215,6 @@ class FlickrPhotosHelper
         FlickrPhotoImported::dispatch($flickrPhoto, $ctr, $total);
 
         if ($this->importFromQueue) {
-            Log::debug('T1 UpdatePhotoFromExifJob ctr=' . $ctr .', nPhotos = ' . $total);
             UpdatePhotoFromExifJob::dispatch($flickrPhoto, $ctr, $total);
         } else {
             $helper = new FlickrExifHelper();
